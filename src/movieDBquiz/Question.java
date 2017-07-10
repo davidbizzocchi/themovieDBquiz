@@ -1,6 +1,13 @@
 package movieDBquiz;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
+
+import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
 public class Question {
 
@@ -53,5 +60,6 @@ public class Question {
 		}
 		return sb.toString();
 	}
+	
 	
 }

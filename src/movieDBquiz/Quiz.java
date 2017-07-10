@@ -17,15 +17,8 @@ public class Quiz {
 	private static SessionToken sessionToken;
 
 	public static void main(String[] args) {
-
-		// (Hardcoded) my API code from themoviedb.com
-		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
-
-		// retrieves session token using themoviedb ID and password
-		sessionToken = getSessionToken();
-
-		// generates quiz question with 4 possible answers
-		Question q = generateQuestion(4);
+		
+	
 	}
 
 	private static SessionToken getSessionToken() {
@@ -65,7 +58,7 @@ public class Quiz {
 		for(int i = 0; i < answerLocation; ++i){
 			movie = iterator.next();
 		}
-		q.setMovieDesc(movie..getOverview());
+		q.setMovieDesc(movie.getOverview());
 		String answerTitle = movie.getTitle();
 		System.out.println("\n\n" + q.getMovieDesc() + "\n\n");	// prints movie desc to console
 		
