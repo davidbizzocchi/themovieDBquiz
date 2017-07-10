@@ -59,19 +59,19 @@ public class Quiz {
 		MovieDb movie = new MovieDb();
 
 		// .getNowPlayingMovies returns size of 20
-		int answerLocation = ThreadLocalRandom.current().nextInt(20)+4;
+		int answerLocation = ThreadLocalRandom.current().nextInt(16)+4;
 		
 		// set randomly selected movie to "correct" movie in Question object
 		for(int i = 0; i < answerLocation; ++i){
 			movie = iterator.next();
 		}
-		q.setMovieDesc(movie.getOverview());
+		q.setMovieDesc(movie..getOverview());
 		String answerTitle = movie.getTitle();
 		System.out.println("\n\n" + q.getMovieDesc() + "\n\n");	// prints movie desc to console
 		
 		iterator = results.iterator();	// reset iterator to start of results
 		
-		q.setAnswerIndex(ThreadLocalRandom.current().nextInt(numAnswers+1)+1);	// set answer index within number of answers
+		q.setAnswerIndex(ThreadLocalRandom.current().nextInt(numAnswers));	// set answer index within number of answers
 		
 		// set quiz questions
 		for(int i = 0; i < numAnswers; ++i){
@@ -93,7 +93,7 @@ public class Quiz {
 		
 		// Display if answer was correct
 		if(inputAnswer == q.getAnswerIndex()){
-			System.out.println("\nCORRECT!\n");
+			System.out.println("\nCORRECT!");
 		}
 		else{
 			System.out.println("\nINCORRECT!\nCorrect Answer: " + q.getAnswerIndex());
