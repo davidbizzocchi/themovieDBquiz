@@ -1,6 +1,7 @@
 package movieDBquiz;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import info.movito.themoviedbapi.TmdbApi;
@@ -57,7 +58,8 @@ public class Quiz {
 		MovieResultsPage results = tmdbMovies.getNowPlayingMovies("en", 0);
 		Iterator<MovieDb> iterator = results.iterator();
 		MovieDb movie = new MovieDb();
-
+		List<MovieDb> movieList = results.getResults();
+		
 		// .getNowPlayingMovies returns size of 20
 		int answerLocation = ThreadLocalRandom.current().nextInt(16)+4;
 		
@@ -65,7 +67,7 @@ public class Quiz {
 		for(int i = 0; i < answerLocation; ++i){
 			movie = iterator.next();
 		}
-		q.setMovieDesc(movie..getOverview());
+		q.setMovieDesc(movie.getOverview());
 		String answerTitle = movie.getTitle();
 		System.out.println("\n\n" + q.getMovieDesc() + "\n\n");	// prints movie desc to console
 		
@@ -98,9 +100,6 @@ public class Quiz {
 		else{
 			System.out.println("\nINCORRECT!\nCorrect Answer: " + q.getAnswerIndex());
 		}
-		
 		return q;
-
 	}
-
 }
