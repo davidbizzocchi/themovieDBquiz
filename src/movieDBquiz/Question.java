@@ -4,20 +4,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-
+import java.util.List;
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
+import info.movito.themoviedbapi.model.core.SessionToken;
 
 public class Question {
 
 	private String movieDesc;
 	private ArrayList<String> possibleAnswers;
+	private List<MovieDb> movieList;
 	private int answerIndex;
 	private boolean correctAnswer;
+	private TmdbApi tmdbApi;
+	private TmdbMovies tmdbMovies;
 	
 	public Question(){
+		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
+		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
+		TmdbMovies tmdbMovies = tmdbApi.getMovies();
+		populateMovieList();
 	}
 	
 	public void addAnswerTitle(String title) {
@@ -61,5 +72,20 @@ public class Question {
 		return sb.toString();
 	}
 	
-	
+	private void populateMovieList(){
+		int i = 0;
+		int previousSize = 0;
+		MovieResultsPage results;
+		
+		do{
+			previousSize = movieList.size();
+			
+			results = tmdbMovies.getNowPlayingMovies("en", i++);
+			
+			for( MovieDb movie : results.getResults()){
+				movieList.add(movie);
+			}
+			
+		}while(previousSize != movieList.size());
+	}
 }
