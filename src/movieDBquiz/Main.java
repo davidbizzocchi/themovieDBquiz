@@ -20,7 +20,8 @@ public final class Main {
 		
 		
 		// generates quiz question with 4 possible answers
-		//Question q = generateQuestion(4);
+		MatchingQuestion q = new MatchingQuestion();
+		System.out.print(q.toString());
 	}
 
 }

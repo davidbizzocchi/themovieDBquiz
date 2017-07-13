@@ -17,10 +17,10 @@ public class Quiz {
 	private static TmdbApi tmdbApi;
 	private static SessionToken sessionToken;
 
-	public static void main(String[] args) {
-		
-	
-	}
+//	public static void main(String[] args) {
+//		
+//	
+//	}
 
 	private static SessionToken getSessionToken() {
 
@@ -44,9 +44,9 @@ public class Quiz {
 
 	}
 
-	private static Question generateQuestion(int numAnswers) {
+	private static MatchingQuestion generateQuestion(int numAnswers) {
 
-		Question q = new Question();
+		MatchingQuestion q = new MatchingQuestion();
 		TmdbMovies tmdbMovies = tmdbApi.getMovies();
 		MovieResultsPage results = tmdbMovies.getNowPlayingMovies("en", 0);
 		Iterator<MovieDb> iterator = results.iterator();

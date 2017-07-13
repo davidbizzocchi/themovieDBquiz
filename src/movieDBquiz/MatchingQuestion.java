@@ -2,21 +2,15 @@ package movieDBquiz;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
 import java.util.Random;
 
 import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
-import info.movito.themoviedbapi.model.core.SessionToken;
 
-public class Question {
+public class MatchingQuestion {
 
 	private String movieDesc;
 	private ArrayList<String> possibleAnswers;
@@ -26,7 +20,7 @@ public class Question {
 	private TmdbApi tmdbApi;
 	private TmdbMovies tmdbMovies;
 	
-	public Question(){
+	public MatchingQuestion(){
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
 		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
@@ -104,3 +98,4 @@ public class Question {
 		Collections.shuffle(movieList, new Random(seed));
 	}
 }
+
