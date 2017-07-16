@@ -1,51 +1,44 @@
 package moviedbquiz;
 
 import java.util.ArrayList;
-/**
- * Class that creates matching questsions for a movie trivia quiz using the TMDB API.
- * 
- * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
- * @version 1 Summer 2017
- */
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.core.MovieResultsPage;
+
 public class MatchingQuestion {
-	
-	/** Contains the description for the movie 
-	 * to be used in the current quiz question. **/
+
 	private String movieDesc;
-	
-	/** List of possible movie titles to be the answer 
-	 * to the current question. **/
 	private ArrayList<String> possibleAnswers;
-	
-	/** The index of the correct answer to the current question. **/
+	private List<MovieDb> movieList;
 	private int answerIndex;
-	
-	/** (TEMP?) true if the correct answer is selected. **/
+	private int movieIndex;
 	private boolean correctAnswer;
+	private TmdbApi tmdbApi;
+	private TmdbMovies tmdbMovies;
 	
-	
-	/** 
-	 * Constructs a matching question object to be used in the quiz. 
-	 * It instantiates the array containing all possible answers to
-	 *  the question.
-	 *  **/
-	public MatchingQuestion() {
+	public MatchingQuestion(){
+		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
+		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
+		movieIndex = 0;
+		tmdbMovies = tmdbApi.getMovies();
+		populateMovieList();
+		randomizeMovieList();
 	}
 	
-	/**
-	 * Adds a movie title to the list of possible answers 
-	 * to the current question.
-	 * @param title the movie title to be added to the possible answers.
-	 */
-	public void addAnswerTitle(final String title) {
+	public List<MovieDb> getMovieList(){
+		return movieList;
+	}
+	
+	public void addAnswerTitle(String title) {
 		possibleAnswers.add(title);
 	}
 	
-	/**
-	 * Gets the description of the movie to be used in the question.
-	 * @return String movieDesc the description from TMDB API of the movie.
-	 */
 	public String getMovieDesc() {
 		return movieDesc;
 	}
@@ -61,16 +54,8 @@ public class MatchingQuestion {
 	public boolean isCorrectAnswer() {
 		return correctAnswer;
 	}
-	/**
-	 * Sets the description of the movie for the question.
-	 * @param movieDesc The description of the movie from TMDB API.
-	 * @throws IllegalArgumentException if the string given is null
-	 * 				or contains only whitespace.
-	 */
-	public void setMovieDesc(final String movieDesc) {
-		if (movieDesc == null || movieDesc.trim().isEmpty()) {
-			throw new IllegalArgumentException();
-		}
+	
+	public void setMovieDesc(String movieDesc) {
 		this.movieDesc = movieDesc;
 	}
 	
@@ -82,6 +67,26 @@ public class MatchingQuestion {
 		this.correctAnswer = correctAnswer;
 	} 
 	
+	public MatchingQuestion generateQuestion(){
+		if(!possibleAnswers.isEmpty()){
+			possibleAnswers.clear();
+		}
+		
+		if(movieIndex+4 >= movieList.size()){
+			randomizeMovieList();
+			movieIndex = 0;
+		}
+			
+		for(int i = 0; i < 4; i++){
+			addAnswerTitle(movieList.get(movieIndex++).getTitle());
+		}
+		
+		setAnswerIndex(Randomize.randomInt(1, 4));
+		setMovieDesc(movieList.get(getAnswerIndex()-1).getOverview());
+		
+		return this;
+	}
+	
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -91,4 +96,25 @@ public class MatchingQuestion {
 		return sb.toString();
 	}
 	
+	private void populateMovieList(){
+		int i = 0;
+		int previousSize = 0;
+		MovieResultsPage results;
+		
+		do{
+			previousSize = movieList.size();
+			
+			results = tmdbMovies.getNowPlayingMovies("en", i++);
+			
+			for( MovieDb movie : results.getResults()){
+				movieList.add(movie);
+			}
+			
+		}while(previousSize != movieList.size());
+	}
+	
+	private void randomizeMovieList(){
+		movieList = Randomize.shuffleList(movieList);
+	}
 }
+
