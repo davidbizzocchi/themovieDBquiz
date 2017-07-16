@@ -92,10 +92,18 @@ public class MatchingQuestion {
 		return movieDesc;
 	}
 	
+	/**
+	 * Returns the array of possible answers for the current question.
+	 * @return ArrayList<String> of possible answers to the current question
+	 */
 	public ArrayList<String> getPossibleAnswers() {
 		return possibleAnswers;
 	}
 	
+	/**
+	 * Retrieves the index of the answer selected by the user.
+	 * @return Integer of the answer in the ArrayList possibleAnswers
+	 */
 	public int getAnswerIndex() {
 		return answerIndex;
 	}
@@ -117,7 +125,15 @@ public class MatchingQuestion {
 		this.movieDesc = movieDesc;
 	}
 	
-	public void setAnswerIndex(int answerIndex) {
+	/**
+	 * Sets the index of the correct answer in possibleAnswers.
+	 * @param answerIndex the correct answer for the question.
+	 * @throws IllegalArgumentException if the index is invalid.
+	 */
+	public void setAnswerIndex(final int answerIndex) {
+		if(answerIndex < 0 || answerIndex >= 4) {
+			throw new IllegalArgumentException();
+		}
 		this.answerIndex = answerIndex;
 	}
 	
