@@ -25,7 +25,7 @@ public final class Main {
 //		MatchingQuestion q = new MatchingQuestion();
 //		System.out.print(q.toString());
 		
-		MatchingQuestion q = new MatchingQuestion();
+		//MatchingQuestion q = new MatchingQuestion();
 		
 		
 		EventQueue.invokeLater(new Runnable() {
