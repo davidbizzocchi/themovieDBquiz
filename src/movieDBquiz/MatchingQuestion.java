@@ -16,6 +16,7 @@ public class MatchingQuestion {
 	private ArrayList<String> possibleAnswers;
 	private List<MovieDb> movieList;
 	private int answerIndex;
+	private int movieIndex;
 	private boolean correctAnswer;
 	private TmdbApi tmdbApi;
 	private TmdbMovies tmdbMovies;
@@ -24,6 +25,7 @@ public class MatchingQuestion {
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
 		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
+		movieIndex = 0;
 		tmdbMovies = tmdbApi.getMovies();
 		populateMovieList();
 		randomizeMovieList();
@@ -65,6 +67,26 @@ public class MatchingQuestion {
 		this.correctAnswer = correctAnswer;
 	} 
 	
+	public MatchingQuestion generateQuestion(){
+		if(!possibleAnswers.isEmpty()){
+			possibleAnswers.clear();
+		}
+		
+		if(movieIndex+4 >= movieList.size()){
+			randomizeMovieList();
+			movieIndex = 0;
+		}
+			
+		for(int i = 0; i < 4; i++){
+			addAnswerTitle(movieList.get(movieIndex++).getTitle());
+		}
+		
+		setAnswerIndex(Randomize.randomInt(1, 4));
+		setMovieDesc(movieList.get(getAnswerIndex()-1).getOverview());
+		
+		return this;
+	}
+	
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -92,12 +114,7 @@ public class MatchingQuestion {
 	}
 	
 	private void randomizeMovieList(){
-		
-		long seed = System.nanoTime();
-		
-		Collections.shuffle(movieList, new Random(seed));
-		Randomize rand = new Randomize();
-		movieList = rand.shuffleList(movieList);
+		movieList = Randomize.shuffleList(movieList);
 	}
 }
 
