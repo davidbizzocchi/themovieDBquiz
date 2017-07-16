@@ -16,12 +16,14 @@ public final class Main {
 
 	public static void main(String[] args) {
 		//Initializes session token and API key
-		DbManager manager = new DbManager();
+//		DbManager manager = new DbManager();
+//		
+//		
+//		// generates quiz question with 4 possible answers
+//		MatchingQuestion q = new MatchingQuestion();
+//		System.out.print(q.toString());
 		
 		
-		// generates quiz question with 4 possible answers
-		MatchingQuestion q = new MatchingQuestion();
-		System.out.print(q.toString());
 	}
 
 }

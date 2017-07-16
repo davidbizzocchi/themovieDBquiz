@@ -96,6 +96,8 @@ public class MatchingQuestion {
 		long seed = System.nanoTime();
 		
 		Collections.shuffle(movieList, new Random(seed));
+		Randomize rand = new Randomize();
+		movieList = rand.shuffleList(movieList);
 	}
 }
 
