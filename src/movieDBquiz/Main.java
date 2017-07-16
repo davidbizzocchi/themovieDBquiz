@@ -1,6 +1,8 @@
 package movieDBquiz;
 
 import info.movito.themoviedbapi.TmdbApi;
+
+import java.awt.EventQueue;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,7 +25,19 @@ public final class Main {
 //		MatchingQuestion q = new MatchingQuestion();
 //		System.out.print(q.toString());
 		
+		MatchingQuestion q = new MatchingQuestion();
 		
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					QuizDemo window = new QuizDemo();
+					window.AppDemo.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }
