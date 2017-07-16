@@ -10,18 +10,49 @@ import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
+/**
+ * Class that creates matching questsions for a movie trivia quiz 
+ * using the TMDB API.
+ * 
+ * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
+ * @version 1.0 Summer 2017
+ */
 public class MatchingQuestion {
 
+	
+	/** Contains the description for the movie 
+	 * to be used in the current quiz question. **/
 	private String movieDesc;
+	
+	/** List of possible movie titles to be the answer 
+	 * to the current question. **/
 	private ArrayList<String> possibleAnswers;
+	
+	/** List that holds the movies to be used in the quiz. **/
 	private List<MovieDb> movieList;
+	
+	/** The index of the correct answer to the current question. **/
 	private int answerIndex;
+	
+	/** The index of the movie used in the current question. **/
 	private int movieIndex;
+	
+	/** (TEMP?) true if the correct answer is selected. **/
 	private boolean correctAnswer;
+	
+	/** Instantiates TMDB API for use in quiz. **/
 	private TmdbApi tmdbApi;
+	
+	/** Instantiates TMDB movies to be used in quiz. **/
 	private TmdbMovies tmdbMovies;
 	
-	public MatchingQuestion(){
+	
+	/** 
+	 * Constructs a matching question object to be used in the quiz. 
+	 * It instantiates necessary variables and creates a new session
+	 * with TMDB. It also randomizes movies to be used.
+	 *  **/
+	public MatchingQuestion() {
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
 		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
@@ -31,14 +62,32 @@ public class MatchingQuestion {
 		randomizeMovieList();
 	}
 	
-	public List<MovieDb> getMovieList(){
+	/**
+	 * Retrieves the list of movies to be used on the quiz.
+	 * @return movieList the list of movies to be used.
+	 */
+	public List<MovieDb> getMovieList() {
 		return movieList;
 	}
 	
-	public void addAnswerTitle(String title) {
+	/**
+	 * Adds a movie title to the list of possible answers 
+	 * to the current question.
+	 * @param title the movie title to be added to the possible answers.
+	 * @throws IllegalArgumentException if the title given doesn't exist
+	 * 	          or is only whitespace.
+	 */
+	public void addAnswerTitle(final String title) {
+		if (title == null || title.trim().isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		possibleAnswers.add(title);
 	}
 	
+	/**
+	 * Gets the description of the movie to be used in the question.
+	 * @return String movieDesc the description from TMDB API of the movie.
+	 */
 	public String getMovieDesc() {
 		return movieDesc;
 	}
@@ -55,7 +104,16 @@ public class MatchingQuestion {
 		return correctAnswer;
 	}
 	
-	public void setMovieDesc(String movieDesc) {
+	/**
+	 * Sets the description of the movie for the question.
+	 * @param movieDesc The description of the movie from TMDB API.
+	 * @throws IllegalArgumentException if the string given is null
+	 * 				or contains only whitespace.
+	 */
+	public void setMovieDesc(final String movieDesc) {
+		if (movieDesc == null || movieDesc.trim().isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.movieDesc = movieDesc;
 	}
 	
