@@ -7,28 +7,24 @@ import java.util.Collections;
 import info.movito.themoviedbapi.model.MovieDb;
 
 public class Randomize {
-	private static Random rand;
+	private static Random rand = new SecureRandom();
 	
-	public Randomize() {
-		rand = new SecureRandom();
-	}
-	
-	public int randomInt(){
+	public static int randomInt(int min, int max){
 		reSeedTime();
-		return rand.nextInt();
+		return rand.nextInt(((max - min) + 1) + min);
 	}
 	
-	public float randomFloat(){
+	public static float randomFloat(float min, float max){
 		reSeedTime();
-		return rand.nextFloat();
+		return rand.nextFloat() * (max - min) + min;
 	}
 	
-	public List<MovieDb> shuffleList(List<MovieDb> list){
+	public static List<MovieDb> shuffleList(List<MovieDb> list){
 		Collections.shuffle(list, rand);
 		return list;
 	}
 	
-	private void reSeedTime(){
+	private static void reSeedTime(){
 		rand.setSeed(System.currentTimeMillis());
 	}
 	
