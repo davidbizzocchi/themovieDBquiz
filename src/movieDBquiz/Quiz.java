@@ -44,55 +44,55 @@ public class Quiz {
 
 	}
 
-	private static MatchingQuestion generateQuestion(int numAnswers) {
-
-		MatchingQuestion q = new MatchingQuestion();
-		TmdbMovies tmdbMovies = tmdbApi.getMovies();
-		MovieResultsPage results = tmdbMovies.getNowPlayingMovies("en", 0);
-		Iterator<MovieDb> iterator = results.iterator();
-		MovieDb movie = new MovieDb();
-		List<MovieDb> movieList = results.getResults();
-		
-		// .getNowPlayingMovies returns size of 20
-		int answerLocation = ThreadLocalRandom.current().nextInt(16)+4;
-		
-		// set randomly selected movie to "correct" movie in Question object
-		for(int i = 0; i < answerLocation; ++i){
-			movie = iterator.next();
-		}
-		q.setMovieDesc(movie.getOverview());
-		String answerTitle = movie.getTitle();
-		System.out.println("\n\n" + q.getMovieDesc() + "\n\n");	// prints movie desc to console
-		
-		iterator = results.iterator();	// reset iterator to start of results
-		
-		q.setAnswerIndex(ThreadLocalRandom.current().nextInt(numAnswers));	// set answer index within number of answers
-		
-		// set quiz questions
-		for(int i = 0; i < numAnswers; ++i){
-			if(i != q.getAnswerIndex()){
-				q.addAnswerTitle(i + ": " + iterator.next().getTitle());
-			}
-			else{
-				q.addAnswerTitle(i + ": " + answerTitle);
-			}
-		}
-		
-		/***  below can be entirely removed when GUI is implemented **/
-		System.out.println(q.toString());	// presents question to user
-
-		Scanner Cin = new Scanner(System.in);
-		System.out.print("Answer: ");
-		int inputAnswer = Cin.nextInt();	// takes user input for answer
-		Cin.close();
-		
-		// Display if answer was correct
-		if(inputAnswer == q.getAnswerIndex()){
-			System.out.println("\nCORRECT!");
-		}
-		else{
-			System.out.println("\nINCORRECT!\nCorrect Answer: " + q.getAnswerIndex());
-		}
-		return q;
-	}
+//	private static MatchingQuestion generateQuestion(int numAnswers) {
+//
+//		MatchingQuestion q = new MatchingQuestion();
+//		TmdbMovies tmdbMovies = tmdbApi.getMovies();
+//		MovieResultsPage results = tmdbMovies.getNowPlayingMovies("en", 0);
+//		Iterator<MovieDb> iterator = results.iterator();
+//		MovieDb movie = new MovieDb();
+//		List<MovieDb> movieList = results.getResults();
+//		
+//		// .getNowPlayingMovies returns size of 20
+//		int answerLocation = ThreadLocalRandom.current().nextInt(16)+4;
+//		
+//		// set randomly selected movie to "correct" movie in Question object
+//		for(int i = 0; i < answerLocation; ++i){
+//			movie = iterator.next();
+//		}
+//		q.setMovieDesc(movie.getOverview());
+//		String answerTitle = movie.getTitle();
+//		System.out.println("\n\n" + q.getMovieDesc() + "\n\n");	// prints movie desc to console
+//		
+//		iterator = results.iterator();	// reset iterator to start of results
+//		
+//		q.setAnswerIndex(ThreadLocalRandom.current().nextInt(numAnswers));	// set answer index within number of answers
+//		
+//		// set quiz questions
+//		for(int i = 0; i < numAnswers; ++i){
+//			if(i != q.getAnswerIndex()){
+//				q.addAnswerTitle(i + ": " + iterator.next().getTitle());
+//			}
+//			else{
+//				q.addAnswerTitle(i + ": " + answerTitle);
+//			}
+//		}
+//		
+//		/***  below can be entirely removed when GUI is implemented **/
+//		System.out.println(q.toString());	// presents question to user
+//
+//		Scanner Cin = new Scanner(System.in);
+//		System.out.print("Answer: ");
+//		int inputAnswer = Cin.nextInt();	// takes user input for answer
+//		Cin.close();
+//		
+//		// Display if answer was correct
+//		if(inputAnswer == q.getAnswerIndex()){
+//			System.out.println("\nCORRECT!");
+//		}
+//		else{
+//			System.out.println("\nINCORRECT!\nCorrect Answer: " + q.getAnswerIndex());
+//		}
+//		return q;
+//	}
 }

@@ -24,7 +24,7 @@ public class MatchingQuestion {
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
 		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
-		TmdbMovies tmdbMovies = tmdbApi.getMovies();
+		tmdbMovies = tmdbApi.getMovies();
 		populateMovieList();
 		randomizeMovieList();
 	}

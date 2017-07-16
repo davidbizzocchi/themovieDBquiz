@@ -23,7 +23,7 @@ public class DbManager {
 		initSessionToken();
 	}
 	
-	private static void initSessionToken() {
+	private void initSessionToken() {
 		initApiKey();
 		// Generate session id using API calls
 		TmdbAuthentication tmdbAuth = key.getAuthentication();
@@ -31,7 +31,7 @@ public class DbManager {
 		sessionToken = new SessionToken(tokenSession.getSessionId());
 	}
 	
-	private static void initApiKey() {
+	private void initApiKey() {
 		key = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
 	}
 
