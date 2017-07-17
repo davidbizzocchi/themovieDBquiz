@@ -45,6 +45,8 @@ public class MatchingQuestion {
 	/** Instantiates TMDB movies to be used in quiz. **/
 	private TmdbMovies tmdbMovies;
 	
+	/** Number of pages to pull from tmdb API to generate questions */
+	private final int NUM_PAGES  = 3;
 	
 	/** 
 	 * Constructs a matching question object to be used in the quiz. 
@@ -183,7 +185,7 @@ public class MatchingQuestion {
 				movieList.add(movie);
 			}
 			
-		}while(previousSize != movieList.size());
+		}while(i <= NUM_PAGES);
 	}
 	
 	private void randomizeMovieList(){
