@@ -203,12 +203,8 @@ public class MatchingQuestion {
 			for (MovieDb movie : results.getResults()) {
 				movieList.add(movie);
 			}
-			
-<<<<<<< HEAD
+
 		}while(i <= NUM_PAGES);
-=======
-		} while (previousSize != movieList.size());
->>>>>>> 103943ccd7b988848af467989109acf7522b0f37
 	}
 	
 	/**
