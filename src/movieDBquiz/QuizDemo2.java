@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.ButtonGroup;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class QuizDemo2 {
 
@@ -173,6 +175,11 @@ public class QuizDemo2 {
 		panel_1.setLayout(gbl_panel_1);
 		
 		JButton exitBtn = new JButton("Exit");
+		exitBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		GridBagConstraints gbc_exitBtn = new GridBagConstraints();
 		gbc_exitBtn.insets = new Insets(0, 0, 0, 5);
 		gbc_exitBtn.gridx = 0;
@@ -180,6 +187,11 @@ public class QuizDemo2 {
 		panel_1.add(exitBtn, gbc_exitBtn);
 		
 		JButton submitBtn = new JButton("Submit");
+		submitBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		GridBagConstraints gbc_submitBtn = new GridBagConstraints();
 		gbc_submitBtn.gridx = 1;
 		gbc_submitBtn.gridy = 0;

@@ -11,7 +11,7 @@ public class Randomize {
 	
 	public static int randomInt(int min, int max){
 		reSeedTime();
-		return rand.nextInt(((max - min) + 1) + min);
+		return min + rand.nextInt(max);
 	}
 	
 	public static float randomFloat(float min, float max){

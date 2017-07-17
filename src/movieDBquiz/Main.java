@@ -25,19 +25,20 @@ public final class Main {
 //		MatchingQuestion q = new MatchingQuestion();
 //		System.out.print(q.toString());
 		
-		//MatchingQuestion q = new MatchingQuestion();
 		
 		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					QuizDemo window = new QuizDemo();
-					window.AppDemo.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		MatchingQuestion q = new MatchingQuestion();
+		q = q.generateQuestion();
+		
+		QuizDemo window = new QuizDemo();
+		window.setAnswers(q.getPossibleAnswers());
+		window.setDescription(q.getMovieDesc());
+		int answer = q.getAnswerIndex() + 64;
+		System.out.print((char)answer);
+		window.setAnswer((char) answer);
+		window.AppDemo.setVisible(true);
+		
+		
 	}
 
 }

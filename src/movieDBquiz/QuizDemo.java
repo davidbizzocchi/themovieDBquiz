@@ -2,18 +2,25 @@ package movieDBquiz;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.ButtonGroup;
+import javax.swing.AbstractButton;
 import java.awt.Font;
 
 public class QuizDemo {
@@ -34,6 +41,9 @@ public class QuizDemo {
 	private JPanel panel_1;
 	private JButton exitBtn;
 	private JButton submitBtn;
+	
+	private char correctAnswer;
+	
 
 	/**
 	 * Launch the application.
@@ -191,12 +201,34 @@ public class QuizDemo {
 		gbc_exitBtn.insets = new Insets(0, 0, 0, 5);
 		gbc_exitBtn.gridx = 0;
 		gbc_exitBtn.gridy = 0;
+		exitBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
 		panel_1.add(exitBtn, gbc_exitBtn);
 		
 		submitBtn = new JButton("Submit");
 		GridBagConstraints gbc_submitBtn = new GridBagConstraints();
 		gbc_submitBtn.gridx = 1;
 		gbc_submitBtn.gridy = 0;
+		submitBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String info = "Incorrect";
+				for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+					AbstractButton button = buttons.nextElement();
+					
+					if(button.isSelected()){
+						if( button.getText().charAt(0) == correctAnswer){
+							info = "Correct!";
+						}
+					}
+				}
+				JOptionPane.showMessageDialog(null, info, "Result: ", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		panel_1.add(submitBtn, gbc_submitBtn);
 	}
 	
@@ -226,6 +258,13 @@ public class QuizDemo {
 	
 	public void setTitle(String title){
 		titleTxtLabel.setText(title);
+	}
+	
+	public void setAnswer(char selection){
+		selection = Character.toUpperCase(selection);
+		if( (int)selection >= 65 && (int)selection <= 68){
+			correctAnswer = selection;
+		}
 	}
 
 }
