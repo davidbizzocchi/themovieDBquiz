@@ -1,26 +1,24 @@
 package movieDBquiz;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
 /**
- * Class that creates matching questsions for a movie trivia quiz 
+ * Class that creates matching questions for a movie trivia quiz 
  * using the TMDB API.
  * 
  * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
  * @version 1.0 Summer 2017
  */
+public class MatchingQuestion {
 
 	
-	/** Contains the description for the movie to be used in the current quiz question. **/
-public class MatchingQuestion {
+	/** Contains the description for the movie 
+	 * to be used in the current quiz question. **/
 	private String movieDesc;
 	
 	/** List of possible movie titles to be the answer 
@@ -109,10 +107,6 @@ public class MatchingQuestion {
 		return answerIndex;
 	}
 	
-	public boolean isCorrectAnswer() {
-		return correctAnswer;
-	}
-	
 	/**
 	 * Sets the description of the movie for the question.
 	 * @param movieDesc The description of the movie from TMDB API.
@@ -132,63 +126,96 @@ public class MatchingQuestion {
 	 * @throws IllegalArgumentException if the index is invalid.
 	 */
 	public void setAnswerIndex(final int answerIndex) {
-		if(answerIndex < 0 || answerIndex >= 4) {
+		if (answerIndex < 0 || answerIndex > 3) {
 			throw new IllegalArgumentException();
 		}
 		this.answerIndex = answerIndex;
 	}
 	
-	public void setCorrectAnswer(boolean correctAnswer) {
+	/**
+	 * Sets the answer selected by the user are correct or incorrect.
+	 * @param correctAnswer true if the answer chosen is correct
+	 * 						false if the answer chosen isn't correct
+	 */
+	public void setCorrectAnswer(final boolean correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	} 
 	
-	public MatchingQuestion generateQuestion(){
-		if(!possibleAnswers.isEmpty()){
+	/**
+	 * Retrieves if the answer selected by the user was the correct question.
+	 * @return true if the answer selected was correct
+	 * 			false if the answer selected was incorrect
+	 */
+	public boolean isCorrectAnswer() {
+		return this.correctAnswer;
+	}
+	
+	/**
+	 * Generates a randomized question with a corresponding randomized 
+	 * set of answers one of which is the correct answer.
+	 * @return MatchingQuestion the question that was generated.
+	 */
+	public MatchingQuestion generateQuestion() {
+		if (!possibleAnswers.isEmpty()) {
 			possibleAnswers.clear();
 		}
 		
-		if(movieIndex+4 >= movieList.size()){
+		if (movieIndex + 4 >= movieList.size()) {
 			randomizeMovieList();
 			movieIndex = 0;
 		}
 			
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			addAnswerTitle(movieList.get(movieIndex++).getTitle());
 		}
 		
-		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex()-1).getOverview());
+		setAnswerIndex(Randomize.randomInt(0, 3));
+		setMovieDesc(movieList.get(getAnswerIndex()).getOverview());
 		
 		return this;
 	}
 	
 	@Override
-	public String toString(){
+	/**
+	 * Creates a String that displays the possible answers to the question.
+	 */
+	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for(String title : possibleAnswers){
+		for (String title : possibleAnswers) {
 			sb.append(title + '\n');
 		}
 		return sb.toString();
 	}
 	
-	private void populateMovieList(){
+	/**
+	 * Generates the list of movies to be used for questions.
+	 */
+	private void populateMovieList() {
 		int i = 0;
 		int previousSize = 0;
 		MovieResultsPage results;
 		
-		do{
+		do {
 			previousSize = movieList.size();
 			
 			results = tmdbMovies.getNowPlayingMovies("en", i++);
 			
-			for( MovieDb movie : results.getResults()){
+			for (MovieDb movie : results.getResults()) {
 				movieList.add(movie);
 			}
 			
+<<<<<<< HEAD
 		}while(i <= NUM_PAGES);
+=======
+		} while (previousSize != movieList.size());
+>>>>>>> 103943ccd7b988848af467989109acf7522b0f37
 	}
 	
-	private void randomizeMovieList(){
+	/**
+	 * Randomizes the movie list generated so that questions 
+	 * and answers may be randomized.
+	 */
+	private void randomizeMovieList() {
 		movieList = Randomize.shuffleList(movieList);
 	}
 }
