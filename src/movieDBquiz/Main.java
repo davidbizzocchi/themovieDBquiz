@@ -34,7 +34,7 @@ public final class Main {
 		int answer = q.getAnswerIndex() + 64;
 		System.out.print((char) answer);
 		window.setAnswer((char) answer);
-		window.AppDemo.setVisible(true);
+		window.getAppDemo().setVisible(true);
 		
 		
 	}

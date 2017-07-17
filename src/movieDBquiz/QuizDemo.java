@@ -18,18 +18,33 @@ import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import javax.swing.ButtonGroup;
 import javax.swing.AbstractButton;
 import java.awt.Font;
 
+/**
+ * Creates a GUI for the movie quiz and allows for user interaction. 
+ * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
+ * @version 1.0 Summer 2017
+ */
 public class QuizDemo {
 
-	public JFrame AppDemo;
+	/** Frame to display the game. **/
+	private JFrame appDemo;
+
+	/** Creates a button group for displaying the answers. **/
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	
+	/** label for the title of the GUI. **/
 	private JLabel titleTxtLabel;
-	private JTextArea QuestionTxt;
+	
+	/** Text area that displays the questions. **/
+	private JTextArea questionTxt;
+	
+	/** Panel to hold the question and answer display. **/
 	private JPanel panel;
+	
+	/** Button for the first answer "A". **/
 	private JRadioButton rdBtnA;
 	private JRadioButton rdBtnB;
 	private JRadioButton rdBtnC;
@@ -53,7 +68,7 @@ public class QuizDemo {
 			public void run() {
 				try {
 					QuizDemo window = new QuizDemo();
-					window.AppDemo.setVisible(true);
+					window.appDemo.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,34 +87,34 @@ public class QuizDemo {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		AppDemo = new JFrame();
-		AppDemo.setBounds(100, 100, 600, 599);
-		AppDemo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		appDemo = new JFrame();
+		appDemo.setBounds(100, 100, 600, 599);
+		appDemo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 50, 0, 0, 0, 75, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		AppDemo.getContentPane().setLayout(gridBagLayout);
+		appDemo.getContentPane().setLayout(gridBagLayout);
 		
 		titleTxtLabel = new JLabel("Quiz Demo");
 		GridBagConstraints gbc_titleTxtLabel = new GridBagConstraints();
 		gbc_titleTxtLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_titleTxtLabel.gridx = 1;
 		gbc_titleTxtLabel.gridy = 1;
-		AppDemo.getContentPane().add(titleTxtLabel, gbc_titleTxtLabel);
+		appDemo.getContentPane().add(titleTxtLabel, gbc_titleTxtLabel);
 		
-		QuestionTxt = new JTextArea();
-		QuestionTxt.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		QuestionTxt.setEditable(false);
-		QuestionTxt.setWrapStyleWord(true);
-		QuestionTxt.setLineWrap(true);
+		questionTxt = new JTextArea();
+		questionTxt.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		questionTxt.setEditable(false);
+		questionTxt.setWrapStyleWord(true);
+		questionTxt.setLineWrap(true);
 		GridBagConstraints gbc_QuestionTxt = new GridBagConstraints();
 		gbc_QuestionTxt.fill = GridBagConstraints.BOTH;
 		gbc_QuestionTxt.insets = new Insets(5, 45, 5, 0);
 		gbc_QuestionTxt.gridx = 1;
 		gbc_QuestionTxt.gridy = 3;
-		AppDemo.getContentPane().add(QuestionTxt, gbc_QuestionTxt);
+		appDemo.getContentPane().add(questionTxt, gbc_QuestionTxt);
 		
 		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -107,7 +122,7 @@ public class QuizDemo {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 5;
-		AppDemo.getContentPane().add(panel, gbc_panel);
+		appDemo.getContentPane().add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{40, 0, 0};
 		gbl_panel.rowHeights = new int[]{25, 25, 25, 25, 0};
@@ -188,7 +203,7 @@ public class QuizDemo {
 		gbc_panel_1.fill = GridBagConstraints.VERTICAL;
 		gbc_panel_1.gridx = 1;
 		gbc_panel_1.gridy = 7;
-		AppDemo.getContentPane().add(panel_1, gbc_panel_1);
+		appDemo.getContentPane().add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0};
 		gbl_panel_1.rowHeights = new int[]{0, 0};
@@ -253,7 +268,7 @@ public class QuizDemo {
 	}
 	
 	public void setDescription(String description){
-		QuestionTxt.setText(description);
+		questionTxt.setText(description);
 	}
 	
 	public void setTitle(String title){
@@ -265,6 +280,9 @@ public class QuizDemo {
 		if( (int)selection >= 65 && (int)selection <= 68){
 			correctAnswer = selection;
 		}
+	}
+	public JFrame getAppDemo() {
+		return appDemo;
 	}
 
 }
