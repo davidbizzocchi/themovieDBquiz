@@ -1,22 +1,20 @@
 package movieDBquiz;
 
-import info.movito.themoviedbapi.TmdbApi;
-
-import java.awt.EventQueue;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbAuthentication;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.config.TokenSession;
-import info.movito.themoviedbapi.model.core.MovieResultsPage;
-import info.movito.themoviedbapi.model.core.SessionToken;
-
+/**
+ * Driver utility class for running the movie quiz.
+ * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
+ * @version 1.0 Summer 2017
+ */
 public final class Main {
-
-	public static void main(String[] args) {
+	
+	/** private constructor not used because it is a utility class. **/
+	private Main() { }
+	
+	/**
+	 * main method that runs the movie quiz.
+	 * @param args command line inputs
+	 */
+	public static void main(final String[] args) {
 		//Initializes session token and API key
 //		DbManager manager = new DbManager();
 //		
@@ -34,7 +32,7 @@ public final class Main {
 		window.setAnswers(q.getPossibleAnswers());
 		window.setDescription(q.getMovieDesc());
 		int answer = q.getAnswerIndex() + 64;
-		System.out.print((char)answer);
+		System.out.print((char) answer);
 		window.setAnswer((char) answer);
 		window.AppDemo.setVisible(true);
 		
