@@ -170,7 +170,7 @@ public class MatchingQuestion {
 		}
 		
 		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex()).getOverview());
+		setMovieDesc(movieList.get(getAnswerIndex() - 1).getOverview());
 		
 		return this;
 	}
