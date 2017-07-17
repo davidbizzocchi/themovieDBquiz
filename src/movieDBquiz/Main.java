@@ -33,7 +33,7 @@ public final class Main {
 		QuizDemo window = new QuizDemo();
 		window.setAnswers(q.getPossibleAnswers());
 		window.setDescription(q.getMovieDesc());
-		int answer = q.getAnswerIndex() + 64;
+		int answer = q.getAnswerIndex() + 65;
 		System.out.print((char)answer);
 		window.setAnswer((char) answer);
 		window.AppDemo.setVisible(true);

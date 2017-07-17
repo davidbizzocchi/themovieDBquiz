@@ -126,7 +126,7 @@ public class MatchingQuestion {
 	 * @throws IllegalArgumentException if the index is invalid.
 	 */
 	public void setAnswerIndex(final int answerIndex) {
-		if (answerIndex < 0 || answerIndex > 3) {
+		if (answerIndex < 1 || answerIndex > 4) {
 			throw new IllegalArgumentException();
 		}
 		this.answerIndex = answerIndex;
@@ -169,7 +169,7 @@ public class MatchingQuestion {
 			addAnswerTitle(movieList.get(movieIndex++).getTitle());
 		}
 		
-		setAnswerIndex(Randomize.randomInt(0, 3));
+		setAnswerIndex(Randomize.randomInt(1, 4));
 		setMovieDesc(movieList.get(getAnswerIndex()).getOverview());
 		
 		return this;
@@ -192,12 +192,9 @@ public class MatchingQuestion {
 	 */
 	private void populateMovieList() {
 		int i = 0;
-		int previousSize = 0;
 		MovieResultsPage results;
 		
 		do {
-			previousSize = movieList.size();
-			
 			results = tmdbMovies.getNowPlayingMovies("en", i++);
 			
 			for (MovieDb movie : results.getResults()) {
