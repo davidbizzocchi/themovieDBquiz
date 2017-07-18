@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ public class QuizDemo {
 	public JFrame AppDemo;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JLabel titleTxtLabel;
+	private JLabel counterLabel;
 	private JTextArea QuestionTxt;
 	private JPanel panel;
 	private JRadioButton rdBtnA;
@@ -43,6 +45,8 @@ public class QuizDemo {
 	private JButton submitBtn;
 	
 	private char correctAnswer;
+	private int correctCounter;
+	private MatchingQuestion question;
 	
 
 	/**
@@ -65,6 +69,12 @@ public class QuizDemo {
 	 * Create the application.
 	 */
 	public QuizDemo() {
+		question = new MatchingQuestion();
+		initializeUI();
+	}
+	
+	public QuizDemo(MatchingQuestion q){
+		question = q;
 		initializeUI();
 	}
 
@@ -100,6 +110,13 @@ public class QuizDemo {
 		gbc_QuestionTxt.gridx = 1;
 		gbc_QuestionTxt.gridy = 3;
 		AppDemo.getContentPane().add(QuestionTxt, gbc_QuestionTxt);
+		
+		counterLabel = new JLabel("Score: 0");
+		GridBagConstraints gbc_counterLabel = new GridBagConstraints();
+		gbc_counterLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_counterLabel.gridx = 3;
+		gbc_counterLabel.gridy = 2;
+		AppDemo.getContentPane().add(counterLabel, gbc_counterLabel);
 		
 		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
@@ -223,7 +240,10 @@ public class QuizDemo {
 					if(button.isSelected()){
 						if( button.getText().charAt(0) == correctAnswer){
 							info = "Correct!";
+							correctCounter++;
+							setCounter(correctCounter);
 						}
+						setNewQuestion();
 					}
 				}
 				JOptionPane.showMessageDialog(null, info, "Result: ", JOptionPane.INFORMATION_MESSAGE);
@@ -235,7 +255,7 @@ public class QuizDemo {
 	private void initializeUI(){
 		initialize();
 		ArrayList<String> options = new ArrayList<String>();
-		options.add("A talented New York City bartender takes a job at a bar in Jamaica and falls in love.");
+		options.add("Choice 1");
 		options.add("Choice2");
 		options.add("Choice3");
 		options.add("Choice4");
@@ -265,6 +285,22 @@ public class QuizDemo {
 		if( (int)selection >= 65 && (int)selection <= 68){
 			correctAnswer = selection;
 		}
+	}
+	
+	private void setCounter(int numberCorrect){
+		counterLabel.setText("Score: " + Integer.toString(numberCorrect));
+	}
+	
+	public void runQuiz(){
+		setNewQuestion();
+	}
+	
+	private void setNewQuestion(){
+		question = question.generateQuestion();
+		setAnswers(question.getPossibleAnswers());
+		setDescription(question.getMovieDesc());
+		int answer = question.getAnswerIndex() + 64;
+		setAnswer((char) answer);
 	}
 
 }

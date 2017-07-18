@@ -28,14 +28,9 @@ public final class Main {
 		
 		
 		MatchingQuestion q = new MatchingQuestion();
-		q = q.generateQuestion();
 		
-		QuizDemo window = new QuizDemo();
-		window.setAnswers(q.getPossibleAnswers());
-		window.setDescription(q.getMovieDesc());
-		int answer = q.getAnswerIndex() + 64;
-		System.out.print((char)answer);
-		window.setAnswer((char) answer);
+		QuizDemo window = new QuizDemo(q);
+		window.runQuiz();
 		window.AppDemo.setVisible(true);
 		
 		

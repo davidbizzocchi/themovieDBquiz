@@ -15,7 +15,7 @@ import info.movito.themoviedbapi.model.core.MovieResultsPage;
  * @version 1.0 Summer 2017
  */
 public class MatchingQuestion {
-
+	
 	
 	/** Contains the description for the movie 
 	 * to be used in the current quiz question. **/
@@ -45,6 +45,8 @@ public class MatchingQuestion {
 	
 	/** Number of pages to pull from tmdb API to generate questions */
 	private final int NUM_PAGES  = 3;
+	
+	private int movieSelectorIndex = 0;
 	
 	/** 
 	 * Constructs a matching question object to be used in the quiz. 
@@ -170,7 +172,8 @@ public class MatchingQuestion {
 		}
 		
 		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex() - 1).getOverview());
+		setMovieDesc(movieList.get(getAnswerIndex() - 1 + movieSelectorIndex).getOverview());
+		movieSelectorIndex += 4;
 		
 		return this;
 	}
