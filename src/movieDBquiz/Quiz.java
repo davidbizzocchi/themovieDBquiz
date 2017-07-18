@@ -11,20 +11,25 @@ import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
 
-public class Quiz {
-
-	private static TmdbApi tmdbApi;
-	private static SessionToken sessionToken;
+/**
+ * Driver for the movie quiz.
+ * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
+ * @version 1.0 Summer 2017
+ */
+public final class Quiz {
 	
-	private Quiz(){}
+	/** Instance of the API to generate questions and answers. **/
+	private static TmdbApi tmdbApi;
+	
+	
+	private Quiz(){ }
 
 	public static void main(String[] args) {
 
 		// (Hardcoded) my API code from themoviedb.com
 		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
 
-		// retrieves session token using themoviedb ID and password
-		sessionToken = getSessionToken();
+		getSessionToken();
 
 		// generates quiz question with 4 possible answers
 		MatchingQuestion q = generateQuestion(4);
