@@ -43,9 +43,9 @@ public class MatchingQuestion {
 	/** Instantiates TMDB movies to be used in quiz. **/
 	private TmdbMovies tmdbMovies;
 	
-	/** Number of pages to pull from tmdb API to generate questions */
-	private final int NUM_PAGES  = 3;
-	
+	/** Number of pages to pull from tmdb API to generate questions. */
+	private static final int NUM_PAGES = 3;
+	/** The index to select the next movie. **/
 	private int movieSelectorIndex = 0;
 	
 	/** 
@@ -172,7 +172,8 @@ public class MatchingQuestion {
 		}
 		
 		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex() - 1 + movieSelectorIndex).getOverview());
+		setMovieDesc(movieList.get(getAnswerIndex() - 1 
+				+ movieSelectorIndex).getOverview());
 		movieSelectorIndex += 4;
 		
 		return this;
@@ -204,7 +205,7 @@ public class MatchingQuestion {
 				movieList.add(movie);
 			}
 
-		}while(i <= NUM_PAGES);
+		} while (i <= NUM_PAGES);
 	}
 	
 	/**
