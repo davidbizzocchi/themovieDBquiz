@@ -140,7 +140,7 @@ public class MatchingQuestion {
 	public void setCorrectAnswer(final boolean correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	} 
-	
+
 	/**
 	 * Retrieves if the answer selected by the user was the correct question.
 	 * @return true if the answer selected was correct
@@ -201,7 +201,7 @@ public class MatchingQuestion {
 				movieList.add(movie);
 			}
 
-		}while(i <= NUM_PAGES);
+		}while(i <= NUM_PAGES );
 	}
 	
 	/**
