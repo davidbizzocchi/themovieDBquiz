@@ -353,5 +353,9 @@ public class QuizDemo {
 		return appDemo;
 	}
 
+	public void close() {
+		appDemo.dispose();
+	}
+	
 }
 
