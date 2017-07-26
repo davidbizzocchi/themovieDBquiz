@@ -82,8 +82,8 @@ public class TestMatchingQuestion {
 	@Test
 	public void testCorrectAnswerValid() {
 		MatchingQuestion q = new MatchingQuestion();
-		q.setAnswerIndex(0);
-		assertTrue(q.getAnswerIndex() == 0);
+		q.setAnswerIndex(4);
+		assertTrue(q.getAnswerIndex() == 4);
 		q.setAnswerIndex(1);
 		assertEquals(q.getAnswerIndex(), 1);
 		q.setAnswerIndex(2);

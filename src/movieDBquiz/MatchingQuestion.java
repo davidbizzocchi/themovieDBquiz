@@ -15,7 +15,7 @@ import info.movito.themoviedbapi.model.core.MovieResultsPage;
  * @version 1.0 Summer 2017
  */
 public class MatchingQuestion {
-
+	
 	
 	/** Contains the description for the movie 
 	 * to be used in the current quiz question. **/
@@ -37,14 +37,12 @@ public class MatchingQuestion {
 	/** (TEMP?) true if the correct answer is selected. **/
 	private boolean correctAnswer;
 	
-	/** Instantiates TMDB API for use in quiz. **/
-	private TmdbApi tmdbApi;
+	private DbManager manager;
 	
-	/** Instantiates TMDB movies to be used in quiz. **/
-	private TmdbMovies tmdbMovies;
-	
-	/** Number of pages to pull from tmdb API to generate questions */
-	private final int NUM_PAGES  = 3;
+	/** Number of pages to pull from tmdb API to generate questions. */
+	private static final int NUM_PAGES = 3;
+	/** The index to select the next movie. **/
+	private int movieSelectorIndex = 0;
 	
 	/** 
 	 * Constructs a matching question object to be used in the quiz. 
@@ -54,9 +52,10 @@ public class MatchingQuestion {
 	public MatchingQuestion() {
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
-		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
+
+		manager = new DbManager();
 		movieIndex = 0;
-		tmdbMovies = tmdbApi.getMovies();
+		
 		populateMovieList();
 		randomizeMovieList();
 	}
@@ -170,7 +169,9 @@ public class MatchingQuestion {
 		}
 		
 		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex() - 1).getOverview());
+		setMovieDesc(movieList.get(getAnswerIndex() - 1 
+				+ movieSelectorIndex).getOverview());
+		movieSelectorIndex += 4;
 		
 		return this;
 	}
@@ -191,17 +192,7 @@ public class MatchingQuestion {
 	 * Generates the list of movies to be used for questions.
 	 */
 	private void populateMovieList() {
-		int i = 0;
-		MovieResultsPage results;
-		
-		do {
-			results = tmdbMovies.getNowPlayingMovies("en", i++);
-			
-			for (MovieDb movie : results.getResults()) {
-				movieList.add(movie);
-			}
-
-		}while(i <= NUM_PAGES );
+		movieList = manager.getPlayingMovies();
 	}
 	
 	/**
