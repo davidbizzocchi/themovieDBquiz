@@ -2,10 +2,13 @@ package movieDBquiz;
 
 import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
+import info.movito.themoviedbapi.model.people.PersonCast;
+import info.movito.themoviedbapi.model.people.PersonCrew;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +40,17 @@ public class DbManager {
 	/** Password to log into the TMDB and use the API. **/
 	private static final String APIKEYSTRING =
 			"72094b969b9993f31aeea13bb041ee86";
+
+	/** Number of results pages for popular movies (no
+	 * method provides this info)
+	 */
+	private static final int NUMPOPRESULTSPAGES = 987;
+	
+	private static final int RESULTSPERPAGE = 20;
 	
 	private static final int NUM_PAGES = 3;
+	
+	
 
 	/**
 	 * Creates the manager for the db and initializes the session token
@@ -95,6 +107,31 @@ public class DbManager {
 		} while (i <= NUM_PAGES);
 		
 		return currentMovieList;
+	}
+	
+	public List<String> getRandomActors(){
+		List<String> actors = new ArrayList<String>();
+		MovieDb movie;
+		MovieResultsPage results;
+		int pageNo, movieId, resultNo = 0, i = 0;
+		
+		while(i < 4){
+			pageNo = Randomize.randomInt(0, NUMPOPRESULTSPAGES);
+			results = movies.getPopularMovies("en", pageNo);
+			resultNo = Randomize.randomInt(0, RESULTSPERPAGE - 1);
+			movie = results.getResults().get(resultNo);
+			movieId = movie.getId();
+			movie = movies.getMovie(movieId, "en", MovieMethod.credits);
+			
+			if(movie.getCast() != null){
+				if( movie.getCast().get(0) == null){
+					continue;
+				}
+				actors.add(movie.getCast().get(0).getName());
+				i++;
+			}
+		}
+		return actors;
 	}
 
 }

@@ -25,12 +25,15 @@ public final class Main {
 		
 		
 		
-		MatchingQuestion q = new MatchingQuestion();
+//		MatchingQuestion q = new MatchingQuestion();
+//		
+//		QuizDemo window = new QuizDemo(q);
+//		window.runQuiz();
+//		window.getAppDemo().setVisible(true);
 		
-		QuizDemo window = new QuizDemo(q);
-		window.runQuiz();
-		window.getAppDemo().setVisible(true);
 		
+		DbManager manager = new DbManager();
+		manager.getRandomActors();
 	}
 
 }

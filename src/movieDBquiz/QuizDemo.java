@@ -23,7 +23,7 @@ import javax.swing.AbstractButton;
 import java.awt.Font;
 
 /**
- * Creates a GUI for the movie quiz and allows for user interaction. 
+ * Creates a GUI for the movie quiz and allows for user interaction.
  * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
  * @version 1.0 Summer 2017
  */
@@ -34,7 +34,7 @@ public class QuizDemo {
 
 	/** Creates a button group for displaying the answers. **/
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	
+
 	/** label for the title of the GUI. **/
 	private JLabel titleTxtLabel;
 	//FIX ME
@@ -44,7 +44,7 @@ public class QuizDemo {
 	private JTextArea questionTxt;
 	/** Panel to hold the question and answer display. **/
 	private JPanel panel;
-	
+
 	/** Button for the first answer "A". **/
 	private JRadioButton rdBtnA;
 	/** Button for the second answer "B". **/
@@ -67,7 +67,7 @@ public class QuizDemo {
 	private JButton exitBtn;
 	/** button to confirm answer selected. **/
 	private JButton submitBtn;
-	/** Holds the char value for the correct answer 
+	/** Holds the char value for the correct answer
 	 * for the current question. **/
 	private char correctAnswer;
 	/** holds the integer value for the correct answer

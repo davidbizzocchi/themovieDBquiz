@@ -55,11 +55,11 @@ public class MatchingQuestion {
 
 		manager = new DbManager();
 		movieIndex = 0;
-		
+
 		populateMovieList();
 		randomizeMovieList();
 	}
-	
+
 	/**
 	 * Retrieves the list of movies to be used on the quiz.
 	 * @return movieList the list of movies to be used.
@@ -67,9 +67,9 @@ public class MatchingQuestion {
 	public List<MovieDb> getMovieList() {
 		return movieList;
 	}
-	
+
 	/**
-	 * Adds a movie title to the list of possible answers 
+	 * Adds a movie title to the list of possible answers
 	 * to the current question.
 	 * @param title the movie title to be added to the possible answers.
 	 * @throws IllegalArgumentException if the title given doesn't exist
@@ -81,7 +81,7 @@ public class MatchingQuestion {
 		}
 		possibleAnswers.add(title);
 	}
-	
+
 	/**
 	 * Gets the description of the movie to be used in the question.
 	 * @return String movieDesc the description from TMDB API of the movie.
@@ -89,7 +89,7 @@ public class MatchingQuestion {
 	public String getMovieDesc() {
 		return movieDesc;
 	}
-	
+
 	/**
 	 * Returns the array of possible answers for the current question.
 	 * @return ArrayList<String> of possible answers to the current question
@@ -97,7 +97,7 @@ public class MatchingQuestion {
 	public ArrayList<String> getPossibleAnswers() {
 		return possibleAnswers;
 	}
-	
+
 	/**
 	 * Retrieves the index of the answer selected by the user.
 	 * @return Integer of the answer in the ArrayList possibleAnswers
@@ -105,7 +105,7 @@ public class MatchingQuestion {
 	public int getAnswerIndex() {
 		return answerIndex;
 	}
-	
+
 	/**
 	 * Sets the description of the movie for the question.
 	 * @param movieDesc The description of the movie from TMDB API.
@@ -118,7 +118,7 @@ public class MatchingQuestion {
 		}
 		this.movieDesc = movieDesc;
 	}
-	
+
 	/**
 	 * Sets the index of the correct answer in possibleAnswers.
 	 * @param answerIndex the correct answer for the question.
@@ -130,7 +130,7 @@ public class MatchingQuestion {
 		}
 		this.answerIndex = answerIndex;
 	}
-	
+
 	/**
 	 * Sets the answer selected by the user are correct or incorrect.
 	 * @param correctAnswer true if the answer chosen is correct
@@ -138,8 +138,8 @@ public class MatchingQuestion {
 	 */
 	public void setCorrectAnswer(final boolean correctAnswer) {
 		this.correctAnswer = correctAnswer;
-	} 
-	
+	}
+
 	/**
 	 * Retrieves if the answer selected by the user was the correct question.
 	 * @return true if the answer selected was correct
@@ -194,7 +194,7 @@ public class MatchingQuestion {
 	private void populateMovieList() {
 		movieList = manager.getPlayingMovies();
 	}
-	
+
 	/**
 	 * Randomizes the movie list generated so that questions 
 	 * and answers may be randomized.

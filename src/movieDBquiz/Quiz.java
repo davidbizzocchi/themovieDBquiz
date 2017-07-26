@@ -23,6 +23,7 @@ public final class Quiz {
 	 * Runs the code to learn the API.
 	 * @param args console input.
 	 */
+	
 	public static void main(final String[] args) {
 
 		// (Hardcoded) my API code from themoviedb.com
@@ -55,7 +56,8 @@ public final class Quiz {
 				SessionToken(tokenSession.getSessionId());
 
 		return sessionToken;
-
 	}
+	
+	
 
 }
