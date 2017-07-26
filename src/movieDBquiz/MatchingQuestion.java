@@ -37,11 +37,7 @@ public class MatchingQuestion {
 	/** (TEMP?) true if the correct answer is selected. **/
 	private boolean correctAnswer;
 	
-	/** Instantiates TMDB API for use in quiz. **/
-	private TmdbApi tmdbApi;
-	
-	/** Instantiates TMDB movies to be used in quiz. **/
-	private TmdbMovies tmdbMovies;
+	private DbManager manager;
 	
 	/** Number of pages to pull from tmdb API to generate questions. */
 	private static final int NUM_PAGES = 3;
@@ -56,9 +52,10 @@ public class MatchingQuestion {
 	public MatchingQuestion() {
 		movieList = new ArrayList<MovieDb>();
 		possibleAnswers = new ArrayList<String>();
-		tmdbApi = new TmdbApi("72094b969b9993f31aeea13bb041ee86");
+
+		manager = new DbManager();
 		movieIndex = 0;
-		tmdbMovies = tmdbApi.getMovies();
+		
 		populateMovieList();
 		randomizeMovieList();
 	}
@@ -195,17 +192,7 @@ public class MatchingQuestion {
 	 * Generates the list of movies to be used for questions.
 	 */
 	private void populateMovieList() {
-		int i = 0;
-		MovieResultsPage results;
-		
-		do {
-			results = tmdbMovies.getNowPlayingMovies("en", i++);
-			
-			for (MovieDb movie : results.getResults()) {
-				movieList.add(movie);
-			}
-
-		} while (i <= NUM_PAGES);
+		movieList = manager.getPlayingMovies();
 	}
 	
 	/**
