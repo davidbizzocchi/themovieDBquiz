@@ -109,19 +109,13 @@ public class DbManager {
 		return currentMovieList;
 	}
 	
-	public List<String> getRandomActors(){
-		List<String> actors = new ArrayList<String>();
+	public ArrayList<String> getRandomActors(){
+		ArrayList<String> actors = new ArrayList<String>();
 		MovieDb movie;
-		MovieResultsPage results;
-		int pageNo, movieId, resultNo = 0, i = 0;
+		int i = 0;
 		
 		while(i < 4){
-			pageNo = Randomize.randomInt(0, NUMPOPRESULTSPAGES);
-			results = movies.getPopularMovies("en", pageNo);
-			resultNo = Randomize.randomInt(0, RESULTSPERPAGE - 1);
-			movie = results.getResults().get(resultNo);
-			movieId = movie.getId();
-			movie = movies.getMovie(movieId, "en", MovieMethod.credits);
+			movie = getRandomMovie();
 			
 			if(movie.getCast() != null){
 				if( movie.getCast().get(0) == null){
@@ -132,6 +126,19 @@ public class DbManager {
 			}
 		}
 		return actors;
+	}
+	
+	public MovieDb getRandomMovie(){
+		MovieDb movie;
+		MovieResultsPage results;
+		int pageNo, movieId, resultNo;
+		
+		pageNo = Randomize.randomInt(0, NUMPOPRESULTSPAGES);
+		results = movies.getPopularMovies("en", pageNo);
+		resultNo = Randomize.randomInt(0, RESULTSPERPAGE - 1);
+		movie = results.getResults().get(resultNo);
+		movieId = movie.getId();
+		return movies.getMovie(movieId, "en", MovieMethod.credits);
 	}
 
 }

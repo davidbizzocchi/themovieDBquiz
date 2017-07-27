@@ -6,6 +6,7 @@ import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
+import info.movito.themoviedbapi.model.people.PersonCast;
 
 /**
  * Class that creates matching questions for a movie trivia quiz 
@@ -25,7 +26,7 @@ public class MatchingQuestion {
 	 * to the current question. **/
 	private ArrayList<String> possibleAnswers;
 	
-	/** List that holds the movies to be used in the quiz. **/
+	/** List that holds the movies to be used in movie description question. **/
 	private List<MovieDb> movieList;
 	
 	/** The index of the correct answer to the current question. **/
@@ -39,8 +40,6 @@ public class MatchingQuestion {
 	
 	private DbManager manager;
 	
-	/** Number of pages to pull from tmdb API to generate questions. */
-	private static final int NUM_PAGES = 3;
 	/** The index to select the next movie. **/
 	private int movieSelectorIndex = 0;
 	
@@ -202,5 +201,35 @@ public class MatchingQuestion {
 	private void randomizeMovieList() {
 		movieList = Randomize.shuffleList(movieList);
 	}
+	
+	private void setAnswersActors() {
+		possibleAnswers = manager.getRandomActors();
+	}
+	
+	public MatchingQuestion generateCharacterQuestion(){
+		setAnswersActors();
+		int correctAnswer = Randomize.randomInt(1, 4);
+		MovieDb movie = manager.getRandomMovie();
+
+		while(movie.getCast().size() == 0 ) {
+			movie = manager.getRandomMovie();
+		}
+		PersonCast person = movie.getCast().get(0);
+		String question = getCharacterQuestion(person, movie);
+		setMovieDesc(question);
+		possibleAnswers.set(correctAnswer - 1, person.getName());
+		setAnswerIndex(correctAnswer);
+		
+		return this;
+	}
+	
+	private String getCharacterQuestion(PersonCast actor, MovieDb movie){
+		String question = "The actor who played the character " +
+				actor.getCharacter() + " in the " + movie.getReleaseDate() +
+				" movie \'" + movie.getTitle() + "\' was:";
+		return question;
+	}
+	
+	
 }
 
