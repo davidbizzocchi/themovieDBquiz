@@ -1,6 +1,8 @@
 package movieDBquiz;
 
 import java.util.Iterator;
+import java.util.List;
+
 import info.movito.themoviedbapi.model.MovieDb;
 
 /**
@@ -18,9 +20,13 @@ public final class Quiz {
 	public Quiz(){
 			
 		watchList = new MovieWatchList();
-		Iterator<MovieDb> iterator = watchList.getUserMovieList().iterator();
-		while (iterator.hasNext()) {
-			MovieDb movie = iterator.next();
+		question = new MatchingQuestion();
+		
+		//watchList.addToList(question.getMovieList().get(0));
+		//watchList.removeFromList(watchList.getUserMovieList().get(0));
+		
+		List<MovieDb> list = watchList.getUserMovieList();
+		for(MovieDb movie : list){
 			System.out.println(movie.getTitle());
 			System.out.println(movie.getReleaseDate());
 			System.out.println();
