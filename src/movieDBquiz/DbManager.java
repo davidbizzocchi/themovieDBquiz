@@ -4,17 +4,11 @@ import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.config.Account;
 import info.movito.themoviedbapi.model.config.TokenSession;
-import info.movito.themoviedbapi.model.core.AccountID;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import info.movito.themoviedbapi.TmdbAccount;
-import info.movito.themoviedbapi.TmdbAccount.MediaType;
 import info.movito.themoviedbapi.TmdbApi;
 
 /**

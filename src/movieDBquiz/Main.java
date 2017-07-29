@@ -31,7 +31,8 @@ public final class Main {
 		
 
 		Quiz q = new Quiz();
-//		
+		
+
 //		DbManager manager = new DbManager();
 //		manager.getRandomActors();
 	}

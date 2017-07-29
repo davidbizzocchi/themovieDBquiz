@@ -2,7 +2,6 @@ package movieDBquiz;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import info.movito.themoviedbapi.TmdbAccount;
 import info.movito.themoviedbapi.TmdbAccount.MediaType;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -11,6 +10,11 @@ import info.movito.themoviedbapi.model.core.AccountID;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.ResponseStatus;
 
+/**
+ * Wrapper for tmdb watch list
+ * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
+ * @version 1.0 Summer 2017
+ */
 public class MovieWatchList {
 
 	/** Variable to access account methods */
@@ -64,10 +68,20 @@ public class MovieWatchList {
 		return list;
 	}
 	
+	/**
+	 * Adds movie to users tmdb watch list
+	 * @param movie to add to watch list
+	 * @return status code from addition to watch list
+	 */
 	public ResponseStatus addToList(MovieDb movie){
 		return tmdbAccount.addToWatchList(manager.getSessionToken(), accountID, movie.getId(), MediaType.MOVIE);
 	}
 	
+	/**
+	 * Removes specified movie from users tmdb watch list
+	 * @param movie to remove from watch list
+	 * @return status code from removal from watch list
+	 */
 	public ResponseStatus removeFromList(MovieDb movie){
 		return tmdbAccount.removeFromWatchList(manager.getSessionToken(), accountID, movie.getId(), MediaType.MOVIE);
 	}
