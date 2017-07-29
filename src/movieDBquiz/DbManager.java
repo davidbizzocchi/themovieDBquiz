@@ -4,15 +4,17 @@ import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.config.Account;
 import info.movito.themoviedbapi.model.config.TokenSession;
+import info.movito.themoviedbapi.model.core.AccountID;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
-import info.movito.themoviedbapi.model.people.PersonCast;
-import info.movito.themoviedbapi.model.people.PersonCrew;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import info.movito.themoviedbapi.TmdbAccount;
+import info.movito.themoviedbapi.TmdbAccount.MediaType;
 import info.movito.themoviedbapi.TmdbApi;
 
 /**
@@ -30,7 +32,7 @@ public class DbManager {
 	
 	/**A variable used to source data for all movies */
 	private TmdbMovies movies;
-
+	
 	/** Username to log into TMDB and use the API. **/
 	private static final String USER  = "DavidBizzocchi";
 
@@ -91,19 +93,15 @@ public class DbManager {
 	
 	public List<MovieDb> getPlayingMovies(){
 		List<MovieDb> currentMovieList = new ArrayList<MovieDb>();
+		MovieResultsPage results;
 		int i = 0;
 		
-		//ABSTRACT THIS
-		MovieResultsPage results;
-		
-		do {
-			//ABSTRACT THIS
+		do{
 			results = movies.getNowPlayingMovies("en", i++);
 			
 			for (MovieDb movie : results.getResults()) {
 				currentMovieList.add(movie);
 			}
-
 		} while (i <= NUM_PAGES);
 		
 		return currentMovieList;
@@ -139,6 +137,14 @@ public class DbManager {
 		movie = results.getResults().get(resultNo);
 		movieId = movie.getId();
 		return movies.getMovie(movieId, "en", MovieMethod.credits);
+	}
+	
+	public TmdbApi getKey(){
+		return key;
+	}
+	
+	public SessionToken getSessionToken(){
+		return sessionToken;
 	}
 
 }
