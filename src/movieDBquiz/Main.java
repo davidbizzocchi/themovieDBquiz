@@ -23,17 +23,19 @@ public final class Main {
 //		MatchingQuestion q = new MatchingQuestion();
 //		System.out.print(q.toString());
 		
-		MatchingQuestion q = new MatchingQuestion();
-		
-		QuizDemo window = new QuizDemo(q);
-		window.runQuiz();
-		window.getAppDemo().setVisible(true);
+//		MatchingQuestion q = new MatchingQuestion();
+//		
+//		QuizDemo window = new QuizDemo(q);
+//		window.runQuiz();
+//		window.getAppDemo().setVisible(true);
 		
 
 //		Quiz q = new Quiz();
 //		
-//		DbManager manager = new DbManager();
+		DbManager manager = new DbManager();
 //		manager.getRandomActors();
+//		System.out.print(manager.attemptLogin("aitkenj", "Pepper123"));
+		
 	}
 
 }

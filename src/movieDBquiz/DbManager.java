@@ -93,11 +93,9 @@ public class DbManager {
 		List<MovieDb> currentMovieList = new ArrayList<MovieDb>();
 		int i = 0;
 		
-		//ABSTRACT THIS
 		MovieResultsPage results;
 		
 		do {
-			//ABSTRACT THIS
 			results = movies.getNowPlayingMovies("en", i++);
 			
 			for (MovieDb movie : results.getResults()) {
@@ -140,5 +138,21 @@ public class DbManager {
 		movieId = movie.getId();
 		return movies.getMovie(movieId, "en", MovieMethod.credits);
 	}
+	
+	
+//	public Boolean attemptLogin(String username, String password){
+//		TmdbAuthentication tmdbAuth = key.getAuthentication();
+//		TokenSession tokenSession;
+//		try{
+//			tokenSession = tmdbAuth.getSessionLogin(username, password);
+//		}
+//		catch(Exception e){
+//			return false;
+//		}
+//		tokenSession.
+//		return true;
+//		//System.out.println("Session ID: " + tokenSession.getSessionId());
+//		//SessionToken sessionToken = new SessionToken(tokenSession.getSessionId());
+//	}
 
 }
