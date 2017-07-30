@@ -339,9 +339,9 @@ public class QuizDemo {
 	 * Sets the next question after the previous is answered.
 	 */
 	private void setNewQuestion() {
-		question = question.generateCharacterQuestion();
+		question = question.generateQuestion();
 		setAnswers(question.getPossibleAnswers());
-		setDescription(question.getMovieDesc());
+		setDescription(question.getQuestionText());
 		int answer = question.getAnswerIndex() + 64;
 		setAnswer((char) answer);
 	}
