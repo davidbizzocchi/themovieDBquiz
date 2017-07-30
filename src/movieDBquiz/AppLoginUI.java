@@ -20,8 +20,13 @@ import javafx.stage.Stage;
 public class AppLoginUI {
 	GridPane grid;
 	Scene scene;
+	PasswordField pwBox;
+	TextField userTextField;
+	
+	DbManager manager;
 	
 	public AppLoginUI(){
+		manager = new DbManager();
 		createLoginForm();
 	}
 	
@@ -50,13 +55,13 @@ public class AppLoginUI {
 		Label userName = new Label("User Name:");
 		grid.add(userName, 0, 1);
 
-		TextField userTextField = new TextField();
+		userTextField = new TextField();
 		grid.add(userTextField, 1, 1);
 
 		Label pw = new Label("Password:");
 		grid.add(pw, 0, 2);
 
-		PasswordField pwBox = new PasswordField();
+		pwBox = new PasswordField();
 		grid.add(pwBox, 1, 2);
 	}
 	
@@ -78,8 +83,17 @@ public class AppLoginUI {
 			 
 		    @Override
 		    public void handle(ActionEvent e) {
-		    	actiontarget.setFill(Color.FIREBRICK);
-		        actiontarget.setText("Sign in button pressed");
+		    	Boolean valid = manager.attemptLogin(userTextField.getText(), 
+		    			pwBox.getText());
+		    	if(valid){
+		    		actiontarget.setFill(Color.FIREBRICK);
+			        actiontarget.setText("Logging in as \'" + userTextField.getText());
+		    	}
+		    	else{
+		    		actiontarget.setFill(Color.FIREBRICK);
+			        actiontarget.setText("Login failed.");
+		    	}
+		    	
 		    }
 		});
 	}

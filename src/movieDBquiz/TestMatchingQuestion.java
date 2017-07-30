@@ -113,18 +113,6 @@ public class TestMatchingQuestion {
 	}
 	
 	/**
-	 * Test that the correct answer can be set appropriately.
-	 */
-	@Test
-	public void testCorrectAnswerBoolean() {
-		MatchingQuestion q = new MatchingQuestion();
-		q.setCorrectAnswer(true);
-		assertTrue(q.isCorrectAnswer());
-		q.setCorrectAnswer(false);
-		assertFalse(q.isCorrectAnswer());
-	}
-	
-	/**
 	 * Tests that a question and answers are generated.
 	 */
 	@Test

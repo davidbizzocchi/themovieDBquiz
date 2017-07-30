@@ -22,7 +22,6 @@ public final class Main {
 //		// generates quiz question with 4 possible answers
 //		MatchingQuestion q = new MatchingQuestion();
 //		System.out.print(q.toString());
-		
 //		MatchingQuestion q = new MatchingQuestion();
 //		
 //		QuizDemo window = new QuizDemo(q);
@@ -34,7 +33,7 @@ public final class Main {
 //		
 		DbManager manager = new DbManager();
 //		manager.getRandomActors();
-//		System.out.print(manager.attemptLogin("aitkenj", "Pepper123"));
+		System.out.print(manager.attemptLogin("aitkenj", "Pepper123"));
 		
 	}
 

@@ -7,12 +7,8 @@ import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
-import info.movito.themoviedbapi.model.people.PersonCast;
-import info.movito.themoviedbapi.model.people.PersonCrew;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import info.movito.themoviedbapi.TmdbApi;
 
 /**
@@ -30,7 +26,7 @@ public class DbManager {
 	
 	/**A variable used to source data for all movies */
 	private TmdbMovies movies;
-
+	
 	/** Username to log into TMDB and use the API. **/
 	private static final String USER  = "DavidBizzocchi";
 
@@ -91,17 +87,15 @@ public class DbManager {
 	
 	public List<MovieDb> getPlayingMovies(){
 		List<MovieDb> currentMovieList = new ArrayList<MovieDb>();
-		int i = 0;
-		
 		MovieResultsPage results;
-		
+		int i = 0;
+	
 		do {
 			results = movies.getNowPlayingMovies("en", i++);
 			
 			for (MovieDb movie : results.getResults()) {
 				currentMovieList.add(movie);
 			}
-
 		} while (i <= NUM_PAGES);
 		
 		return currentMovieList;
@@ -139,20 +133,25 @@ public class DbManager {
 		return movies.getMovie(movieId, "en", MovieMethod.credits);
 	}
 	
+	public Boolean attemptLogin(String username, String password){
+		TmdbAuthentication tmdbAuth = key.getAuthentication();
+		TokenSession tokenSession;
+		try{
+			tokenSession = tmdbAuth.getSessionLogin(username, password);
+			sessionToken = new SessionToken(tokenSession.getSessionId());
+		}
+		catch(Exception e){
+			return false;
+		}
+		return true;
+	}
+
+	public TmdbApi getKey(){
+		return key;
+	}
 	
-//	public Boolean attemptLogin(String username, String password){
-//		TmdbAuthentication tmdbAuth = key.getAuthentication();
-//		TokenSession tokenSession;
-//		try{
-//			tokenSession = tmdbAuth.getSessionLogin(username, password);
-//		}
-//		catch(Exception e){
-//			return false;
-//		}
-//		tokenSession.
-//		return true;
-//		//System.out.println("Session ID: " + tokenSession.getSessionId());
-//		//SessionToken sessionToken = new SessionToken(tokenSession.getSessionId());
-//	}
+	public SessionToken getSessionToken(){
+		return sessionToken;
+	}
 
 }

@@ -2,10 +2,7 @@ package movieDBquiz;
 
 import java.util.ArrayList;
 import java.util.List;
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
-import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.people.PersonCast;
 
 /**
@@ -34,9 +31,6 @@ public class MatchingQuestion {
 	
 	/** The index of the movie used in the current question. **/
 	private int movieIndex;
-	
-	/** (TEMP?) true if the correct answer is selected. **/
-	private boolean correctAnswer;
 	
 	private DbManager manager;
 	
@@ -128,24 +122,6 @@ public class MatchingQuestion {
 			throw new IllegalArgumentException();
 		}
 		this.answerIndex = answerIndex;
-	}
-
-	/**
-	 * Sets the answer selected by the user are correct or incorrect.
-	 * @param correctAnswer true if the answer chosen is correct
-	 * 						false if the answer chosen isn't correct
-	 */
-	public void setCorrectAnswer(final boolean correctAnswer) {
-		this.correctAnswer = correctAnswer;
-	}
-
-	/**
-	 * Retrieves if the answer selected by the user was the correct question.
-	 * @return true if the answer selected was correct
-	 * 			false if the answer selected was incorrect
-	 */
-	public boolean isCorrectAnswer() {
-		return this.correctAnswer;
 	}
 	
 	/**
