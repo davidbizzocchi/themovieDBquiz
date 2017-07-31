@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.people.PersonCast;
+import info.movito.themoviedbapi.model.tv.TvSeries;
 
 /**
  * Class that creates matching questions for a movie trivia quiz 
@@ -17,7 +18,7 @@ public class MatchingQuestion {
 	
 	/** Contains the description for the movie 
 	 * to be used in the current quiz question. **/
-	private String movieDesc;
+	private String questionText;
 	
 	/** List of possible movie titles to be the answer 
 	 * to the current question. **/
@@ -26,16 +27,19 @@ public class MatchingQuestion {
 	/** List that holds the movies to be used in movie description question. **/
 	private List<MovieDb> movieList;
 	
+	private List<TvSeries> tvList;
+	
 	/** The index of the correct answer to the current question. **/
 	private int answerIndex;
 	
 	/** The index of the movie used in the current question. **/
 	private int movieIndex;
 	
-	private DbManager manager;
+	/** The index in the tvList, used to start populating question. **/
+	private int tvIndex;
 	
-	/** The index to select the next movie. **/
-	private int movieSelectorIndex = 0;
+	/** Provides database access wrapper methods for generating questions. **/
+	private DbManager manager;
 	
 	/** 
 	 * Constructs a matching question object to be used in the quiz. 
@@ -44,13 +48,15 @@ public class MatchingQuestion {
 	 *  **/
 	public MatchingQuestion() {
 		movieList = new ArrayList<MovieDb>();
+		tvList = new ArrayList<TvSeries>();
 		possibleAnswers = new ArrayList<String>();
 
 		manager = new DbManager();
 		movieIndex = 0;
+		tvIndex = 0;
 
 		populateMovieList();
-		randomizeMovieList();
+		populateTvList();
 	}
 
 	/**
@@ -77,10 +83,10 @@ public class MatchingQuestion {
 
 	/**
 	 * Gets the description of the movie to be used in the question.
-	 * @return String movieDesc the description from TMDB API of the movie.
+	 * @return String questionText the description from TMDB API of the movie.
 	 */
-	public String getMovieDesc() {
-		return movieDesc;
+	public String getQuestionText() {
+		return questionText;
 	}
 
 	/**
@@ -101,15 +107,15 @@ public class MatchingQuestion {
 
 	/**
 	 * Sets the description of the movie for the question.
-	 * @param movieDesc The description of the movie from TMDB API.
+	 * @param questionText The description of the movie from TMDB API.
 	 * @throws IllegalArgumentException if the string given is null
 	 * 				or contains only whitespace.
 	 */
-	public void setMovieDesc(final String movieDesc) {
-		if (movieDesc == null || movieDesc.trim().isEmpty()) {
+	public void setQuestionText(final String questionText) {
+		if (questionText == null || questionText.trim().isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		this.movieDesc = movieDesc;
+		this.questionText = questionText;
 	}
 
 	/**
@@ -140,13 +146,42 @@ public class MatchingQuestion {
 		}
 		
 		for (int i = 0; i < 4; i++) {
-			addAnswerTitle(movieList.get(movieIndex++).getTitle());
+			addAnswerTitle(movieList.get(movieIndex + i).getTitle());
 		}
 		
 		setAnswerIndex(Randomize.randomInt(1, 4));
-		setMovieDesc(movieList.get(getAnswerIndex() - 1 
-				+ movieSelectorIndex).getOverview());
-		movieSelectorIndex += 4;
+		setQuestionText(movieList.get(getAnswerIndex() - 1 
+				+ movieIndex).getOverview());
+		movieIndex += 4;
+		
+		return this;
+	}
+	
+	/**
+	 * Generate a random tv series-matching question.
+	 * Takes tv series from randomized pre-set list
+	 * Tv list is reshuffled if the questions have
+	 * run through entire list.
+	 * @return MatchingQuestion the question generated
+	 */
+	public MatchingQuestion generateTvQuestion() {
+		if (!possibleAnswers.isEmpty()) {
+			possibleAnswers.clear();
+		}
+		
+		if (tvIndex + 4 >= tvList.size()) {
+			randomizeTvList();
+			tvIndex = 0;
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			addAnswerTitle(tvList.get(tvIndex + i).getName());
+		}
+		
+		setAnswerIndex(Randomize.randomInt(1, 4));
+		setQuestionText(tvList.get(getAnswerIndex() - 1 
+				+ tvIndex).getOverview());
+		tvIndex += 4;
 		
 		return this;
 	}
@@ -168,6 +203,15 @@ public class MatchingQuestion {
 	 */
 	private void populateMovieList() {
 		movieList = manager.getPlayingMovies();
+		randomizeMovieList();
+	}
+	
+	/**
+	 * Generates the list of tvSeries to be used for questions.
+	 */
+	private void populateTvList() {
+		tvList = manager.getTvSeries();
+		randomizeTvList();
 	}
 
 	/**
@@ -176,6 +220,14 @@ public class MatchingQuestion {
 	 */
 	private void randomizeMovieList() {
 		movieList = Randomize.shuffleList(movieList);
+	}
+	
+	/**
+	 * Randomizes the tv list generated so that questions
+	 * are not predictable for each instance.
+	 */
+	private void randomizeTvList() {
+		tvList = Randomize.shuffleList(tvList);
 	}
 	
 	private void setAnswersActors() {
@@ -192,7 +244,7 @@ public class MatchingQuestion {
 		}
 		PersonCast person = movie.getCast().get(0);
 		String question = getCharacterQuestion(person, movie);
-		setMovieDesc(question);
+		setQuestionText(question);
 		possibleAnswers.set(correctAnswer - 1, person.getName());
 		setAnswerIndex(correctAnswer);
 		

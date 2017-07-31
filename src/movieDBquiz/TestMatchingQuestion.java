@@ -120,7 +120,7 @@ public class TestMatchingQuestion {
 		MatchingQuestion q = new MatchingQuestion();
 		q = q.generateQuestion();
 		assertTrue(q.getPossibleAnswers().size() != 0);
-		assertTrue(!q.getMovieDesc().trim().isEmpty());
+		assertTrue(!q.getQuestionText().trim().isEmpty());
 	}
 	
 	/**

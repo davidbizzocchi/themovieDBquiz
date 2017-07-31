@@ -17,24 +17,13 @@ public final class Main {
 	public static void main(final String[] args) {
 		//Initializes session token and API key
 //		DbManager manager = new DbManager();
-//		
-//		
-//		// generates quiz question with 4 possible answers
-//		MatchingQuestion q = new MatchingQuestion();
-//		System.out.print(q.toString());
-		
-		//MatchingQuestion q = new MatchingQuestion();
-		
-		//QuizDemo window = new QuizDemo(q);
-		//window.runQuiz();
-		//window.getAppDemo().setVisible(true);
-		
+		MatchingQuestion q = new MatchingQuestion();
 
-		Quiz q = new Quiz();
-		
+		QuizDemo window = new QuizDemo(q);
+		window.runQuiz();
+		window.getAppDemo().setVisible(true);
 
-//		DbManager manager = new DbManager();
-//		manager.getRandomActors();
+//		Quiz q = new Quiz();		
 	}
 
 }

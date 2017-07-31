@@ -50,7 +50,7 @@ public final class Randomize {
 	 * @param list the list to have its order randomized.
 	 * @return static List<MovieDb> the list with the contents in a random order
 	 */
-	public static List<MovieDb> shuffleList(final List<MovieDb> list) {
+	public static <T> List<T> shuffleList(final List<T> list) {
 		Collections.shuffle(list, rand);
 		return list;
 	}

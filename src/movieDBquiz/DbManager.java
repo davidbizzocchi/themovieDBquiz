@@ -3,10 +3,15 @@ package movieDBquiz;
 import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
+import info.movito.themoviedbapi.TmdbTV;
+import info.movito.themoviedbapi.TmdbTvEpisodes;
+import info.movito.themoviedbapi.TvResultsPage;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.config.TokenSession;
 import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import info.movito.themoviedbapi.model.core.SessionToken;
+import info.movito.themoviedbapi.model.tv.TvSeries;
+
 import java.util.ArrayList;
 import java.util.List;
 import info.movito.themoviedbapi.TmdbApi;
@@ -26,6 +31,9 @@ public class DbManager {
 	
 	/**A variable used to source data for all movies */
 	private TmdbMovies movies;
+	
+	/**Db variable to source data for tv questions */
+	private TmdbTV tv;
 	
 	/** Username to log into TMDB and use the API. **/
 	private static final String USER  = "DavidBizzocchi";
@@ -60,6 +68,9 @@ public class DbManager {
 		if( movies == null){
 			initMovies();
 		}
+		if(tv == null){
+			initTvShows();
+		}
 	}
 
 	/**
@@ -83,12 +94,16 @@ public class DbManager {
 		movies = key.getMovies();
 	}
 	
+	private void initTvShows(){
+		tv = key.getTvSeries();
+	}
+	
 	public List<MovieDb> getPlayingMovies(){
 		List<MovieDb> currentMovieList = new ArrayList<MovieDb>();
 		MovieResultsPage results;
 		int i = 0;
-		
-		do{
+	
+		do {
 			results = movies.getNowPlayingMovies("en", i++);
 			
 			for (MovieDb movie : results.getResults()) {
@@ -97,6 +112,22 @@ public class DbManager {
 		} while (i <= NUM_PAGES);
 		
 		return currentMovieList;
+	}
+	
+	public List<TvSeries> getTvSeries(){
+		List<TvSeries> currentTvList = new ArrayList<TvSeries>();
+		TvResultsPage results;
+		int i = 0;
+	
+		do {
+			results = tv.getOnTheAir("en", i++);
+			
+			for (TvSeries series : results.getResults()) {
+				currentTvList.add(series);
+			}
+		} while (i <= NUM_PAGES);
+		
+		return currentTvList;
 	}
 	
 	public ArrayList<String> getRandomActors(){
@@ -131,6 +162,19 @@ public class DbManager {
 		return movies.getMovie(movieId, "en", MovieMethod.credits);
 	}
 	
+	public Boolean attemptLogin(String username, String password){
+		TmdbAuthentication tmdbAuth = key.getAuthentication();
+		TokenSession tokenSession;
+		try{
+			tokenSession = tmdbAuth.getSessionLogin(username, password);
+			sessionToken = new SessionToken(tokenSession.getSessionId());
+		}
+		catch(Exception e){
+			return false;
+		}
+		return true;
+	}
+
 	public TmdbApi getKey(){
 		return key;
 	}
