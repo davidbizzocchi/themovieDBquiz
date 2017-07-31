@@ -45,8 +45,6 @@ public class DbManager {
 	private static final int RESULTSPERPAGE = 20;
 	
 	private static final int NUM_PAGES = 3;
-	
-	
 
 	/**
 	 * Creates the manager for the db and initializes the session token
