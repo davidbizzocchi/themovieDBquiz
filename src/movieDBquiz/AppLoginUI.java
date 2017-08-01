@@ -9,9 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -37,7 +41,10 @@ public class AppLoginUI {
 	}
 	
 	public void createGrid(){
+		Image image = new Image("file:lib/tmdbLogo.jpg");
+		ImagePattern pattern = new ImagePattern(image);
 		grid = new GridPane();
+		grid.setBackground(new Background(new BackgroundFill(pattern,null,null)));
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
@@ -45,20 +52,23 @@ public class AppLoginUI {
 	}
 	
 	private void createScene(){
-		scene = new Scene(grid, 300, 275);
+		scene = new Scene(grid, 350, 275);
 		//primaryStage.setScene(scene);
 		
-		Text scenetitle = new Text("Welcome");
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		Text scenetitle = new Text("The Movie Database Quiz");
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+		scenetitle.setFill(Color.LIGHTGREY);
 		grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label userName = new Label("User Name:");
+		userName.setTextFill(Color.WHITE);
 		grid.add(userName, 0, 1);
 
 		userTextField = new TextField();
 		grid.add(userTextField, 1, 1);
 
 		Label pw = new Label("Password:");
+		pw.setTextFill(Color.WHITE);
 		grid.add(pw, 0, 2);
 
 		pwBox = new PasswordField();
@@ -86,7 +96,7 @@ public class AppLoginUI {
 		    	Boolean valid = manager.attemptLogin(userTextField.getText(), 
 		    			pwBox.getText());
 		    	if(valid){
-		    		actiontarget.setFill(Color.FIREBRICK);
+		    		actiontarget.setFill(Color.GREEN);
 			        actiontarget.setText("Logging in as \'" + userTextField.getText());
 		    	}
 		    	else{

@@ -7,7 +7,7 @@ public class UiApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("JavaFX Welcome");
+		primaryStage.setTitle("Login");
 	    AppLoginUI app = new AppLoginUI();
 	    app.addToStage(primaryStage);
 	    primaryStage.show();
