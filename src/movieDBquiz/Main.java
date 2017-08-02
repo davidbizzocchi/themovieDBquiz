@@ -17,6 +17,23 @@ public final class Main {
 	public static void main(final String[] args) {
 		//Initializes session token and API key
 //		DbManager manager = new DbManager();
+		
+		/** CARD GAME EXAMPLE
+		HighLowMovieCardGame game = new HighLowMovieCardGame();
+		System.out.println("Up Card: " + game.getFaceUpCard().getAssociatedMovie() + " -> " + game.getFaceUpCard().getBudget());
+		System.out.println("Down Card: " + game.getFaceDownCard().getAssociatedMovie() + " -> " + game.getFaceDownCard().getBudget());
+		
+		System.out.println("Guess is Higher: " + game.answer(true));
+		
+		System.out.println("===== Deal new cards =====");
+		game.drawCards();
+		
+		System.out.println("Up Card: " + game.getFaceUpCard().getAssociatedMovie() + " -> " + game.getFaceUpCard().getBudget());
+		System.out.println("Down Card: " + game.getFaceDownCard().getAssociatedMovie() + " -> " + game.getFaceDownCard().getBudget());
+		
+		System.out.println("Guess is Lower: " + game.answer(false));
+		*/
+		
 		MatchingQuestion q = new MatchingQuestion();
 
 		QuizDemo window = new QuizDemo(q);
