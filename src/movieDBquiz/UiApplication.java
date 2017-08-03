@@ -8,9 +8,11 @@ public class UiApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Login");
-	    AppLoginUI app = new AppLoginUI();
+	    //AppLoginUI app = new AppLoginUI();
+	    //app.addToStage(primaryStage);
+	    MainMenuUI app = new MainMenuUI();
 	    app.addToStage(primaryStage);
-	    primaryStage.show();
+		primaryStage.show();
 	}
 
 	public static void main(String[] args) {
