@@ -65,7 +65,7 @@ public class DbManager {
 		if (sessionToken == null) {
 			initSessionToken();
 		}
-		if( movies == null){
+		if(movies == null){
 			initMovies();
 		}
 		if(tv == null){
@@ -173,6 +173,10 @@ public class DbManager {
 			return false;
 		}
 		return true;
+	}
+	
+	public TmdbMovies getMovies(){
+		return movies;
 	}
 
 	public TmdbApi getKey(){
