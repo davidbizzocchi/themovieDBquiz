@@ -10,8 +10,9 @@ public class UiApplication extends Application {
 		primaryStage.setTitle("Login");
 	    //AppLoginUI app = new AppLoginUI();
 	    //app.addToStage(primaryStage);
-	    MainMenuUI app = new MainMenuUI();
-	    app.addToStage(primaryStage);
+	    //MainMenuUI app = new MainMenuUI();
+	    QuizUI app = new QuizUI(true);
+		app.addToStage(primaryStage);
 		primaryStage.show();
 	}
 
