@@ -1,52 +1,41 @@
 package movieDBquiz;
 
-import java.util.List;
-
-import javax.swing.ButtonGroup;
-
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
 public class HighLoGame {
-	HBox windowLayout;
-	VBox gameLayout;
-	ImageView faceCard;
-	ImageView downCard;
-	TextField faceCardTxt;
-	TextField downCardTxt;
-	HighLowMovieCardGame game;
-	Scene scene;
-	Image questionImg = new Image("file:lib/question.jpg");
+	private HBox windowLayout;
+	private VBox gameLayout;
+	private ImageView faceCard;
+	private ImageView downCard;
+	private TextField faceCardTxt;
+	private TextField downCardTxt;
+	private TextField scoreTxt;
+	private HighLowMovieCardGame game;
+	private Scene scene;
+	private Button menuBtn;
+	private Image cardBackImg = new Image("file:lib/cardBack.jpg");
 	
 	public HighLoGame() {
 		game = new HighLowMovieCardGame();
@@ -55,6 +44,10 @@ public class HighLoGame {
 	}
 	
 	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill color = new BackgroundFill(pattern, null, null);
+		
 		windowLayout = new HBox();
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setPadding(new Insets(15));
@@ -63,7 +56,7 @@ public class HighLoGame {
 		gameLayout = new VBox();
 		gameLayout.setAlignment(Pos.CENTER);
 		gameLayout.setPadding(new Insets(10));
-		BackgroundFill color = new BackgroundFill(Color.CADETBLUE, null, null);
+		
 		gameLayout.setBackground(new Background(color));
 		gameLayout.setMaxSize(800, 800);
 		
@@ -79,8 +72,9 @@ public class HighLoGame {
 	private void setUpTitle(){
 		Label title = new Label("Hi-Low Guessing Game");
 		title.setAlignment(Pos.TOP_CENTER);
-		title.setFont(new Font("System", 18));
+		title.setFont(new Font("Commons", 22));
 		title.setMaxSize(300, 30);
+		title.setTextFill(Color.GHOSTWHITE);
 		
 		gameLayout.getChildren().add(title);
 	}
@@ -93,25 +87,31 @@ public class HighLoGame {
 		gameGrid.setVgap(10);
 		
 		faceCard = new ImageView();
+		faceCard.setFitWidth(150);
+		faceCard.setFitHeight(250);
 		faceCardTxt = new TextField("$???");
+		faceCardTxt.setMaxSize(150, 25);
+		faceCardTxt.setAlignment(Pos.CENTER);
 		setFaceCardData();
 		
 		downCard = new ImageView();
-		downCard.setImage(questionImg);
 		downCard.setFitWidth(150);
 		downCard.setFitHeight(250);
+		downCardTxt = new TextField("");
+		downCardTxt.setAlignment(Pos.CENTER);
+		downCardTxt.setMaxSize(150, 25);
+		downCardTxt.setEditable(false);
+		hideFaceDownCard();
 		
 		Label faceCardLabel = new Label("Budget:");
+		faceCardLabel.setTextFill(Color.GHOSTWHITE);
 		faceCardLabel.setFont(new Font("System", 16));
 		faceCardLabel.setMaxSize(120, 25);
 		
 		Label downCardLabel = new Label("Budget:");
+		downCardLabel.setTextFill(Color.GHOSTWHITE);
 		downCardLabel.setFont(new Font("System", 16));
 		downCardLabel.setMaxSize(120, 25);
-		
-		downCardTxt = new TextField("$???");
-		downCardTxt.setMaxSize(150, 25);
-		downCardTxt.setEditable(false);
 		
 		gameGrid.add(faceCard, 1, 0);
 		gameGrid.add(downCard, 3, 0);
@@ -131,13 +131,30 @@ public class HighLoGame {
 		} else {
 			faceCard.setImage(new Image("http://image.tmdb.org/t/p/w500" + posterPath));
 		}
-		faceCard.setFitWidth(150);
-		faceCard.setFitHeight(250);
 		
-		faceCardTxt.setMaxSize(150, 25);
 		faceCardTxt.setText("$" + Long.toString
 				(game.getMovieWithInfo(game.getFaceUpCard().getAssociatedMovie()).getBudget()));
 		faceCardTxt.setEditable(false);
+	}
+	
+	private void showFaceDownCardData(){
+		String posterPath = game.getMovieWithInfo(game.getFaceDownCard().getAssociatedMovie()).getPosterPath();
+		
+		if(posterPath == null){
+			downCard.setImage(new Image("file:lib/placeholder.png"));
+		} else {
+			downCard.setImage(new Image("http://image.tmdb.org/t/p/w500" + posterPath));
+		}
+		
+		downCardTxt.setMaxSize(150, 25);
+		downCardTxt.setText("$" + Long.toString
+				(game.getMovieWithInfo(game.getFaceDownCard().getAssociatedMovie()).getBudget()));
+		downCardTxt.setEditable(false);
+	}
+	
+	private void hideFaceDownCard(){
+		downCard.setImage(cardBackImg);
+		downCardTxt.setText("$ ???");
 	}
 	
 	private void setUpToolbar(){
@@ -146,28 +163,47 @@ public class HighLoGame {
 		toolBar.setSpacing(20);
 		toolBar.setAlignment(Pos.TOP_CENTER);
 		
-		Button exitBtn = new Button("Menu");
-		Button highBtn = new Button("High");
-		highBtn.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		        validateAnswer(true);
-		    }
-		});
-		Button lowBtn = new Button("Low");
-		lowBtn.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		        validateAnswer(false);
-		    }
-		});
-		
 		Label scoreLabel = new Label("Score:");
+		scoreLabel.setTextFill(Color.GHOSTWHITE);
 		scoreLabel.setMaxSize(100, 30);
-		TextField scoreTxt = new TextField("0");
+		scoreTxt = new TextField("0");
 		scoreTxt.setMaxSize(60, 30);
 		scoreTxt.setEditable(false);
 		
-		toolBar.getChildren().addAll(exitBtn,
-			scoreLabel, scoreTxt, highBtn, lowBtn);
+		menuBtn = new Button("Menu");
+		Button highBtn = new Button("Higher");
+		Button lowBtn = new Button("Lower");
+		Button nextBtn = new Button("Next");
+		highBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        validateAnswer(true);
+		        showFaceDownCardData();
+		        scoreTxt.setText(Integer.toString(game.getScore()));
+		        highBtn.setDisable(true);
+		        lowBtn.setDisable(true);
+		    }
+		});
+		lowBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        validateAnswer(false);
+		        showFaceDownCardData();
+		        scoreTxt.setText(Integer.toString(game.getScore()));
+		        highBtn.setDisable(true);
+		        lowBtn.setDisable(true);
+		    }
+		});
+		nextBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        game.drawCards();
+		        hideFaceDownCard();
+		        setFaceCardData();
+		        highBtn.setDisable(false);
+		        lowBtn.setDisable(false);
+		    }
+		});
+		
+		toolBar.getChildren().addAll(menuBtn,
+			scoreLabel, scoreTxt, highBtn, lowBtn, nextBtn);
 		
 		gameLayout.getChildren().addAll(toolBar);
 	}
@@ -183,8 +219,13 @@ public class HighLoGame {
 	private void showDialogue(String info){
 		Stage dialogStage = new Stage();
 	    dialogStage.initModality(Modality.WINDOW_MODAL);
-
-	    VBox vbox = new VBox(new Text(info), new Button("Ok"));
+	    Button okBtn = new Button("Ok");
+	    okBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        dialogStage.close();
+		    }
+		});
+	    VBox vbox = new VBox(new Text(info), okBtn);
 	    vbox.setAlignment(Pos.CENTER);
 	    vbox.setPadding(new Insets(15));
 
@@ -201,5 +242,7 @@ public class HighLoGame {
 		return windowLayout;
 	}
 	
-	
+	public void addEventHandler(EventHandler<MouseEvent> event){
+		menuBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+	}
 }
