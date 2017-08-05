@@ -28,12 +28,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainMenuUI {
-	DbManager manager;
+//	DbManager manager;
 	BorderPane root;
 	
 	
 	public MainMenuUI() {
-		manager = new DbManager();
+//		manager = new DbManager();
 		createQuizWindow();
 	}
 	
@@ -75,8 +75,12 @@ public class MainMenuUI {
 		VBox.setMargin(toolbar, new Insets(0, 0, 10, 0));
 		
 		Label text = new Label("Main Menu");
+<<<<<<< HEAD
 		text.setFont(new Font("Commons", 20));
 		text.setTextFill(Color.WHITE);
+=======
+		text.setFont(new Font("System", 18));
+>>>>>>> b0bb5c9b174656fc9eb2817496e6ade4860aa222
 		text.setAlignment(Pos.TOP_CENTER);
 		
 		HBox.setHgrow(text, Priority.ALWAYS);
