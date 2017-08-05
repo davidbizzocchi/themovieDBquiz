@@ -62,10 +62,15 @@ public class PosterUI {
 		
 		Button favoritesBtn = createFavoritesBtn();
 		Label favoritesLabel = createLabel("Add To Favorites");
+		favoritesLabel.setTextFill(Color.LIGHTGRAY);
 		Label titleLabel = createLabel("Title:");
+		titleLabel.setTextFill(Color.LIGHTGRAY);
 		Label releaseLabel = createLabel("Release Date:");
+		releaseLabel.setTextFill(Color.LIGHTGRAY);
 		Label durationLabel = createLabel("Duration(hrs):");
+		durationLabel.setTextFill(Color.LIGHTGRAY);
 		Label castLabel = createLabel("Cast:");
+		castLabel.setTextFill(Color.LIGHTGRAY);
 		
 		TextArea titleField = createTextArea("");
 		TextArea releaseField = createTextArea("");

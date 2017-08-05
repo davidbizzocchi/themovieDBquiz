@@ -48,12 +48,14 @@ public class MainMenuUI {
 	}
 	
 	private void setWindowStyle(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
 		root.setPrefSize(800, 600);    
 		root.setStyle("-fx-border-width: 2;" +
 			"-fx-border-insets: 5;" +
 			"-fx-border-radius: 5;");
 		root.setPadding(new Insets(25, 25, 25, 25));
-		root.setBackground(new Background(new BackgroundFill(Color.DEEPSKYBLUE, null, null)));
+		root.setBackground(new Background(new BackgroundFill(pattern, null, null)));
 	}
 	
 	public void addToStage(Stage stage){
@@ -69,11 +71,16 @@ public class MainMenuUI {
 		
 		ToolBar toolbar = new ToolBar();
 		toolbar.setCenterShape(true);
-		toolbar.setBackground(new Background(new BackgroundFill(Color.DARKSLATEBLUE, null, null)));
+		toolbar.setBackground(new Background(new BackgroundFill(Color.AQUAMARINE, null, null)));
 		VBox.setMargin(toolbar, new Insets(0, 0, 10, 0));
 		
 		Label text = new Label("Main Menu");
+<<<<<<< HEAD
+		text.setFont(new Font("Commons", 20));
+		text.setTextFill(Color.WHITE);
+=======
 		text.setFont(new Font("System", 18));
+>>>>>>> b0bb5c9b174656fc9eb2817496e6ade4860aa222
 		text.setAlignment(Pos.TOP_CENTER);
 		
 		HBox.setHgrow(text, Priority.ALWAYS);
@@ -88,29 +95,34 @@ public class MainMenuUI {
 		VBox box = new VBox(10);
 		box.setCenterShape(true);
 		box.setAlignment(Pos.CENTER);
-		box.setSpacing(10.0);
-		box.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
+		box.setSpacing(35.0);
+		box.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		
 		box.setPadding(new Insets(15));
 		
-		Button quiz = new Button("Quiz");
-		setUpMenuButton(quiz);
-		Button account = new Button("View Account");
-		setUpMenuButton(account);
-		Button movieList = new Button("Movie List");
-		setUpMenuButton(movieList);
-		Button hiLoGame = new Button("High-Low Game");
-		setUpMenuButton(hiLoGame);
-		Button trailers = new Button("Trailers");
-		setUpMenuButton(trailers);
+		Button quizButton = new Button("Quiz");
+		quizButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
+		setUpMenuButton(quizButton);
+		Button accountButton = new Button("View Account");
+		accountButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
+		setUpMenuButton(accountButton);
+		Button movieListButton = new Button("Movie List");
+		movieListButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
+		setUpMenuButton(movieListButton);
+		Button hiLoGameButton = new Button("High-Low Game");
+		hiLoGameButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
+		setUpMenuButton(hiLoGameButton);
+		Button trailersButton = new Button("Trailers");
+		trailersButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
+		setUpMenuButton(trailersButton);
 		
-		VBox.setVgrow(quiz, Priority.SOMETIMES);
-		VBox.setVgrow(account, Priority.SOMETIMES);
-		VBox.setVgrow(movieList, Priority.SOMETIMES);
-		VBox.setVgrow(hiLoGame, Priority.SOMETIMES);
-		VBox.setVgrow(trailers, Priority.SOMETIMES);
+		VBox.setVgrow(quizButton, Priority.SOMETIMES);
+		VBox.setVgrow(accountButton, Priority.SOMETIMES);
+		VBox.setVgrow(movieListButton, Priority.SOMETIMES);
+		VBox.setVgrow(hiLoGameButton, Priority.SOMETIMES);
+		VBox.setVgrow(trailersButton, Priority.SOMETIMES);
 		
-		box.getChildren().addAll(quiz, hiLoGame, trailers, movieList, account);
+		box.getChildren().addAll(quizButton, hiLoGameButton, trailersButton, movieListButton, accountButton);
 		
 		root.setLeft(box);
 	}
@@ -153,7 +165,7 @@ public class MainMenuUI {
 	private void setUpRight(){
 		PosterUI poster = new PosterUI();
 		VBox layout = poster.getLayout();
-		layout.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
+		layout.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		root.setRight(layout);
 	}
 	

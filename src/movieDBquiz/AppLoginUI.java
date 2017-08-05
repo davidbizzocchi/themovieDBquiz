@@ -41,7 +41,7 @@ public class AppLoginUI {
 	}
 	
 	public void createGrid(){
-		Image image = new Image("file:lib/tmdbLogo.jpg");
+		Image image = new Image("file:lib/background.jpg");
 		ImagePattern pattern = new ImagePattern(image);
 		grid = new GridPane();
 		grid.setBackground(new Background(new BackgroundFill(pattern,null,null)));
