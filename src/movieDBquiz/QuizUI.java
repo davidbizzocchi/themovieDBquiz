@@ -1,23 +1,17 @@
 package movieDBquiz;
 
 import java.util.List;
-
-import javax.swing.ButtonGroup;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -147,7 +141,7 @@ public class QuizUI {
 		title.setMinSize(100, 30);
 		title.setPrefSize(120, 30);
 		
-		scoreDisplay = new TextField("0");
+		scoreDisplay = new TextField("Score: 0");
 		scoreDisplay.setPrefSize(100, 30);
 		scoreDisplay.setEditable(false);
 		
