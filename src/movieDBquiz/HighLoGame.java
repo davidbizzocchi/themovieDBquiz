@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.ButtonGroup;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,6 +33,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -42,9 +44,12 @@ public class HighLoGame {
 	ImageView downCard;
 	TextField faceCardTxt;
 	TextField downCardTxt;
+	HighLowMovieCardGame game;
+	Scene scene;
 	Image questionImg = new Image("file:lib/question.jpg");
 	
 	public HighLoGame() {
+		game = new HighLowMovieCardGame();
 		setUpLayout();
 		addComponents();
 	}
@@ -58,7 +63,7 @@ public class HighLoGame {
 		gameLayout = new VBox();
 		gameLayout.setAlignment(Pos.CENTER);
 		gameLayout.setPadding(new Insets(10));
-		BackgroundFill color = new BackgroundFill(Color.BEIGE, null, null);
+		BackgroundFill color = new BackgroundFill(Color.CADETBLUE, null, null);
 		gameLayout.setBackground(new Background(color));
 		gameLayout.setMaxSize(800, 800);
 		
@@ -88,9 +93,8 @@ public class HighLoGame {
 		gameGrid.setVgap(10);
 		
 		faceCard = new ImageView();
-		faceCard.setImage(new Image("file:lib/placeholder.png"));
-		faceCard.setFitWidth(150);
-		faceCard.setFitHeight(250);
+		faceCardTxt = new TextField("$???");
+		setFaceCardData();
 		
 		downCard = new ImageView();
 		downCard.setImage(questionImg);
@@ -105,11 +109,7 @@ public class HighLoGame {
 		downCardLabel.setFont(new Font("System", 16));
 		downCardLabel.setMaxSize(120, 25);
 		
-		faceCardTxt = new TextField("$0");
-		faceCardTxt.setMaxSize(150, 25);
-		faceCardTxt.setEditable(false);
-		
-		downCardTxt = new TextField("Budget: $0");
+		downCardTxt = new TextField("$???");
 		downCardTxt.setMaxSize(150, 25);
 		downCardTxt.setEditable(false);
 		
@@ -123,6 +123,23 @@ public class HighLoGame {
 		gameLayout.getChildren().add(gameGrid);
 	}
 	
+	private void setFaceCardData(){
+		String posterPath = game.getMovieWithInfo(game.getFaceUpCard().getAssociatedMovie()).getPosterPath();
+		
+		if(posterPath == null){
+			faceCard.setImage(new Image("file:lib/placeholder.png"));
+		} else {
+			faceCard.setImage(new Image("http://image.tmdb.org/t/p/w500" + posterPath));
+		}
+		faceCard.setFitWidth(150);
+		faceCard.setFitHeight(250);
+		
+		faceCardTxt.setMaxSize(150, 25);
+		faceCardTxt.setText("$" + Long.toString
+				(game.getMovieWithInfo(game.getFaceUpCard().getAssociatedMovie()).getBudget()));
+		faceCardTxt.setEditable(false);
+	}
+	
 	private void setUpToolbar(){
 		HBox toolBar = new HBox();
 		toolBar.setPadding(new Insets(15));
@@ -131,7 +148,17 @@ public class HighLoGame {
 		
 		Button exitBtn = new Button("Menu");
 		Button highBtn = new Button("High");
+		highBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        validateAnswer(true);
+		    }
+		});
 		Button lowBtn = new Button("Low");
+		lowBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        validateAnswer(false);
+		    }
+		});
 		
 		Label scoreLabel = new Label("Score:");
 		scoreLabel.setMaxSize(100, 30);
@@ -145,8 +172,28 @@ public class HighLoGame {
 		gameLayout.getChildren().addAll(toolBar);
 	}
 	
+	private void validateAnswer(boolean isHigher){
+		if(game.answer(isHigher)){
+			showDialogue("Correct!");
+		} else {
+			showDialogue("Incorrect!");
+		}
+	}
+	
+	private void showDialogue(String info){
+		Stage dialogStage = new Stage();
+	    dialogStage.initModality(Modality.WINDOW_MODAL);
+
+	    VBox vbox = new VBox(new Text(info), new Button("Ok"));
+	    vbox.setAlignment(Pos.CENTER);
+	    vbox.setPadding(new Insets(15));
+
+	    dialogStage.setScene(new Scene(vbox));
+	    dialogStage.show();
+	}
+	
 	public void addToStage(Stage primaryStage){
-		Scene scene = new Scene(windowLayout);
+		scene = new Scene(windowLayout);
 		primaryStage.setScene(scene);
 	}
 	

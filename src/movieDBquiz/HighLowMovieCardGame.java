@@ -86,6 +86,10 @@ public class HighLowMovieCardGame {
 		return movie;
 	}
 	
+	public MovieDb getMovieWithInfo(MovieDb movie){
+		return manager.getMovies().getMovie(movie.getId(), "en", MovieMethod.values());
+	}
+	
 	/**
 	 * @return the score
 	 */
@@ -106,15 +110,6 @@ public class HighLowMovieCardGame {
 	public MoviePlayingCard getFaceDownCard() {
 		return faceDownCard;
 	}
-	
-	/**
-	 * tmdb API call to get movie with budget information available.
-	 * @param movie to receive information from.
-	 * @return movie that has budget information available.
-	 */
-	//private MovieDb getMovieWithInfo(MovieDb movie){
-		//return manager.getMovies().getMovie(movie.getId(), "en", MovieMethod.values());
-	//}
 	
 	/**
 	 * Verifies that the two cards do not have the same budget
