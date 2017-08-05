@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -163,8 +165,8 @@ public class TrailersUI extends Scene{
 			//Handle error
 		}
 	}
-
 	
-
-
+	public void addEventHandler(EventHandler<MouseEvent> event){
+		trailerView1.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+	}
 }

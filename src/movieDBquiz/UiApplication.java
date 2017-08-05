@@ -11,10 +11,11 @@ public class UiApplication extends Application {
 	    //AppLoginUI app = new AppLoginUI();
 	    //app.addToStage(primaryStage);
 //	    MainMenuUI app = new MainMenuUI();
+		WatchListUI app = new WatchListUI();
 //	    QuizUI app = new QuizUI(true);
 //		HighLoGame app = new HighLoGame();
 //		app.addToStage(primaryStage);
-		primaryStage.setScene(new TrailersUI());
+		primaryStage.setScene(app);
 		primaryStage.show();
 	}
 
