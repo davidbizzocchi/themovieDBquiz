@@ -18,7 +18,7 @@ public final class Main {
 		//Initializes session token and API key
 //		DbManager manager = new DbManager();
 		
-		/** CARD GAME EXAMPLE
+		// CARD GAME EXAMPLE
 		HighLowMovieCardGame game = new HighLowMovieCardGame();
 		System.out.println("Up Card: " + game.getFaceUpCard().getAssociatedMovie() + " -> " + game.getFaceUpCard().getBudget());
 		System.out.println("Down Card: " + game.getFaceDownCard().getAssociatedMovie() + " -> " + game.getFaceDownCard().getBudget());
@@ -32,13 +32,14 @@ public final class Main {
 		System.out.println("Down Card: " + game.getFaceDownCard().getAssociatedMovie() + " -> " + game.getFaceDownCard().getBudget());
 		
 		System.out.println("Guess is Lower: " + game.answer(false));
-		*/
 		
+		/*
 		MatchingQuestion q = new MatchingQuestion();
 
 		QuizDemo window = new QuizDemo(q);
 		window.runQuiz();
 		window.getAppDemo().setVisible(true);
+		*/
 
 //		Quiz q = new Quiz();		
 	}

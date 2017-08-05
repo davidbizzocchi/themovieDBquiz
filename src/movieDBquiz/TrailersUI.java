@@ -5,6 +5,10 @@ import javafx.scene.web.WebView;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.Video;
+import info.movito.themoviedbapi.model.core.MovieResultsPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -43,16 +47,16 @@ public class TrailersUI extends Scene{
 	Button exitBtn;
 	Button shuffleBtn;
 	List<String> trailerURLs;
+	MovieDb movie;
 	
 	ImageView trailerView1;
 	ImageView trailerView2;
 	ImageView trailerView3;
 	ImageView trailerView4;
 	
-	
-	
-	public TrailersUI() {
+	public TrailersUI(MovieDb movie) {
 		super(layout);
+		this.movie = movie;
 		trailerURLs = new ArrayList<String>();
 		setUpLayout();
 		addComponents();
@@ -100,10 +104,18 @@ public class TrailersUI extends Scene{
 	}
 	
 	private void addViewer(){
-		viewer = new WebView();
-		viewer.setPrefSize(560, 315);
-		viewer.getEngine().load("https://www.youtube.com/embed/7GSgWzmR_-c");
-		layout.getChildren().add(viewer);
+		
+		if(movie.getVideos().isEmpty()){
+			Image centerImg = new Image("file:lib/placeholder.png");
+			ImageView view = new ImageView(centerImg);
+			layout.getChildren().add(view);
+		}else{
+			Video video = movie.getVideos().get(0);
+			viewer = new WebView();
+			viewer.setPrefSize(560, 315);
+			viewer.getEngine().load("https://www.youtube.com/embed/" + video.getKey());
+			layout.getChildren().add(viewer);
+		}
 	}
 	
 	private void addToolBar(){

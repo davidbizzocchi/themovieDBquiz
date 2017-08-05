@@ -77,10 +77,10 @@ public class HighLowMovieCardGame {
 	 * @return next movie in list
 	 */
 	public MovieDb getNextMovie(){
-		MovieDb movie = getMovieWithInfo(movieList.get(movieListIndex++));
+		MovieDb movie = manager.getMovieWithInfo(movieList.get(movieListIndex++));
 		
 		while(movie.getBudget() == 0){
-			movie = getMovieWithInfo(movieList.get(movieListIndex++));
+			movie = manager.getMovieWithInfo(movieList.get(movieListIndex++));
 		}
 		
 		return movie;
@@ -112,9 +112,9 @@ public class HighLowMovieCardGame {
 	 * @param movie to receive information from.
 	 * @return movie that has budget information available.
 	 */
-	private MovieDb getMovieWithInfo(MovieDb movie){
-		return manager.getMovies().getMovie(movie.getId(), "en", MovieMethod.values());
-	}
+	//private MovieDb getMovieWithInfo(MovieDb movie){
+		//return manager.getMovies().getMovie(movie.getId(), "en", MovieMethod.values());
+	//}
 	
 	/**
 	 * Verifies that the two cards do not have the same budget
@@ -139,7 +139,7 @@ public class HighLowMovieCardGame {
 	 * Generates and randomizes new movie list, populates if needed
 	 */
 	private void populateAndShuffleMovies(){
-		if(movieList.size() == 0){
+		if(movieList == null || movieList.size() == 0){
 			movieList = manager.getPlayingMovies();
 		}
 		movieList = Randomize.shuffleList(movieList);

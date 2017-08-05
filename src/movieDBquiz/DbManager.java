@@ -175,6 +175,10 @@ public class DbManager {
 		return true;
 	}
 	
+	public MovieDb getMovieWithInfo(MovieDb movie){
+		return movies.getMovie(movie.getId(), "en", MovieMethod.values());
+	}
+	
 	public TmdbMovies getMovies(){
 		return movies;
 	}
