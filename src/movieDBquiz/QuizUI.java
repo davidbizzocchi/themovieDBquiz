@@ -1,12 +1,31 @@
 package movieDBquiz;
 
+import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Optional;
+
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -14,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -26,20 +46,27 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 
 public class QuizUI {
-	HBox windowLayout;
-	VBox quizLayout;
-	PosterUI poster;
-	TextArea questionText;
-	TextField scoreDisplay;
-	TextField timerDisplay;
-	TextArea optATextArea;
-	TextArea optBTextArea;
-	TextArea optCTextArea;
-	TextArea optDTextArea;
+	private HBox windowLayout;
+	private VBox quizLayout;
+	private PosterUI poster;
+	private TextArea questionText;
+	private TextField scoreDisplay;
+	private TextField timerDisplay;
+	private int numSeconds;
+	private int numQuestions;
+	private boolean isTimed;
+	private TextArea optATextArea;
+	private TextArea optBTextArea;
+	private TextArea optCTextArea;
+	private TextArea optDTextArea;
+	private Button submitBtn;
+	private ToggleGroup btnGroup;
 	
 	public QuizUI(Boolean showPoster) {
 		setUpLayout();
@@ -50,23 +77,27 @@ public class QuizUI {
 	}
 	
 	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill color = new BackgroundFill(pattern, null, null);
+		
 		windowLayout = new HBox();
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setPadding(new Insets(15));
 		windowLayout.setMaxSize(800, 800);
+		windowLayout.setBackground(new Background(color));
 		
 		quizLayout = new VBox();
 		quizLayout.setAlignment(Pos.CENTER);
 		quizLayout.setPadding(new Insets(10));
-		BackgroundFill color = new BackgroundFill(Color.BEIGE, null, null);
-		quizLayout.setBackground(new Background(color));
+		quizLayout.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		quizLayout.setMaxSize(800, 800);
 		
 		windowLayout.getChildren().add(quizLayout);
 	}
 	
 	private GridPane createOptionsGrid(){
-		ToggleGroup btnGroup = new ToggleGroup();
+		btnGroup = new ToggleGroup();
 		
 		RadioButton radioBtnA = new RadioButton();
 		RadioButton radioBtnB = new RadioButton();
@@ -74,9 +105,17 @@ public class QuizUI {
 		RadioButton radioBtnD = new RadioButton();
 		
 		radioBtnA.setText("A");
+		radioBtnA.setUserData(1);
+		radioBtnA.setTextFill(Color.GHOSTWHITE);
 		radioBtnB.setText("B");
+		radioBtnB.setUserData(2);
+		radioBtnB.setTextFill(Color.GHOSTWHITE);
 		radioBtnC.setText("C");
+		radioBtnC.setUserData(3);
+		radioBtnC.setTextFill(Color.GHOSTWHITE);
 		radioBtnD.setText("D");
+		radioBtnD.setUserData(4);
+		radioBtnD.setTextFill(Color.GHOSTWHITE);
 		
 		radioBtnA.setToggleGroup(btnGroup);
 		radioBtnB.setToggleGroup(btnGroup);
@@ -118,7 +157,7 @@ public class QuizUI {
 		
 		Button menuBtn = new Button("End Quiz");
 		menuBtn.setMaxSize(120, 40);
-		Button submitBtn = new Button("Next");
+		submitBtn = new Button("Next");
 		submitBtn.setMaxSize(120, 40);
 		
 		toolBar.getChildren().addAll(menuBtn, submitBtn);
@@ -136,7 +175,8 @@ public class QuizUI {
 		
 		Label title = new Label("Quiz Game");
 		title.setAlignment(Pos.TOP_CENTER);
-		title.setFont(new Font("System", 20));
+		title.setFont(new Font("Common", 20));
+		title.setTextFill(Color.GHOSTWHITE);
 		title.setMinSize(100, 30);
 		title.setPrefSize(120, 30);
 		
@@ -167,7 +207,12 @@ public class QuizUI {
 		quizLayout.getChildren().addAll(header, options, toolBar);
 	}
 	
+	public void setScore(int score){
+		scoreDisplay.setText("Score: 0" + score);
+	}
+	
 	public void addToStage(Stage stage){
+		getQuizOptionsDialog();
 		Scene quiz = new Scene(windowLayout);
 		stage.setScene(quiz);
 	}
@@ -207,6 +252,84 @@ public class QuizUI {
 			optDTextArea.setText(options.get(3));
 		}
 	}
+
+	public void addNextButtonEventHandler(EventHandler<MouseEvent> event){
+		submitBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+	}
 	
+	public int getAnswerButton(){
+		return (int) btnGroup.getSelectedToggle().getUserData();
+	}
 	
+	private void getQuizOptionsDialog() {
+		ButtonGroup group = new ButtonGroup();
+		JRadioButton timedButton = new JRadioButton();
+		timedButton.setText("Timed Quiz");
+		JRadioButton numQuestionsButton = new JRadioButton();
+		numQuestionsButton.setText("Number Questions Quiz");
+		JSpinner minSpinner = new JSpinner(new SpinnerNumberModel(1,0,99,1));
+		minSpinner.setEditor(new JSpinner.NumberEditor(minSpinner, "00"));
+		JSpinner secSpinner = new JSpinner(new SpinnerNumberModel(0,0,99,1));
+		secSpinner.setEditor(new JSpinner.NumberEditor(secSpinner, "00"));
+		JSpinner questionSpinner = new JSpinner(new SpinnerNumberModel(10,0,99,1));
+		questionSpinner.setEditor(new JSpinner.NumberEditor(questionSpinner, "00"));
+		
+		JPanel myPanel = new JPanel();
+		myPanel.add(timedButton);
+		myPanel.add(minSpinner);
+		myPanel.add(new JLabel(":"));
+		myPanel.add(secSpinner);
+		myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+		myPanel.add(numQuestionsButton);
+		myPanel.add(questionSpinner);
+
+		group.add(timedButton);
+		group.add(numQuestionsButton);
+		
+		timedButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent arg0) {
+				minSpinner.setEnabled(true);
+				secSpinner.setEnabled(true);
+				questionSpinner.setEnabled(false);
+			}
+		});
+		numQuestionsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent arg0) {
+				minSpinner.setEnabled(false);
+				secSpinner.setEnabled(false);
+				questionSpinner.setEnabled(true);
+			}
+		});
+		
+		int result = JOptionPane.showConfirmDialog(null, myPanel, "Select Quiz Type",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (result == JOptionPane.OK_OPTION) {
+			if(timedButton.isSelected()){
+				numSeconds = (int) secSpinner.getValue();
+				numSeconds += ((int) minSpinner.getValue()) * 60;
+			}
+			else if(numQuestionsButton.isSelected()){
+				numQuestions = (int) questionSpinner.getValue();
+			}
+		}
+	}
+	
+	public void showDialog(String info){
+		Stage dialogStage = new Stage();
+	    dialogStage.initModality(Modality.WINDOW_MODAL);
+	    Button okBtn = new Button("Ok");
+	    okBtn.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        dialogStage.close();
+		    }
+		});
+	    VBox vbox = new VBox(new Text(info), okBtn);
+	    vbox.setAlignment(Pos.CENTER);
+	    vbox.setPadding(new Insets(15));
+
+	    dialogStage.setScene(new Scene(vbox));
+	    dialogStage.show();
+	}
 }

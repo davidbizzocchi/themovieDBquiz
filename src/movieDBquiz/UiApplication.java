@@ -12,9 +12,9 @@ public class UiApplication extends Application {
 	    //app.addToStage(primaryStage);
 //	    MainMenuUI app = new MainMenuUI();
 		//WatchListUI app = new WatchListUI();
-	    //QuizUI app = new QuizUI(true);
-		HighLoGame app = new HighLoGame();
-		app.addToStage(primaryStage);
+	    Quiz app = new Quiz(primaryStage);
+//		HighLoGame app = new HighLoGame();
+		//app.addToStage(primaryStage);
 		//DbManager manager = new DbManager();
 		//primaryStage.setScene(new TrailersUI(manager.getMovieWithInfo(manager.getPlayingMovies().get(3))));
 		primaryStage.show();

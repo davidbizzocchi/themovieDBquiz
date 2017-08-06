@@ -1,8 +1,16 @@
 package movieDBquiz;
 
 import java.util.List;
-
 import info.movito.themoviedbapi.model.MovieDb;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 /**
  * Wrapper class for different quiz types.
@@ -14,22 +22,31 @@ public final class Quiz {
 	MatchingQuestion question;
 	MovieWatchList watchList;
 	QuestionTimer timer;
-	QuizDemo window;
+	QuizUI window;
+	int score;
 	
-	public Quiz(){
-			
-		watchList = new MovieWatchList();
+	public Quiz(Stage primaryStage){
+		score = 0;
+		window = new QuizUI(true);
+		window.addToStage(primaryStage);
+		primaryStage.show();
+		
 		question = new MatchingQuestion();
+		populateMovieQuestion();
 		
-		//watchList.addToList(question.getMovieList().get(0));
-		//watchList.removeFromList(watchList.getUserMovieList().get(0));
-		
-		List<MovieDb> list = watchList.getUserMovieList();
-		for(MovieDb movie : list){
-			System.out.println(movie.getTitle());
-			System.out.println(movie.getReleaseDate());
-			System.out.println();
-		}
+		window.addNextButtonEventHandler(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent arg0) {
+				if(question.getAnswerIndex() == window.getAnswerButton()){
+					window.showDialog("Correct!");
+					window.setScore(++score);
+				} else {
+					window.showDialog("Incorrect!");
+				}
+				
+				populateMovieQuestion();
+			}
+		});
 		
 		/**
 		QuestionTimer t = new QuestionTimer(30);
@@ -45,5 +62,11 @@ public final class Quiz {
 		window.close();
 		
 		**/
+	}
+	
+	private void populateMovieQuestion(){
+		question = question.generateQuestion();
+		window.setQuestionTxt(question.getQuestionText());
+		window.populateOptions(question.getPossibleAnswers());
 	}
 }
