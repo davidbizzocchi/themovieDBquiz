@@ -3,9 +3,11 @@ package movieDBquiz;
 import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
+import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.TmdbTV;
 import info.movito.themoviedbapi.TvResultsPage;
 import info.movito.themoviedbapi.model.MovieDb;
+import info.movito.themoviedbapi.model.MovieList;
 import info.movito.themoviedbapi.model.Video;
 import info.movito.themoviedbapi.model.config.Account;
 import info.movito.themoviedbapi.model.config.TokenSession;
@@ -15,6 +17,8 @@ import info.movito.themoviedbapi.model.tv.TvSeries;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import info.movito.themoviedbapi.TmdbAccount.MovieListResultsPage;
 import info.movito.themoviedbapi.TmdbApi;
 
 /**
@@ -197,6 +201,23 @@ public class DbManager {
 	
 	public Account getAccount(){
 		return key.getAccount().getAccount(sessionToken);
+	}
+	
+	//Can return null
+	public MovieDb getMovieFromTitle(String title){
+		TmdbSearch search = key.getSearch();
+		MovieResultsPage results;
+		
+		for(int i = 0; i < 50; i++){
+			results = search.searchMovie(title, new Integer(2017), "en", false, i);
+			for(MovieDb movie: results.getResults()){
+				if(movie.getTitle().equals(title)){
+					return movie;
+				}
+			}
+		}
+
+		return null;
 	}
 
 }

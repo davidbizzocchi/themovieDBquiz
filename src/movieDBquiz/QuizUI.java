@@ -29,8 +29,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class QuizUI {
-	HBox windowLayout;
+public class QuizUI extends Scene{
+	static HBox windowLayout = new HBox();
 	VBox quizLayout;
 	PosterUI poster;
 	TextArea questionText;
@@ -42,6 +42,7 @@ public class QuizUI {
 	TextArea optDTextArea;
 	
 	public QuizUI(Boolean showPoster) {
+		super(windowLayout);
 		setUpLayout();
 		addComponents();
 		if(showPoster){
@@ -50,7 +51,6 @@ public class QuizUI {
 	}
 	
 	private void setUpLayout(){
-		windowLayout = new HBox();
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setPadding(new Insets(15));
 		windowLayout.setMaxSize(800, 800);

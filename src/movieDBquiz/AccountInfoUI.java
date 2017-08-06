@@ -1,8 +1,11 @@
 package movieDBquiz;
 
+import java.awt.Desktop.Action;
 import java.io.File;
 import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,6 +22,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -37,14 +41,16 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class AccountInfoUI extends Scene{
-	static VBox topLayout = new VBox();
+	static VBox topLayout;
 	AccountInfo acct;
 	ImageView profileView;
-	Button exitBtn;
+	Button menuBtn;
+	Button newNameBtn;
 	Stage stage;
+	TextField newNameField;
 	
 	public AccountInfoUI(Stage primaryStage) {
-		super(topLayout);
+		super(topLayout = new VBox());
 		stage = primaryStage;
 		acct = new AccountInfo();
 		setUpLayout();
@@ -123,11 +129,12 @@ public class AccountInfoUI extends Scene{
 		newNameLabel.setPadding(new Insets(15));
 		newNameLabel.setFont(new Font(14));
 		
-		TextField newNameField = new TextField("Enter name");
+		newNameField = new TextField("Enter name");
 		newNameField.setFont(new Font(14));
 		
-		Button newNameBtn = new Button("Reset");
+		newNameBtn = new Button("Reset");
 		newNameBtn.setPadding(new Insets(10));
+		addNewNameHandler();
 		
 		nameChangeBox.getChildren().addAll(newNameLabel, 
 			newNameField, newNameBtn);
@@ -136,10 +143,10 @@ public class AccountInfoUI extends Scene{
 	}
 	
 	private void setUpToolbar(){
-		exitBtn = new Button("Menu");
-		exitBtn.setPadding(new Insets(5));
+		menuBtn = new Button("Menu");
+		menuBtn.setPadding(new Insets(5));
 		
-		ToolBar toolBar = new ToolBar(exitBtn);
+		ToolBar toolBar = new ToolBar(menuBtn);
 		toolBar.setPadding(new Insets(15));
 		toolBar.setPrefHeight(40);
 		
@@ -163,6 +170,27 @@ public class AccountInfoUI extends Scene{
         		}
             }
         });
+	}
+	
+	public void addMenuBtnHandler(EventHandler<ActionEvent> event){
+		menuBtn.setOnAction(event);
+	}
+	
+	private void addNewNameHandler(){
+		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	try{
+            		acct.changeName(newNameField.getText());
+            	}
+            	catch(Exception e){
+            		String errMsg = "Could Not Alter Username";
+            		JOptionPane.showMessageDialog(null, errMsg);
+            	}
+            	
+            }
+        };
+		newNameBtn.setOnAction(event);
 	}
 	
 	

@@ -24,8 +24,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-public class HighLoGameUI {
-	private HBox windowLayout;
+public class HighLoGameUI extends Scene{
+	private static HBox windowLayout;
 	private VBox gameLayout;
 	private ImageView faceCard;
 	private ImageView downCard;
@@ -38,6 +38,7 @@ public class HighLoGameUI {
 	private Image cardBackImg = new Image("file:lib/cardBack.jpg");
 	
 	public HighLoGameUI() {
+		super(windowLayout = new HBox());
 		game = new HighLowMovieCardGame();
 		setUpLayout();
 		addComponents();
@@ -48,7 +49,6 @@ public class HighLoGameUI {
 		ImagePattern pattern = new ImagePattern(image);
 		BackgroundFill color = new BackgroundFill(pattern, null, null);
 		
-		windowLayout = new HBox();
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setPadding(new Insets(15));
 		windowLayout.setMaxSize(800, 800);
@@ -242,7 +242,7 @@ public class HighLoGameUI {
 		return windowLayout;
 	}
 	
-	public void addEventHandler(EventHandler<MouseEvent> event){
-		menuBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+	public void addEventHandler(EventHandler<ActionEvent> event){
+		menuBtn.setOnAction(event);
 	}
 }

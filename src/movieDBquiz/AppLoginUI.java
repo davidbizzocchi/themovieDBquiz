@@ -21,15 +21,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AppLoginUI {
-	GridPane grid;
-	Scene scene;
+public class AppLoginUI extends Scene {
+	static GridPane grid = new GridPane();
+	final Text actiontarget = new Text();
 	PasswordField pwBox;
 	TextField userTextField;
+	Button loginBtn;
 	
 	DbManager manager;
 	
 	public AppLoginUI(){
+		super(grid, 350, 275);
 		manager = new DbManager();
 		createLoginForm();
 	}
@@ -43,7 +45,6 @@ public class AppLoginUI {
 	public void createGrid(){
 		Image image = new Image("file:lib/background.jpg");
 		ImagePattern pattern = new ImagePattern(image);
-		grid = new GridPane();
 		grid.setBackground(new Background(new BackgroundFill(pattern,null,null)));
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -52,9 +53,6 @@ public class AppLoginUI {
 	}
 	
 	private void createScene(){
-		scene = new Scene(grid, 350, 275);
-		//primaryStage.setScene(scene);
-		
 		Text scenetitle = new Text("The Movie Database Quiz");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
 		scenetitle.setFill(Color.LIGHTGREY);
@@ -76,36 +74,40 @@ public class AppLoginUI {
 	}
 	
 	public void addToStage(Stage primaryStage){
-		primaryStage.setScene(scene);
+		primaryStage.setScene(this);
 	}
 	
 	private void addBtn(){
-		final Text actiontarget = new Text();
         grid.add(actiontarget, 1, 6);
         
-		Button btn = new Button("Sign in");
+		loginBtn = new Button("Sign in");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-		hbBtn.getChildren().add(btn);
+		hbBtn.getChildren().add(loginBtn);
 		grid.add(hbBtn, 1, 4);
-		
-		btn.setOnAction(new EventHandler<ActionEvent>() {
-			 
-		    @Override
-		    public void handle(ActionEvent e) {
-		    	Boolean valid = manager.attemptLogin(userTextField.getText(), 
-		    			pwBox.getText());
-		    	if(valid){
-		    		actiontarget.setFill(Color.GREEN);
-			        actiontarget.setText("Logging in as \'" + userTextField.getText());
-		    	}
-		    	else{
-		    		actiontarget.setFill(Color.FIREBRICK);
-			        actiontarget.setText("Login failed.");
-		    	}
-		    	
-		    }
-		});
+	}
+	
+	public void giveLoginFailedMsg(){
+		actiontarget.setFill(Color.FIREBRICK);
+        actiontarget.setText("Login failed.");
+	}
+	
+	public void giveLoginSuccessMsg(){
+		actiontarget.setFill(Color.GREEN);
+        actiontarget.setText("Login Successful.");
+	}
+	
+	public String getUserText(){
+		return userTextField.getText();
+	}
+	
+	public Boolean attemptLogin(){
+		return manager.attemptLogin(userTextField.getText(), 
+    			pwBox.getText());
+	}
+	
+	public void addBtnEventHandler(EventHandler<ActionEvent> handler){
+		loginBtn.setOnAction(handler);
 	}
 	
 }

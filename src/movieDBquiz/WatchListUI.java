@@ -1,6 +1,11 @@
 package movieDBquiz;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.webkit.network.about.Handler;
+
+import info.movito.themoviedbapi.model.MovieDb;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,17 +37,17 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class WatchListUI extends Scene {
-	static HBox windowLayout = new HBox();
+	static HBox windowLayout;
 	VBox watchListLayout;
 	PosterUI poster;
-	Button exitBtn;
-	Button addBtn;
+	Button menuBtn;
 	Button removeBtn;
 	Button randomBtn;
-	ListView<String> watchList;
+	ListView<String> watchListView;
+	List<MovieDb> watchList;
 	
 	public WatchListUI() {
-		super(windowLayout);
+		super(windowLayout = new HBox());
 		setUpLayout();
 		addComponents();
 	}
@@ -76,22 +81,21 @@ public class WatchListUI extends Scene {
 	}
 	
 	private void setUpList(){
-		watchList = new ListView<String>();
-		watchList.setPrefSize(350, 350);
-		watchList.setEditable(false);
+		watchList = new ArrayList<MovieDb>();
+		watchListView = new ListView<String>();
+		watchListView.setPrefSize(350, 350);
+		watchListView.setEditable(false);
 		
-		watchListLayout.getChildren().add(watchList);
+		watchListLayout.getChildren().add(watchListView);
 	}
 	
 	private void setUpToolBar(){
-		exitBtn = new Button("Menu");
+		menuBtn = new Button("Menu");
 		removeBtn = new Button("Remove");
-		addBtn = new Button("Add");
 		randomBtn = new Button("Get Random");
 		
 		ToolBar toolBar = new ToolBar(
-			exitBtn,
-			addBtn,
+			menuBtn,
 			removeBtn,
 			randomBtn
 		);
@@ -106,5 +110,38 @@ public class WatchListUI extends Scene {
 		windowLayout.getChildren().add(poster.getLayout());
 	}
 	
+	public void populateListView(List<MovieDb> movieList){
+		watchList.clear();
+		watchListView.getItems().remove(0, watchListView.getItems().size() - 1);
+		for(MovieDb movie : movieList){
+			watchList.add(movie);
+			watchListView.getItems().add(movie.getTitle());
+		}
+	}
+	
+	public void addMenuBtnHandler(EventHandler<ActionEvent> handler){
+		menuBtn.setOnAction(handler);
+	}
+	
+	public void addRemoveBtnHandler(EventHandler<ActionEvent> handler){
+		removeBtn.setOnAction(handler);
+	}
+	
+	public void addRandomBtnHandler(EventHandler<ActionEvent> handler){
+		randomBtn.setOnAction(handler);
+	}
+	
+	public int getSelectedIndex(){
+		return watchListView.getSelectionModel().getSelectedIndex();
+	}
+	
+	public void removeSelected(int index){
+		watchList.remove(index);
+		watchListView.getItems().remove(index);
+	}
+	
+	public MovieDb getMovie(int index){
+		return watchList.get(index);
+	}
 	
 }

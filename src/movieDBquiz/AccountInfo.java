@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 public class AccountInfo {
 	Account userAccount;
 	DbManager manager;
-	Image profilePicture;
+	static Image profilePicture;
 	
 	public AccountInfo() {
 		manager = new DbManager();

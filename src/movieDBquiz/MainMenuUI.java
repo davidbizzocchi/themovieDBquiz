@@ -27,18 +27,25 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MainMenuUI {
+public class MainMenuUI extends Scene{
 //	DbManager manager;
-	BorderPane root;
+	static BorderPane root;
+	Button exitButton;
+	Button quizButton;
+	Button accountButton;
+	Button movieListButton;
+	Button hiLoGameButton;
+	Button trailersButton;
+	
 	
 	
 	public MainMenuUI() {
+		super(root = new BorderPane());
 //		manager = new DbManager();
 		createQuizWindow();
 	}
 	
 	public void createQuizWindow(){	
-		root = new BorderPane();
 		setWindowStyle();
 		setUpTop();
 		setUpLeft();
@@ -96,19 +103,19 @@ public class MainMenuUI {
 		
 		box.setPadding(new Insets(15));
 		
-		Button quizButton = new Button("Quiz");
+		quizButton = new Button("Quiz");
 		quizButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
 		setUpMenuButton(quizButton);
-		Button accountButton = new Button("View Account");
+		accountButton = new Button("View Account");
 		accountButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
 		setUpMenuButton(accountButton);
-		Button movieListButton = new Button("Movie List");
+		movieListButton = new Button("Movie List");
 		movieListButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
 		setUpMenuButton(movieListButton);
-		Button hiLoGameButton = new Button("High-Low Game");
+		hiLoGameButton = new Button("High-Low Game");
 		hiLoGameButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
 		setUpMenuButton(hiLoGameButton);
-		Button trailersButton = new Button("Trailers");
+		trailersButton = new Button("Trailers");
 		trailersButton.setStyle("-fx-font: 15 arial; -fx-base: #7FFFD4;");
 		setUpMenuButton(trailersButton);
 		
@@ -138,8 +145,8 @@ public class MainMenuUI {
 		box.setAlignment(Pos.CENTER_RIGHT);
 		box.setPadding(new Insets(15));
 		
-		Button exit = new Button("Exit");
-		setUpMenuButton(exit);
+		exitButton = new Button("Exit");
+		setUpMenuButton(exitButton);
 		
 		TextField status = new TextField();
 		status.setText("Select an option from the menu.");		
@@ -151,9 +158,9 @@ public class MainMenuUI {
 		status.setStyle("-fx-text-inner-color: red;");
 		
 		HBox.setHgrow(status, Priority.SOMETIMES);
-		HBox.setHgrow(exit, Priority.SOMETIMES);
+		HBox.setHgrow(exitButton, Priority.SOMETIMES);
 		
-		box.getChildren().addAll(status, exit);
+		box.getChildren().addAll(status, exitButton);
 		
 		root.setBottom(box);
 	}
@@ -172,6 +179,26 @@ public class MainMenuUI {
 		BorderPane.setAlignment(view, Pos.CENTER);
 		BorderPane.setMargin(view, new Insets(25, 80, 25, 80));
 		root.setCenter(view);
+	}
+	
+	public void addExitBtnHandler(EventHandler<ActionEvent> handler){
+		exitButton.setOnAction(handler);
+	}
+	
+	public void addQuizBtnHandler(EventHandler<ActionEvent> handler){
+		quizButton.setOnAction(handler);
+	}
+	
+	public void addMovieListBtnHandler(EventHandler<ActionEvent> handler){
+		movieListButton.setOnAction(handler);
+	}
+	
+	public void addAcctBtnHandler(EventHandler<ActionEvent> handler){
+		accountButton.setOnAction(handler);
+	}
+	
+	public void addHiLoGameBtnHandler(EventHandler<ActionEvent> handler){
+		hiLoGameButton.setOnAction(handler);
 	}
 	
 	
