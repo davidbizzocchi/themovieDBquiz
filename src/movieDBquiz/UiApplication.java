@@ -12,17 +12,17 @@ public class UiApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		stage = primaryStage;
-		showLogin();
+//		stage = primaryStage;
+//		showLogin();
 	    //AppLoginUI app = new AppLoginUI();
 	    //app.addToStage(primaryStage);
 //	    MainMenuUI app = new MainMenuUI();
 		//WatchListUI app = new WatchListUI();
-	    //QuizUI app = new QuizUI(true);
-//		HighLoGameUI app = new HighLoGameUI();
-//		app.addToStage(primaryStage);
-//		app.addToStage(primaryStage);
-//		DbManager manager = new DbManager();
+
+	    Quiz app = new Quiz(primaryStage);
+//		HighLoGame app = new HighLoGame();
+		//app.addToStage(primaryStage);
+		//DbManager manager = new DbManager();
 		primaryStage.show();
 	}
 

@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 public class HighLoGameUI extends Scene{
 	private static HBox windowLayout;
 	private VBox gameLayout;
