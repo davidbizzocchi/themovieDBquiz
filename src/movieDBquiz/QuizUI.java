@@ -41,7 +41,6 @@ public class QuizUI {
 	TextArea optCTextArea;
 	TextArea optDTextArea;
 	
-		
 	public QuizUI(Boolean showPoster) {
 		setUpLayout();
 		addComponents();

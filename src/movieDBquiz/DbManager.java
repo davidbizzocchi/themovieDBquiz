@@ -4,7 +4,6 @@ import info.movito.themoviedbapi.TmdbAuthentication;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.TmdbTV;
-import info.movito.themoviedbapi.TmdbTvEpisodes;
 import info.movito.themoviedbapi.TvResultsPage;
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Video;
@@ -47,9 +46,7 @@ public class DbManager {
 	private static final String APIKEYSTRING =
 			"72094b969b9993f31aeea13bb041ee86";
 
-	/** Number of results pages for popular movies (no
-	 * method provides this info)
-	 */
+	/** Number of results pages for popular movies */
 	private static final int NUMPOPRESULTSPAGES = 987;
 	
 	private static final int RESULTSPERPAGE = 20;
@@ -177,6 +174,11 @@ public class DbManager {
 		return true;
 	}
 	
+	/**
+	 * tmdb API call to get movie with budget information available.
+	 * @param movie to receive information from.
+	 * @return movie that has budget information available.
+	 */
 	public MovieDb getMovieWithInfo(MovieDb movie){
 		return movies.getMovie(movie.getId(), "en", MovieMethod.values());
 	}
