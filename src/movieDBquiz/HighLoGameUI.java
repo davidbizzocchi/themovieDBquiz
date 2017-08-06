@@ -35,7 +35,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class HighLoGame {
+public class HighLoGameUI {
 	HBox windowLayout;
 	VBox gameLayout;
 	ImageView faceCard;
@@ -44,7 +44,7 @@ public class HighLoGame {
 	TextField downCardTxt;
 	Image questionImg = new Image("file:lib/question.jpg");
 	
-	public HighLoGame() {
+	public HighLoGameUI() {
 		setUpLayout();
 		addComponents();
 	}

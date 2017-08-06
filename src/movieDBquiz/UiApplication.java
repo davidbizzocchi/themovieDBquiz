@@ -15,8 +15,10 @@ public class UiApplication extends Application {
 //	    QuizUI app = new QuizUI(true);
 //		HighLoGame app = new HighLoGame();
 //		app.addToStage(primaryStage);
-		DbManager manager = new DbManager();
-		primaryStage.setScene(new TrailersUI(manager.getMovieWithInfo(manager.getPlayingMovies().get(0))));
+//		DbManager manager = new DbManager();
+		AccountInfoUI app = new AccountInfoUI(primaryStage);
+		primaryStage.setScene(app);
+//		primaryStage.setScene(new TrailersUI(manager.getMovieWithInfo(manager.getPlayingMovies().get(0))));
 		primaryStage.show();
 	}
 
