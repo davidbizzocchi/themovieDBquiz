@@ -16,7 +16,6 @@ public class UiApplication extends Application {
 //		HighLoGame app = new HighLoGame();
 		//app.addToStage(primaryStage);
 		//DbManager manager = new DbManager();
-		//primaryStage.setScene(new TrailersUI(manager.getMovieWithInfo(manager.getPlayingMovies().get(3))));
 		primaryStage.show();
 	}
 

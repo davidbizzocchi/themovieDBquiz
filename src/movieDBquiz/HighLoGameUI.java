@@ -23,7 +23,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+<<<<<<< HEAD:src/movieDBquiz/HighLoGame.java
 public class HighLoGame {
+=======
+
+public class HighLoGameUI {
+>>>>>>> e4183cf009ad42f01b6fd5b750f0cfaea0394dab:src/movieDBquiz/HighLoGameUI.java
 	private HBox windowLayout;
 	private VBox gameLayout;
 	private ImageView faceCard;
@@ -36,7 +41,7 @@ public class HighLoGame {
 	private Button menuBtn;
 	private Image cardBackImg = new Image("file:lib/cardBack.jpg");
 	
-	public HighLoGame() {
+	public HighLoGameUI() {
 		game = new HighLowMovieCardGame();
 		setUpLayout();
 		addComponents();

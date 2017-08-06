@@ -29,7 +29,6 @@ public final class Quiz {
 		score = 0;
 		window = new QuizUI(true);
 		window.addToStage(primaryStage);
-		primaryStage.show();
 		
 		question = new MatchingQuestion();
 		populateMovieQuestion();
