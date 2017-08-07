@@ -67,6 +67,7 @@ public class QuizUI extends Scene{
 	private TextArea optCTextArea;
 	private TextArea optDTextArea;
 	private Button submitBtn;
+	private Button menuBtn;
 	private ToggleGroup btnGroup;
 	
 	public QuizUI(Boolean showPoster) {
@@ -157,7 +158,7 @@ public class QuizUI extends Scene{
 		toolBar.setAlignment(Pos.TOP_CENTER);
 		toolBar.setSpacing(300);
 		
-		Button menuBtn = new Button("End Quiz");
+		menuBtn = new Button("End Quiz");
 		menuBtn.setMaxSize(120, 40);
 		submitBtn = new Button("Next");
 		submitBtn.setMaxSize(120, 40);
@@ -267,6 +268,10 @@ public class QuizUI extends Scene{
 
 	public void addNextButtonEventHandler(EventHandler<MouseEvent> event){
 		submitBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+	}
+	
+	public void addExitButtonEventHandler(EventHandler<MouseEvent> event){
+		menuBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
 	}
 	
 	public int getAnswerButton(){

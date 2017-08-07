@@ -19,9 +19,12 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
@@ -56,14 +59,18 @@ public class TrailersUI extends Scene{
 	}
 	
 	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill bg = new BackgroundFill(pattern, null, null);
 		layout.setAlignment(Pos.CENTER);
 		layout.setPadding(new Insets(20));
 		layout.setSpacing(30);
+		layout.setBackground(new Background(bg));
 	}
 	
 	private void addComponents(){
 		addTitle();
-		addSelector();
+		//addSelector();
 		addViewer();
 		addToolBar();
 	}
@@ -74,11 +81,12 @@ public class TrailersUI extends Scene{
 		title.setMaxSize(250, 30);
 		title.setFont(new Font("System", 18));
 		title.setTextAlignment(TextAlignment.CENTER);
+		title.setTextFill(Color.GHOSTWHITE);
 		
 		layout.getChildren().add(title);
 	}
 	
-	private void addSelector(){
+/*	private void addSelector(){
 		selectorPane = new HBox();
 		selectorPane.setAlignment(Pos.CENTER);
 		selectorPane.setSpacing(25);
@@ -94,7 +102,7 @@ public class TrailersUI extends Scene{
 		addToSelectorPane(trailerView4);
 		
 		layout.getChildren().add(selectorPane);
-	}
+	}*/
 	
 	private void addViewer(){
 		
@@ -120,12 +128,13 @@ public class TrailersUI extends Scene{
 		toolbar.setPadding(new Insets(30));
 		
 		toolbar.setPrefSize(400, 75);
+		toolbar.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		
 		layout.getChildren().add(toolbar);
 	}
 	
 	
-	private ImageView createImageView() {
+/*	private ImageView createImageView() {
 		ImageView view = new ImageView();
 		view.setFitHeight(150);
 		view.setFitWidth(100);
@@ -141,7 +150,7 @@ public class TrailersUI extends Scene{
 //		border.getStyleClass().add("image-view-wrapper");
 		
 		selectorPane.getChildren().add(view);
-	}
+	}*/
 	
 	public void setTrailerImages(List<Image> imgList){
 		if(imgList.size() >= 4){

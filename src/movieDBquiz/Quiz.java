@@ -27,14 +27,19 @@ public final class Quiz {
 	QuestionTimer timer;
 	QuizUI window;
 	Timeline updateTimerTimeline;
+	Stage primaryStage;
 	int secondsElapsed;
 	int score;
 	int questionsAnswered;
 	
 	public Quiz(Stage primaryStage){
 		score = 0;
+		this.primaryStage = primaryStage;
 		window = new QuizUI(true);
 		window.addToStage(primaryStage);
+	}
+	
+	public void runQuiz(){
 		
 		question = new MatchingQuestion();
 		populateMovieQuestion();
@@ -69,6 +74,12 @@ public final class Quiz {
 				populateMovieQuestion();
 			}
 		});
+	}
+	
+	public void addExitButtonEventHandler(EventHandler<MouseEvent> event){
+		if(window != null){
+			window.addExitButtonEventHandler(event);
+		}
 	}
 	
 	private void updateQuizQuestionNumber(){
