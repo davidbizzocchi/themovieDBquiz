@@ -5,34 +5,34 @@ import info.movito.themoviedbapi.TmdbMovies.MovieMethod;
 import info.movito.themoviedbapi.model.MovieDb;
 
 /**
- * Class to manage High Low Game type cards
+ * Class to manage High Low Game type cards.
  * @author David Bizzocchi, Josh Aitken, Caitlin Heyn
- * @version 1.0 Summer 2017
+ * @version 1.1
  */
 public class HighLowMovieCardGame {
 
-	/** tmdb manager instance */
+	/** tmdb manager instance.*/
 	private DbManager manager;
-	
-	/** list of movies to create cards from */
+
+	/** list of movies to create cards from.*/
 	private List<MovieDb> movieList;
-	
-	/** Index of card location in list */
+
+	/** Index of card location in list.*/
 	private int movieListIndex;
-	
-	/** Number of questions answered correctly */
+
+	/** Number of questions answered correctly.*/
 	private int score;
-	
-	/** Instance of card shown to user */
+
+	/** Instance of card shown to user.*/
 	private MoviePlayingCard faceUpCard;
-	
-	/** Instance of card user is to guess budget */
+
+	/** Instance of card user is to guess budget.*/
 	private MoviePlayingCard faceDownCard;
-	
+
 	/**
-	 * Constructor, creates first draw of two comparable cards
+	 * Constructor, creates first draw of two comparable cards.
 	 */
-	public HighLowMovieCardGame(){
+	public HighLowMovieCardGame() {
 		movieListIndex = 0;
 		score = 0;
 		manager = new DbManager();
@@ -40,56 +40,68 @@ public class HighLowMovieCardGame {
 		faceUpCard = new MoviePlayingCard(getNextMovie());
 		faceDownCard = new MoviePlayingCard(getNextMovie());
 	}
-	
+
 	/**
-	 * Creates two new cards for user to play new round
+	 * Creates two new cards for user to play new round.
 	 */
-	public void drawCards(){
-		if(movieListIndex + 2 >= movieList.size()){
+	public void drawCards() {
+		if (movieListIndex + 2 >= movieList.size()) {
 			populateAndShuffleMovies();
 			movieListIndex = 0;
 		}
-		do{
+		do {
 			popCards();
-		}while(!verifyCardBudgets());
+		} while (!verifyCardBudgets());
 	}
-	
+
 	/**
-	 * User answer verification
-	 * @param isHigher true if user guessed that face down card budget will be lower than face up card
+	 * User answer verification.
+	 * @param isHigher
+	 *            true if user guessed that face down card budget will be lower
+	 *            than face up card
 	 * @return if user answer is correct
 	 */
-	public boolean answer(boolean isHigher){
-		if(isHigher && (faceDownCard.getBudget() > faceUpCard.getBudget())){
+	public boolean answer(final boolean isHigher) {
+		if (isHigher && (faceDownCard.getBudget() > faceUpCard
+				.getBudget())) {
+			score++;
+			return true;
+		} else if (!isHigher && (faceDownCard.getBudget() < faceUpCard
+				.getBudget())) {
 			score++;
 			return true;
 		}
-		else if(!isHigher && (faceDownCard.getBudget() < faceUpCard.getBudget())){
-			score++;
-			return true;
-		}
-		
+
 		return false;
 	}
-	
+
 	/**
-	 * Returns next movie in list, uses method to return MovieDb variable with information
+	 * Returns next movie in list, uses method to return MovieDb variable with
+	 * information.
 	 * @return next movie in list
 	 */
-	public MovieDb getNextMovie(){
-		MovieDb movie = manager.getMovieWithInfo(movieList.get(movieListIndex++));
-		
-		while(movie.getBudget() == 0){
-			movie = manager.getMovieWithInfo(movieList.get(movieListIndex++));
+	public MovieDb getNextMovie() {
+		MovieDb movie = manager
+				.getMovieWithInfo(movieList.get(movieListIndex++));
+
+		while (movie.getBudget() == 0) {
+			movie = manager
+					.getMovieWithInfo(movieList.get(movieListIndex++));
 		}
-		
+
 		return movie;
 	}
-	
-	public MovieDb getMovieWithInfo(MovieDb movie){
-		return manager.getMovies().getMovie(movie.getId(), "en", MovieMethod.values());
+
+	/**
+	 * Gets a MovieDb object with accessible data from another MovieDb ref.
+	 * @param movie the object with missing data.
+	 * @return a MovieDb object with most data.
+	 */
+	public final MovieDb getMovieWithInfo(final MovieDb movie) {
+		return manager.getMovies().getMovie(movie.getId(), "en",
+				MovieMethod.values());
 	}
-	
+
 	/**
 	 * @return the score
 	 */
@@ -110,31 +122,31 @@ public class HighLowMovieCardGame {
 	public MoviePlayingCard getFaceDownCard() {
 		return faceDownCard;
 	}
-	
+
 	/**
-	 * Verifies that the two cards do not have the same budget
+	 * Verifies that the two cards do not have the same budget.
 	 * @return if cards have the same budget
 	 */
-	private boolean verifyCardBudgets(){
-		if(faceUpCard.getBudget() == faceDownCard.getBudget()){
+	private boolean verifyCardBudgets() {
+		if (faceUpCard.getBudget() == faceDownCard.getBudget()) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
-	 * Generates new face up and face down cards
+	 * Generates new face up and face down cards.
 	 */
-	private void popCards(){
+	private void popCards() {
 		faceUpCard.generateNewCard(getNextMovie());
 		faceDownCard.generateNewCard(getNextMovie());
 	}
-	
+
 	/**
-	 * Generates and randomizes new movie list, populates if needed
+	 * Generates and randomizes new movie list, populates if needed.
 	 */
-	private void populateAndShuffleMovies(){
-		if(movieList == null || movieList.size() == 0){
+	private void populateAndShuffleMovies() {
+		if (movieList == null || movieList.size() == 0) {
 			movieList = manager.getPlayingMovies();
 		}
 		movieList = Randomize.shuffleList(movieList);

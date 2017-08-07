@@ -39,7 +39,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class QuizUI extends Scene {
-	static HBox windowLayout = new HBox();
+	static HBox windowLayout;
 	private VBox quizLayout;
 	private PosterUI poster;
 	private TextArea questionText;
@@ -59,7 +59,7 @@ public class QuizUI extends Scene {
 	private ToggleGroup btnGroup;
 
 	public QuizUI(Boolean showPoster) {
-		super(windowLayout);
+		super(windowLayout = new HBox());
 		setUpLayout();
 		addComponents();
 		if (showPoster) {

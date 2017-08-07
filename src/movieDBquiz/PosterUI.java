@@ -1,56 +1,73 @@
 package movieDBquiz;
 
-import javax.swing.JOptionPane;
-
 import info.movito.themoviedbapi.model.MovieDb;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
+/**
+ * @author David Bizzocchi, Josh Aitken, Caitlyn Heyn
+ * @version 1.1
+ */
 public class PosterUI {
-	final String baseImgUrl = "http://image.tmdb.org/t/p/w185/";
-	final String favImgPath = "file:lib/star.png";
+	/** The padding size for ui components.*/
+	private static final int PADDINGSIZE = 15;
+	/** The spacing size for ui components.*/
+	private static final int SPACINGSIZE = 15;
+	/** The spacing size for ui components.*/
+	private static final int GRIDWIDTH = 200;
+	/** The spacing size for ui components.*/
+	private static final int GRIDHEIGHT = 300;
+	/** The spacing size for ui components.*/
+	private static final int STDFONTSIZE = 12;
 	
-	VBox topLayout;
-	ImageView imgContainer;
-	Button favoritesBtn;
-	Button randomBtn;
-	MovieWatchList watchList;
-	MovieDb currentMovie;
-	DbManager manager;
-	TextArea titleField;
-	TextArea releaseField;
-	TextArea durationField;
-	TextArea castField;
-	
-	
+	/** Constant string base url for accessing poster images from tmdb.*/
+	private final String baseImgUrl = "http://image.tmdb.org/t/p/w185/";
+	/** Image path for favorites icon.*/
+	private final String favImgPath = "file:lib/star.png";
+
+	/** The top-level layout to add to a scene.*/
+	private VBox topLayout;
+	/** The container for the movie poster img.*/
+	private ImageView imgContainer;
+	/** Button to add currentMovie to watchlist.*/
+	private Button favoritesBtn;
+	/** Button to get another random title.*/
+	private Button randomBtn;
+	/** A MovieWatchList to add favorited movies.*/
+	private MovieWatchList watchList;
+	/** Reference for current movie being displayed.*/
+	private MovieDb currentMovie;
+	/** Object to provide information from tmdb api.*/
+	private DbManager manager;
+	/** Field to hold movie title.*/
+	private TextArea titleField;
+	/** Field to hold movie release date.*/
+	private TextArea releaseField;
+	/** Field to hold movie duration (mins).*/
+	private TextArea durationField;
+	/** Field to hold movie cast list.*/
+	private TextArea castField;
+
+	/**
+	 * Creates class instance with UI and fields populated.
+	 */
 	public PosterUI() {
 		manager = new DbManager();
 		watchList = new MovieWatchList();
@@ -58,28 +75,36 @@ public class PosterUI {
 		setUpLayout();
 		setRandomMovie();
 	}
-	
-	private void setUpLayout(){
+
+	/**
+	 * Sets up layout size/spacing/alignment.
+	 */
+	private void setUpLayout() {
 		topLayout = new VBox();
 		topLayout.setAlignment(Pos.CENTER);
 		GridPane grid = setUpGrid();
-		
+
 		VBox.setVgrow(imgContainer, Priority.SOMETIMES);
 		VBox.setVgrow(grid, Priority.SOMETIMES);
-		
-		topLayout.setPadding(new Insets(15));
+
+		topLayout.setPadding(new Insets(PADDINGSIZE));
 		topLayout.getChildren().addAll(imgContainer, grid);
 	}
-	
-	private GridPane setUpGrid(){
+
+	/**
+	 * Sets up ui components for labels and text fields.
+	 * @return the layout with components added.
+	 */
+	private GridPane setUpGrid() {
 		GridPane grid = new GridPane();
-		grid.setMinWidth(200.00);
-		grid.setMinHeight(300.00);
-		
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(10, 10, 10, 10));
-		
+		grid.setMinWidth(GRIDWIDTH);
+		grid.setMinHeight(GRIDHEIGHT);
+
+		grid.setHgap(SPACINGSIZE);
+		grid.setVgap(SPACINGSIZE);
+		grid.setPadding(new Insets(SPACINGSIZE, SPACINGSIZE,
+			SPACINGSIZE, SPACINGSIZE));
+
 		favoritesBtn = createFavoritesBtn();
 		Label favoritesLabel = createLabel("Add To WatchList");
 		favoritesLabel.setTextFill(Color.LIGHTGRAY);
@@ -92,14 +117,14 @@ public class PosterUI {
 		Label castLabel = createLabel("Cast:");
 		castLabel.setTextFill(Color.LIGHTGRAY);
 		addFavoritesListener();
-		
+
 		titleField = createTextArea("");
 		releaseField = createTextArea("");
 		durationField = createTextArea("");
 		castField = createTextArea("");
-		
-		randomBtn = createRandomBtn(); 
-		
+
+		randomBtn = createRandomBtn();
+
 		grid.add(titleLabel, 0, 0);
 		grid.add(titleField, 1, 0);
 		grid.add(releaseLabel, 0, 1);
@@ -111,11 +136,15 @@ public class PosterUI {
 		grid.add(favoritesBtn, 0, 4);
 		grid.add(favoritesLabel, 1, 4);
 		grid.add(randomBtn, 0, 5);
-		
+
 		return grid;
 	}
-	
-	private Button createFavoritesBtn(){
+
+	/**
+	 * Creates formatted favorites button with image.
+	 * @return the Button created.
+	 */
+	private Button createFavoritesBtn() {
 		Image image = new Image(favImgPath);
 		ImageView view = new ImageView(image);
 		Button favBtn = new Button();
@@ -123,49 +152,72 @@ public class PosterUI {
 		favBtn.setAlignment(Pos.CENTER);
 		return favBtn;
 	}
-	
-	private Label createLabel(String text){
+
+	/**
+	 * Creates a formatted label.
+	 * @param text the text of label
+	 * @return the created label.
+	 */
+	private Label createLabel(final String text) {
 		Label label = new Label(text);
 		label.setAlignment(Pos.CENTER_LEFT);
-		label.setFont(new Font("System", 12));
+		label.setFont(new Font("System", STDFONTSIZE));
 		return label;
 	}
-	
-	private TextArea createTextArea(String text){
+
+	/**
+	 * Creates a text area for each movie info. field.
+	 * @param text the content of the TextArea.
+	 * @return the created TextArea.
+	 */
+	private TextArea createTextArea(final String text) {
 		TextArea field = new TextArea(text);
 		field.setPrefSize(150, 25);
 		field.setMaxWidth(200.0);
 		field.setMinWidth(100.0);
-		Font font = new Font("System", 12);
+		Font font = new Font("System", STDFONTSIZE);
 		field.setFont(font);
 		field.setEditable(false);
 		return field;
 	}
-	
-	private void setUpPosterImg(){
+
+	/**
+	 * Sets up image container constraints and dummy image.
+	 */
+	private void setUpPosterImg() {
 		Image posterImg = new Image("file:lib/placeholder.png");
 		imgContainer = new ImageView(posterImg);
 		imgContainer.setFitHeight(250);
 		imgContainer.setFitWidth(200);
 	}
-	
-	
-	public void addToStage(Stage stage){
+
+	/**
+	 * Adds layout to a scene, which is assigned to stage.
+	 * @param stage the stage to set scene for.
+	 */
+	public final void addToStage(final Stage stage) {
 		Scene scene = new Scene(topLayout);
 		stage.setScene(scene);
 	}
-	
-	public VBox getLayout(){
+
+	/**
+	 * Get the current top-level layout.
+	 * @return the VBox layout.
+	 */
+	public final VBox getLayout() {
 		return topLayout;
 	}
-	
-	private void addFavoritesListener(){
-		EventHandler<ActionEvent> handler  = new EventHandler<ActionEvent>() {
+
+	/**
+	 * Adds listener to handle watch list action for favoritesBtn.
+	 */
+	private void addFavoritesListener() {
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event) {
-				if(currentMovie != null){
+			public void handle(final ActionEvent event) {
+				if (currentMovie != null) {
 					watchList.addToList(currentMovie);
-					Alert message =  new Alert(AlertType.CONFIRMATION);
+					Alert message = new Alert(AlertType.CONFIRMATION);
 					message.setContentText("Movie Added.");
 					message.show();
 				}
@@ -174,47 +226,58 @@ public class PosterUI {
 		};
 		favoritesBtn.setOnAction(handler);
 	}
-	
-	private void setRandomMovie(){
-		try{
+
+	/**
+	 * Sets the poster to a new random movie.
+	 */
+	private void setRandomMovie() {
+		try {
 			currentMovie = manager.getRandomMovie();
-			String posterUrl = baseImgUrl + currentMovie.getPosterPath();
+			String posterUrl = baseImgUrl
+					+ currentMovie.getPosterPath();
 
 			Image posterImg = new Image(posterUrl);
 			imgContainer.setImage(posterImg);
-			
+
 			titleField.setText(currentMovie.getTitle());
 			releaseField.setText(currentMovie.getReleaseDate());
-			durationField.setText(Integer.toString(currentMovie.getRuntime()));
+			durationField.setText(
+					Integer.toString(currentMovie.getRuntime()));
 			String cast = currentMovie.getCast().toString();
 			castField.setText(cast);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			showErrorAlert(e.getMessage());
 		}
 	}
-	
-	private void showErrorAlert(String message){
+
+	/**
+	 * Shows a message dialog for error.
+	 * @param message the dialog message.
+	 */
+	private void showErrorAlert(final String message) {
 		Alert errAlert = new Alert(AlertType.ERROR);
 		errAlert.setContentText(message);
 		errAlert.setTitle("Poster Panel Error");
 		errAlert.show();
 	}
-	
-	
-	private Button createRandomBtn(){
+
+	/**
+	 * Creates a random button with EventHandler when clicked.
+	 * @return Button created.
+	 */
+	private Button createRandomBtn() {
 		Button randBtn = new Button("Random");
-		randBtn.setPadding(new Insets(5));
+		randBtn.setPadding(new Insets(PADDINGSIZE));
 		randBtn.setAlignment(Pos.CENTER);
-		
+
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent event) {
+			public void handle(final ActionEvent event) {
 				setRandomMovie();
 			}
 		};
 		randBtn.setOnAction(handler);
 		return randBtn;
 	}
-	
+
 }
