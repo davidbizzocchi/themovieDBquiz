@@ -87,7 +87,7 @@ public class PosterUI {
 		titleLabel.setTextFill(Color.LIGHTGRAY);
 		Label releaseLabel = createLabel("Release Date:");
 		releaseLabel.setTextFill(Color.LIGHTGRAY);
-		Label durationLabel = createLabel("Duration(hrs):");
+		Label durationLabel = createLabel("Duration(min):");
 		durationLabel.setTextFill(Color.LIGHTGRAY);
 		Label castLabel = createLabel("Cast:");
 		castLabel.setTextFill(Color.LIGHTGRAY);

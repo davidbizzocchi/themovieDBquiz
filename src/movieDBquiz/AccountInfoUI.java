@@ -65,9 +65,13 @@ public class AccountInfoUI extends Scene{
 	}
 	
 	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill bg = new BackgroundFill(pattern, null, null);
 		topLayout.setAlignment(Pos.CENTER);
 		topLayout.setPadding(new Insets(15));
 		topLayout.setSpacing(20);
+		topLayout.setBackground(new Background(bg));
 	}
 	
 	private void setUpTitle(){
@@ -149,6 +153,7 @@ public class AccountInfoUI extends Scene{
 		ToolBar toolBar = new ToolBar(menuBtn);
 		toolBar.setPadding(new Insets(15));
 		toolBar.setPrefHeight(40);
+		toolBar.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 		
 		topLayout.getChildren().add(toolBar);
 	}

@@ -53,11 +53,15 @@ public class WatchListUI extends Scene {
 	}
 	
 	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill bg = new BackgroundFill(pattern, null, null);
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setSpacing(35);
 		windowLayout.setPadding(new Insets(10));
 		
 		watchListLayout = new VBox();
+		windowLayout.setBackground(new Background(bg));
 		windowLayout.getChildren().add(watchListLayout);
 	}
 	
@@ -85,7 +89,7 @@ public class WatchListUI extends Scene {
 		watchListView = new ListView<String>();
 		watchListView.setPrefSize(350, 350);
 		watchListView.setEditable(false);
-		
+
 		watchListLayout.getChildren().add(watchListView);
 	}
 	
