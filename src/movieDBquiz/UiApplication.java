@@ -37,8 +37,7 @@ public class UiApplication extends Application {
 	 * Shows login form, which requires authentication to log on.
 	 */
 	private void showLogin() {
-		stage.setTitle("Login");
-
+		stage.setTitle("The Movie Database App");
 		AppLoginUI loginForm = new AppLoginUI();
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
 			@Override

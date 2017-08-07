@@ -104,13 +104,14 @@ public final class Quiz {
 		int questionsRemaining = window.getNumQuestions()
 				- questionsAnswered;
 		window.setQuestionsRemaining(questionsRemaining);
+
 		if (questionsRemaining <= 0) {
 			Float result = new Float(score)
-					/ new Float(window.getNumQuestions());
-			window.showDialog("Results: " + Integer.toString(score)
-					+ "/" + Integer.toString(window.getNumQuestions())
-					+ " -> " + String.format("%.2f", result * TOTALPERCENT)
-					+ "%");
+				/ new Float(window.getNumQuestions());
+			window.showDialog("Results: " + Integer.toString(score) + "/"
+				+ Integer.toString(window.getNumQuestions())
+				+ " -> " + String.format("%.2f", result * TOTALPERCENT) + "%");
+			window.disableNextButton();
 		}
 	}
 
@@ -128,6 +129,7 @@ public final class Quiz {
 					+ " -> " + String.format("%.2f", result * TOTALPERCENT)
 					+ "%");
 			updateTimerTimeline.stop();
+			window.disableNextButton();
 		}
 	}
 

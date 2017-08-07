@@ -428,6 +428,13 @@ public class QuizUI extends Scene {
 	}
 
 	/**
+	 * Disables the submitBtn.
+	 */
+	public void disableNextButton() {
+		submitBtn.setDisable(true);
+	}
+
+	/**
 	 * Gets the index of button corresponding to answer.
 	 * @return the correct index.
 	 */
