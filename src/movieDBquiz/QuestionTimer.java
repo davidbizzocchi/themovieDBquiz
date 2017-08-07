@@ -74,6 +74,14 @@ public class QuestionTimer {
 	}
 	
 	/**
+	 * Returns total seconds remaining until timer is finished.
+	 * @return total seconds remaining on timer.
+	 */
+	public int getTotalSecondsRemaining(){
+		return timeoutSeconds - secondsElapsed;
+	}
+	
+	/**
 	 * Determines if timer has reached specified time limit.
 	 * @return whether timer has time remaining.
 	 */
