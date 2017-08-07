@@ -57,9 +57,11 @@ public class QuizUI extends Scene{
 	private TextArea questionText;
 	private TextField scoreDisplay;
 	private TextField timerDisplay;
+	private Label quizTypeDisplay;
 	private int numSeconds;
 	private int numQuestions;
 	private boolean isTimed;
+	private boolean isSetNumQuestion;
 	private TextArea optATextArea;
 	private TextArea optBTextArea;
 	private TextArea optCTextArea;
@@ -145,7 +147,7 @@ public class QuizUI extends Scene{
 	
 	private TextArea createOptTextArea(){
 		TextArea text = new TextArea();
-		text.setPrefSize(300, 60);
+		text.setPrefSize(330, 60);
 		text.setEditable(false);
 		return text;
 	}
@@ -173,27 +175,37 @@ public class QuizUI extends Scene{
 		titleBar.setAlignment(Pos.CENTER);
 		titleBar.setSpacing(75);
 		
+		HBox currentQuizInfo = new HBox();
+		currentQuizInfo.setAlignment(Pos.CENTER_RIGHT);
+		currentQuizInfo.setSpacing(0);
+		
 		Label title = new Label("Quiz Game");
 		title.setAlignment(Pos.TOP_CENTER);
-		title.setFont(new Font("Common", 20));
+		title.setFont(new Font("Common", 22));
 		title.setTextFill(Color.GHOSTWHITE);
-		title.setMinSize(100, 30);
-		title.setPrefSize(120, 30);
+		title.setMinSize(110, 30);
+		title.setPrefSize(130, 30);
 		
 		scoreDisplay = new TextField("Score: 0");
 		scoreDisplay.setPrefSize(100, 30);
 		scoreDisplay.setEditable(false);
 		
-		timerDisplay = new TextField("00:00");
+		timerDisplay = new TextField("");
 		timerDisplay.setPrefSize(100, 30);
 		timerDisplay.setEditable(false);
 		
-		titleBar.getChildren().addAll(scoreDisplay, title, timerDisplay);
+		quizTypeDisplay = new Label("");
+		quizTypeDisplay.setPrefSize(100, 30);
+		quizTypeDisplay.setTextFill(Color.GHOSTWHITE);
+		
+		currentQuizInfo.getChildren().addAll(quizTypeDisplay, timerDisplay);
+		titleBar.getChildren().addAll(scoreDisplay, title, currentQuizInfo);
 		
 		questionText = new TextArea();
 		questionText.setMinSize(400, 100);
 		questionText.setPrefSize(400, 120);
 		questionText.setFont(new Font("System", 14));
+		questionText.setWrapText(true);
 		questionText.setEditable(false);
 		
 		header.getChildren().addAll(titleBar, questionText);
@@ -258,7 +270,10 @@ public class QuizUI extends Scene{
 	}
 	
 	public int getAnswerButton(){
-		return (int) btnGroup.getSelectedToggle().getUserData();
+		if(btnGroup.getSelectedToggle() != null){
+			return (int)btnGroup.getSelectedToggle().getUserData();
+		}
+		return 0;
 	}
 	
 	private void getQuizOptionsDialog() {
@@ -309,9 +324,13 @@ public class QuizUI extends Scene{
 			if(timedButton.isSelected()){
 				numSeconds = (int) secSpinner.getValue();
 				numSeconds += ((int) minSpinner.getValue()) * 60;
+				isSetNumQuestion = false;
+				isTimed = true;
 			}
 			else if(numQuestionsButton.isSelected()){
 				numQuestions = (int) questionSpinner.getValue();
+				isTimed = false;
+				isSetNumQuestion = true;
 			}
 		}
 	}
@@ -331,5 +350,58 @@ public class QuizUI extends Scene{
 
 	    dialogStage.setScene(new Scene(vbox));
 	    dialogStage.show();
+	}
+
+	/**
+	 * @return the seconds desired to take quiz
+	 */
+	public int getNumSeconds() {
+		return numSeconds;
+	}
+
+	/**
+	 * @return the numQuestions
+	 */
+	public int getNumQuestions() {
+		return numQuestions;
+	}
+
+	/**
+	 * @return true if quiz is timed
+	 */
+	public boolean isTimed() {
+		return isTimed;
+	}
+	
+	/**
+	 * @return true if quiz is based on a set number of questions
+	 */
+	public boolean isSetNumQuestion() {
+		return isSetNumQuestion;
+	}
+
+	public void setQuizTypeLabel(String label){
+		quizTypeDisplay.setText(label);
+	}
+	/**
+	 * @param numSeconds the numSeconds to set
+	 */
+	public void setTimeRemaining(int secondsRemaining) {
+		timerDisplay.setText(String.format("%02d", secondsRemaining / 60)
+				+ ":" + String.format("%02d", secondsRemaining % 60));
+	}
+	
+	/**
+	 * @param numSeconds the numSeconds to set
+	 */
+	public void setQuestionsRemaining(int questionsRemaining) {
+		timerDisplay.setText(String.format("%02d", questionsRemaining));
+	}
+
+	/**
+	 * @param numQuestions the numQuestions to set
+	 */
+	public void setNumQuestions(int numQuestions) {
+		this.numQuestions = numQuestions;
 	}
 }
