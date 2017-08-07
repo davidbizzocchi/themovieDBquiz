@@ -32,14 +32,13 @@ public class TrailersUI extends Scene{
 	final String baseUrl = "https://www.youtube.com/embed/";
 	final String placeHolderImg = "file:lib/placeholder.png";
 	
-	WebView viewer;
-	static VBox layout;
-	static DbManager manager = new DbManager();
-	HBox selectorPane;
-	Button exitBtn;
-	Button shuffleBtn;
-	List<String> trailerURLs;
-	MovieDb movie;
+	private WebView viewer;
+	private static VBox layout;
+	private static DbManager manager = new DbManager();
+	private Button exitBtn;
+	private Button shuffleBtn;
+	private List<String> trailerURLs;
+	private MovieDb movie;
 	
 	ImageView trailerView1;
 	ImageView trailerView2;
