@@ -12,14 +12,16 @@ public class UiApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-//		stage = primaryStage;
-//		showLogin();
+		stage = primaryStage;
+		showLogin();
 	    //AppLoginUI app = new AppLoginUI();
 	    //app.addToStage(primaryStage);
 //	    MainMenuUI app = new MainMenuUI();
 		//WatchListUI app = new WatchListUI();
 
-	    Quiz app = new Quiz(primaryStage);
+//	    Quiz app = new Quiz(primaryStage);
+//		QuizUI app = new QuizUI(false);
+//		app.showDialog("Quiz Test");
 //		HighLoGame app = new HighLoGame();
 		//app.addToStage(primaryStage);
 		//DbManager manager = new DbManager();
@@ -58,12 +60,14 @@ public class UiApplication extends Application {
 		EventHandler<ActionEvent> startHiLoHandler = createHiLoBtnHandler();
 		EventHandler<ActionEvent> accountBtnHandler = createAccountBtnHandler();
 		EventHandler<ActionEvent> movieListBtnHandler = createMovieListBtnHandler();
+		EventHandler<ActionEvent> trailerBtnHandler = createTrailersBtnHandler();
 		
 		mainMenu.addExitBtnHandler(exitHandler);
 		mainMenu.addQuizBtnHandler(startQuizHandler);
 		mainMenu.addHiLoGameBtnHandler(startHiLoHandler);
 		mainMenu.addAcctBtnHandler(accountBtnHandler);
 		mainMenu.addMovieListBtnHandler(movieListBtnHandler);
+		mainMenu.addTrailerBtnHandler(trailerBtnHandler);
 		stage.setScene(mainMenu);
 	}
 	
@@ -129,6 +133,16 @@ public class UiApplication extends Application {
 		return handler;
 	}
 	
+	private EventHandler<ActionEvent> createTrailersBtnHandler(){
+		EventHandler<ActionEvent> trailerHandler = new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				openTrailerWindow();
+			}
+		};
+		return trailerHandler;
+	}
+	
 	private void runHiLoQuiz(){
 		HighLoGameUI game = new HighLoGameUI();
 		EventHandler<ActionEvent> handler = createMenuBtnHandler();
@@ -167,5 +181,11 @@ public class UiApplication extends Application {
 		stage.setScene(view);
 	}
 	
+	private void openTrailerWindow(){
+		TrailersUI trailerForm = new TrailersUI();
+		EventHandler<ActionEvent> handler = createMenuBtnHandler();
+		trailerForm.addExitEventHandler(handler);
+		stage.setScene(trailerForm);
+	}
 	
 }

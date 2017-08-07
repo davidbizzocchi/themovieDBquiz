@@ -7,6 +7,7 @@ import java.util.List;
 
 import info.movito.themoviedbapi.model.MovieDb;
 import info.movito.themoviedbapi.model.Video;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,8 +26,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 public class TrailersUI extends Scene{
+	final String baseUrl = "https://www.youtube.com/embed/";
+	final String placeHolderImg = "file:lib/placeholder.png";
+	
 	WebView viewer;
-	static VBox layout = new VBox();
+	static VBox layout;
+	static DbManager manager = new DbManager();
 	HBox selectorPane;
 	Button exitBtn;
 	Button shuffleBtn;
@@ -39,11 +44,15 @@ public class TrailersUI extends Scene{
 	ImageView trailerView4;
 	
 	public TrailersUI(MovieDb movie) {
-		super(layout);
+		super(layout = new VBox());
 		this.movie = movie;
 		trailerURLs = new ArrayList<String>();
 		setUpLayout();
 		addComponents();
+	}
+	
+	public TrailersUI(){
+		this(manager.getRandomPlayingMovie());
 	}
 	
 	private void setUpLayout(){
@@ -90,14 +99,14 @@ public class TrailersUI extends Scene{
 	private void addViewer(){
 		
 		if(movie.getVideos() == null){
-			Image centerImg = new Image("file:lib/placeholder.png");
+			Image centerImg = new Image(placeHolderImg);
 			ImageView view = new ImageView(centerImg);
 			layout.getChildren().add(view);
 		}else{
 			Video video = movie.getVideos().get(0);
 			viewer = new WebView();
 			viewer.setPrefSize(560, 315);
-			viewer.getEngine().load("https://www.youtube.com/embed/" + video.getKey());
+			viewer.getEngine().load(baseUrl + video.getKey());
 			layout.getChildren().add(viewer);
 		}
 	}
@@ -105,6 +114,7 @@ public class TrailersUI extends Scene{
 	private void addToolBar(){
 		exitBtn = new Button("Exit");
 		shuffleBtn = new Button("Shuffle");
+		addShuffleEventHandler();
 		
 		ToolBar toolbar = new ToolBar(exitBtn, shuffleBtn);
 		toolbar.setPadding(new Insets(30));
@@ -160,7 +170,26 @@ public class TrailersUI extends Scene{
 		}
 	}
 	
-	public void addEventHandler(EventHandler<MouseEvent> event){
-		trailerView1.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+//	public void addEventHandler(EventHandler<MouseEvent> event){
+//		trailerView1.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
+//	}
+
+	public void addExitEventHandler(EventHandler<ActionEvent> handler){
+		exitBtn.setOnAction(handler);
 	}
+	
+	private void addShuffleEventHandler(){
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				DbManager manager = new DbManager();
+				MovieDb movie = manager.getRandomPlayingMovie();
+				Video video = movie.getVideos().get(0);
+				setTrailer(baseUrl + video.getKey());
+			}
+		};
+		shuffleBtn.setOnAction(handler);
+	}
+	
+	
 }

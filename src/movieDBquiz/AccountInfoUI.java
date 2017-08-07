@@ -164,7 +164,6 @@ public class AccountInfoUI extends Scene{
         		
         		File file = fileBrowser.showOpenDialog(stage);
         		if( file != null){
-        			System.out.println(file.getAbsolutePath());
         			profileView.setImage(new Image("file:" + 
         					file.getAbsolutePath()));
         		}

@@ -220,4 +220,11 @@ public class DbManager {
 		return null;
 	}
 
+	public MovieDb getRandomPlayingMovie(){
+		List<MovieDb> playingList = getPlayingMovies();
+		int randIndex = Randomize.randomInt(0, playingList.size()-1);
+		MovieDb movie = getMovieWithInfo(playingList.get(randIndex));
+		return movie;
+	}
+	
 }

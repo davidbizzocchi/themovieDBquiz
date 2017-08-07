@@ -1,11 +1,16 @@
 package movieDBquiz;
 
+import javax.swing.JOptionPane;
+
+import info.movito.themoviedbapi.model.MovieDb;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -30,13 +35,28 @@ import javafx.stage.Stage;
 
 
 public class PosterUI {
+	final String baseImgUrl = "http://image.tmdb.org/t/p/w185/";
+	final String favImgPath = "file:lib/star.png";
+	
 	VBox topLayout;
 	ImageView imgContainer;
+	Button favoritesBtn;
+	Button randomBtn;
+	MovieWatchList watchList;
+	MovieDb currentMovie;
+	DbManager manager;
+	TextArea titleField;
+	TextArea releaseField;
+	TextArea durationField;
+	TextArea castField;
 	
 	
 	public PosterUI() {
+		manager = new DbManager();
+		watchList = new MovieWatchList();
 		setUpPosterImg();
 		setUpLayout();
+		setRandomMovie();
 	}
 	
 	private void setUpLayout(){
@@ -60,8 +80,8 @@ public class PosterUI {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(10, 10, 10, 10));
 		
-		Button favoritesBtn = createFavoritesBtn();
-		Label favoritesLabel = createLabel("Add To Favorites");
+		favoritesBtn = createFavoritesBtn();
+		Label favoritesLabel = createLabel("Add To WatchList");
 		favoritesLabel.setTextFill(Color.LIGHTGRAY);
 		Label titleLabel = createLabel("Title:");
 		titleLabel.setTextFill(Color.LIGHTGRAY);
@@ -71,11 +91,14 @@ public class PosterUI {
 		durationLabel.setTextFill(Color.LIGHTGRAY);
 		Label castLabel = createLabel("Cast:");
 		castLabel.setTextFill(Color.LIGHTGRAY);
+		addFavoritesListener();
 		
-		TextArea titleField = createTextArea("");
-		TextArea releaseField = createTextArea("");
-		TextArea durationField = createTextArea("");
-		TextArea castField = createTextArea("");
+		titleField = createTextArea("");
+		releaseField = createTextArea("");
+		durationField = createTextArea("");
+		castField = createTextArea("");
+		
+		randomBtn = createRandomBtn(); 
 		
 		grid.add(titleLabel, 0, 0);
 		grid.add(titleField, 1, 0);
@@ -87,12 +110,13 @@ public class PosterUI {
 		grid.add(castField, 1, 3);
 		grid.add(favoritesBtn, 0, 4);
 		grid.add(favoritesLabel, 1, 4);
+		grid.add(randomBtn, 0, 5);
 		
 		return grid;
 	}
 	
 	private Button createFavoritesBtn(){
-		Image image = new Image("file:lib/star.png");
+		Image image = new Image(favImgPath);
 		ImageView view = new ImageView(image);
 		Button favBtn = new Button();
 		favBtn.setGraphic(view);
@@ -135,5 +159,62 @@ public class PosterUI {
 		return topLayout;
 	}
 	
+	private void addFavoritesListener(){
+		EventHandler<ActionEvent> handler  = new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if(currentMovie != null){
+					watchList.addToList(currentMovie);
+					Alert message =  new Alert(AlertType.CONFIRMATION);
+					message.setContentText("Movie Added.");
+					message.show();
+				}
+				setRandomMovie();
+			}
+		};
+		favoritesBtn.setOnAction(handler);
+	}
+	
+	private void setRandomMovie(){
+		try{
+			currentMovie = manager.getRandomMovie();
+			String posterUrl = baseImgUrl + currentMovie.getPosterPath();
+
+			Image posterImg = new Image(posterUrl);
+			imgContainer.setImage(posterImg);
+			
+			titleField.setText(currentMovie.getTitle());
+			releaseField.setText(currentMovie.getReleaseDate());
+			durationField.setText(Integer.toString(currentMovie.getRuntime()));
+			String cast = currentMovie.getCast().toString();
+			castField.setText(cast);
+		}
+		catch(Exception e){
+			showErrorAlert(e.getMessage());
+		}
+	}
+	
+	private void showErrorAlert(String message){
+		Alert errAlert = new Alert(AlertType.ERROR);
+		errAlert.setContentText(message);
+		errAlert.setTitle("Poster Panel Error");
+		errAlert.show();
+	}
+	
+	
+	private Button createRandomBtn(){
+		Button randBtn = new Button("Random");
+		randBtn.setPadding(new Insets(5));
+		randBtn.setAlignment(Pos.CENTER);
+		
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				setRandomMovie();
+			}
+		};
+		randBtn.setOnAction(handler);
+		return randBtn;
+	}
 	
 }

@@ -201,5 +201,9 @@ public class MainMenuUI extends Scene{
 		hiLoGameButton.setOnAction(handler);
 	}
 	
+	public void addTrailerBtnHandler(EventHandler<ActionEvent> handler){
+		trailersButton.setOnAction(handler);
+	}
+	
 	
 }
