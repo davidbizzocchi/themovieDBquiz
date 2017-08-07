@@ -27,16 +27,22 @@ import javafx.stage.Stage;
  */
 public class PosterUI {
 	/** The padding size for ui components.*/
-	private static final int PADDINGSIZE = 15;
+	private static final int TOPPADDINGSIZE = 15;
+	/** The padding size for buttons.*/
+	private static final int BTNPADDINGSIZE = 5;
 	/** The spacing size for ui components.*/
-	private static final int SPACINGSIZE = 15;
+	private static final int SPACINGSIZE = 10;
 	/** The spacing size for ui components.*/
 	private static final int GRIDWIDTH = 200;
 	/** The spacing size for ui components.*/
 	private static final int GRIDHEIGHT = 300;
 	/** The spacing size for ui components.*/
 	private static final int STDFONTSIZE = 12;
-	
+	/** The spacing size for ui components.*/
+	private static final int POSTERWIDTH = 160;
+	/** The spacing size for ui components.*/
+	private static final int POSTERHEIGHT = 250;
+
 	/** Constant string base url for accessing poster images from tmdb.*/
 	private final String baseImgUrl = "http://image.tmdb.org/t/p/w185/";
 	/** Image path for favorites icon.*/
@@ -87,7 +93,7 @@ public class PosterUI {
 		VBox.setVgrow(imgContainer, Priority.SOMETIMES);
 		VBox.setVgrow(grid, Priority.SOMETIMES);
 
-		topLayout.setPadding(new Insets(PADDINGSIZE));
+		topLayout.setPadding(new Insets(TOPPADDINGSIZE));
 		topLayout.getChildren().addAll(imgContainer, grid);
 	}
 
@@ -187,8 +193,8 @@ public class PosterUI {
 	private void setUpPosterImg() {
 		Image posterImg = new Image("file:lib/placeholder.png");
 		imgContainer = new ImageView(posterImg);
-		imgContainer.setFitHeight(250);
-		imgContainer.setFitWidth(200);
+		imgContainer.setFitHeight(POSTERHEIGHT);
+		imgContainer.setFitWidth(POSTERWIDTH);
 	}
 
 	/**
@@ -267,7 +273,7 @@ public class PosterUI {
 	 */
 	private Button createRandomBtn() {
 		Button randBtn = new Button("Random");
-		randBtn.setPadding(new Insets(PADDINGSIZE));
+		randBtn.setPadding(new Insets(BTNPADDINGSIZE));
 		randBtn.setAlignment(Pos.CENTER);
 
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {

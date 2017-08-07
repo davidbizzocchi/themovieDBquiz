@@ -1,22 +1,12 @@
 package movieDBquiz;
 
-import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -38,27 +28,142 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * A class to provide the graphic content for a quiz.
+ * 
+ * @author David Bizzocchi, Josh Aitken, Caitlyn Heyn
+ * @version 1.1
+ */
 public class QuizUI extends Scene {
-	static HBox windowLayout;
+	/**
+	 * Constant padding size.
+	 */
+	private static final int PADDINGSIZE = 15;
+	/**
+	 * Constant spacing size.
+	 */
+	private static final int SPACINGSIZE = 10;
+	/**
+	 * Constant window dim. size.
+	 */
+	private static final int WINDOWSIZE = 800;
+	/**
+	 * Toolbar elem. spacing.
+	 */
+	private static final int TOOLBARSPACING = 300;
+	/**
+	 * Max button width.
+	 */
+	private static final int MAXBTNWIDTH = 120;
+	/**
+	 * Max button height.
+	 */
+	private static final int MAXBTNHEIGHT = 40;
+	/**
+	 * Pref. Display Width.
+	 */
+	private static final int DISPLAYWIDTH = 100;
+	/**
+	 * Pref. Display Height.
+	 */
+	private static final int DISPLAYHEIGHT = 40;
+
+
+	/**
+	 * top level layout.
+	 */
+	private static HBox windowLayout;
+
+	/**
+	 * quiz game layout.
+	 */
 	private VBox quizLayout;
+
+	/**
+	 * reference to poster for sidebar.
+	 */
 	private PosterUI poster;
+
+	/**
+	 * the question description TextArea.
+	 */
 	private TextArea questionText;
+
+	/**
+	 * area to display current score.
+	 */
 	private TextField scoreDisplay;
+
+	/**
+	 * Field to display rem. time.
+	 */
 	private TextField timerDisplay;
+
+	/**
+	 * Field to display timed/numbered quiz.
+	 */
 	private Label quizTypeDisplay;
+
+	/**
+	 * Field to hold secs rem.
+	 */
 	private int numSeconds;
+
+	/**
+	 * Field to hold questions rem.
+	 */
 	private int numQuestions;
+
+	/**
+	 * field to hold if quiz timed/not.
+	 */
 	private boolean isTimed;
+
+	/**
+	 * Indicates whether quiz is continuous or limited.
+	 */
 	private boolean isSetNumQuestion;
+
+	/**
+	 * Choice 1 txt fields.
+	 */
 	private TextArea optATextArea;
+
+	/**
+	 * Choice 2 txt fields.
+	 */
 	private TextArea optBTextArea;
+
+	/**
+	 * Choice 3 txt fields.
+	 */
 	private TextArea optCTextArea;
+
+	/**
+	 * Choice 4 txt fields.
+	 */
 	private TextArea optDTextArea;
+
+	/**
+	 * Submit button.
+	 */
 	private Button submitBtn;
+
+	/**
+	 * Main menu button.
+	 */
 	private Button menuBtn;
+
+	/**
+	 * Group for radio buttons.
+	 */
 	private ToggleGroup btnGroup;
 
-	public QuizUI(Boolean showPoster) {
+	/**
+	 * Constructs UI layout and adds components.
+	 * @param showPoster indicates whether movie poster sidebar shown.
+	 */
+	public QuizUI(final Boolean showPoster) {
 		super(windowLayout = new HBox());
 		setUpLayout();
 		addComponents();
@@ -67,6 +172,9 @@ public class QuizUI extends Scene {
 		}
 	}
 
+	/**
+	 * Sets up top-level layout.
+	 */
 	private void setUpLayout() {
 		Image image = new Image("file:lib/background.jpg");
 		ImagePattern pattern = new ImagePattern(image);
@@ -74,19 +182,24 @@ public class QuizUI extends Scene {
 
 		windowLayout = new HBox();
 		windowLayout.setAlignment(Pos.CENTER);
-		windowLayout.setPadding(new Insets(15));
-		windowLayout.setMaxSize(800, 800);
+		windowLayout.setPadding(new Insets(PADDINGSIZE));
+		windowLayout.setMaxSize(WINDOWSIZE, WINDOWSIZE);
 		windowLayout.setBackground(new Background(color));
 
 		quizLayout = new VBox();
 		quizLayout.setAlignment(Pos.CENTER);
-		quizLayout.setPadding(new Insets(10));
-		quizLayout.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
-		quizLayout.setMaxSize(800, 800);
+		quizLayout.setPadding(new Insets(PADDINGSIZE));
+		quizLayout.setBackground(new Background(
+				new BackgroundFill(Color.TRANSPARENT, null, null)));
+		quizLayout.setMaxSize(WINDOWSIZE, WINDOWSIZE);
 
 		windowLayout.getChildren().add(quizLayout);
 	}
 
+	/**
+	 * Creates layout for quiz answer options.
+	 * @return a GridPane with components added.
+	 */
 	private GridPane createOptionsGrid() {
 		btnGroup = new ToggleGroup();
 
@@ -119,7 +232,7 @@ public class QuizUI extends Scene {
 		optDTextArea = createOptTextArea();
 
 		GridPane grid = new GridPane();
-		grid.setPadding(new Insets(20));
+		grid.setPadding(new Insets(PADDINGSIZE));
 
 		grid.add(radioBtnA, 0, 0);
 		grid.add(radioBtnB, 0, 1);
@@ -134,6 +247,10 @@ public class QuizUI extends Scene {
 		return grid;
 	}
 
+	/**
+	 * Creates a generic answer option TextArea.
+	 * @return the TextArea created.
+	 */
 	private TextArea createOptTextArea() {
 		TextArea text = new TextArea();
 		text.setPrefSize(330, 60);
@@ -141,24 +258,32 @@ public class QuizUI extends Scene {
 		return text;
 	}
 
+	/**
+	 * Creates toolbar layout.
+	 * @return the HBox layout created.
+	 */
 	private HBox createToolBarBox() {
 		HBox toolBar = new HBox();
 		toolBar.setAlignment(Pos.TOP_CENTER);
-		toolBar.setSpacing(300);
+		toolBar.setSpacing(TOOLBARSPACING);
 
 		menuBtn = new Button("End Quiz");
-		menuBtn.setMaxSize(120, 40);
+		menuBtn.setMaxSize(MAXBTNWIDTH, MAXBTNHEIGHT);
 		submitBtn = new Button("Next");
-		submitBtn.setMaxSize(120, 40);
+		submitBtn.setMaxSize(MAXBTNWIDTH, MAXBTNHEIGHT);
 
 		toolBar.getChildren().addAll(menuBtn, submitBtn);
 		return toolBar;
 	}
 
+	/**
+	 * Creates the header layout.
+	 * @return VBox layout created with title and score/time displays.
+	 */
 	private VBox createHeader() {
 		VBox header = new VBox();
 		header.setAlignment(Pos.CENTER);
-		header.setSpacing(10);
+		header.setSpacing(SPACINGSIZE);
 
 		HBox titleBar = new HBox();
 		titleBar.setAlignment(Pos.CENTER);
@@ -172,23 +297,25 @@ public class QuizUI extends Scene {
 		title.setAlignment(Pos.TOP_CENTER);
 		title.setFont(new Font("Common", 22));
 		title.setTextFill(Color.GHOSTWHITE);
-		title.setMinSize(110, 30);
-		title.setPrefSize(130, 30);
+		title.setMinSize(MAXBTNWIDTH, DISPLAYHEIGHT);
+		title.setPrefSize(MAXBTNWIDTH, DISPLAYHEIGHT);
 
 		scoreDisplay = new TextField("Score: 0");
-		scoreDisplay.setPrefSize(100, 30);
+		scoreDisplay.setPrefSize(DISPLAYWIDTH, DISPLAYHEIGHT);
 		scoreDisplay.setEditable(false);
 
 		timerDisplay = new TextField("");
-		timerDisplay.setPrefSize(100, 30);
+		timerDisplay.setPrefSize(DISPLAYWIDTH, DISPLAYHEIGHT);
 		timerDisplay.setEditable(false);
 
 		quizTypeDisplay = new Label("");
-		quizTypeDisplay.setPrefSize(100, 30);
+		quizTypeDisplay.setPrefSize(DISPLAYWIDTH, DISPLAYHEIGHT);
 		quizTypeDisplay.setTextFill(Color.GHOSTWHITE);
 
-		currentQuizInfo.getChildren().addAll(quizTypeDisplay, timerDisplay);
-		titleBar.getChildren().addAll(scoreDisplay, title, currentQuizInfo);
+		currentQuizInfo.getChildren().addAll(quizTypeDisplay,
+				timerDisplay);
+		titleBar.getChildren().addAll(scoreDisplay, title,
+				currentQuizInfo);
 
 		questionText = new TextArea();
 		questionText.setMinSize(400, 100);
@@ -201,6 +328,9 @@ public class QuizUI extends Scene {
 		return header;
 	}
 
+	/**
+	 * Adds all ui components.
+	 */
 	private void addComponents() {
 		VBox header = createHeader();
 		GridPane options = createOptionsGrid();
@@ -208,37 +338,63 @@ public class QuizUI extends Scene {
 		quizLayout.getChildren().addAll(header, options, toolBar);
 	}
 
-	public void setScore(int score) {
+	/**
+	 * Updates the scoreDisplay to 'score'.
+	 * @param score the new score value.
+	 */
+	public final void setScore(final int score) {
 		scoreDisplay.setText("Score: 0" + score);
 	}
 
-	public void addToStage(Stage stage) {
+	/**
+	 * Adds the top-level layout to a scene, which is added to stage.
+	 * @param stage the stage which the QuizUI scene is set to.
+	 */
+	public final void addToStage(final Stage stage) {
 		Scene quiz = new Scene(windowLayout);
 		stage.setScene(quiz);
 	}
 
-	public HBox getLayout() {
+	/**
+	 * Gets the top-level layout.
+	 * @return the HBox layout with all components.
+	 */
+	public final HBox getLayout() {
 		return windowLayout;
 	}
 
-	public void addPoster() {
+	/**
+	 * Constructs a posterUi and adds to top layout.
+	 */
+	public final void addPoster() {
 		if (poster == null) {
 			poster = new PosterUI();
 			windowLayout.getChildren().add(poster.getLayout());
 		}
 	}
 
-	public void removePoster() {
+	/**
+	 * Removes the posterUI from layout.
+	 */
+	public final void removePoster() {
 		if (poster != null) {
 			windowLayout.getChildren().remove(poster.getLayout());
 		}
 	}
 
-	public void setQuestionTxt(String question) {
+	/**
+	 * Changes text of question.
+	 * @param question the new text.
+	 */
+	public final void setQuestionTxt(final String question) {
 		questionText.setText(question);
 	}
 
-	public void populateOptions(List<String> options) {
+	/**
+	 * Populates options textareas with possibleanswers.
+	 * @param options the possible answers to populate with.
+	 */
+	public final void populateOptions(final List<String> options) {
 		if (options.get(0) != null) {
 			optATextArea.setText(options.get(0));
 		}
@@ -253,32 +409,52 @@ public class QuizUI extends Scene {
 		}
 	}
 
-	public void addNextButtonEventHandler(EventHandler<MouseEvent> event) {
+	/**
+	 * Add Event handler for next button.
+	 * @param event the new handler.
+	 */
+	public final void addNextButtonEventHandler(
+			final EventHandler<MouseEvent> event) {
 		submitBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event);
 	}
 
-	public void addExitButtonEventHandler(EventHandler<ActionEvent> menuhandler) {
+	/**
+	 * Sets the EventHandler for exit/menu button.
+	 * @param menuhandler the new handler.
+	 */
+	public final void addExitButtonEventHandler(
+			final EventHandler<ActionEvent> menuhandler) {
 		menuBtn.setOnAction(menuhandler);
 	}
 
-	public int getAnswerButton() {
+	/**
+	 * Gets the index of button corresponding to answer.
+	 * @return the correct index.
+	 */
+	public final int getAnswerButton() {
 		if (btnGroup.getSelectedToggle() != null) {
 			return (int) btnGroup.getSelectedToggle().getUserData();
 		}
 		return 0;
 	}
 
-	public void getQuizOptionsDialog() {
+	/**
+	 * Gets a dialog which sets the quiz type and parameters.
+	 */
+	public final void getQuizOptionsDialog() {
 		final Stage dialog = new Stage();
 		dialog.setTitle("Quiz Selection");
-		
+
 		Button timedQuizBtn = new Button("Timed");
 		Button questionQuizBtn = new Button("Numbered");
-		Spinner<Integer> timeSecSpinner = new Spinner<Integer>(1,99,30,1);
+		Spinner<Integer> timeSecSpinner = new Spinner<Integer>(1, 99,
+				30, 1);
 		timeSecSpinner.setPrefWidth(80);
-		Spinner<Integer> timeMinSpinner = new Spinner<Integer>(0,99,0,1);
+		Spinner<Integer> timeMinSpinner = new Spinner<Integer>(0, 99, 0,
+				1);
 		timeMinSpinner.setPrefWidth(80);
-		Spinner<Integer> questionSpinner = new Spinner<Integer>(1,99,20,1);
+		Spinner<Integer> questionSpinner = new Spinner<Integer>(1, 99,
+				20, 1);
 		questionSpinner.setPrefWidth(125);
 
 		Label displayLabel = new Label("Select Quiz Type");
@@ -295,7 +471,7 @@ public class QuizUI extends Scene {
 
 		HBox timeSelectHBox = new HBox(2);
 		timeSelectHBox.setAlignment(Pos.CENTER);
-		
+
 		VBox dialogVbox1 = new VBox(20);
 		dialogVbox1.setAlignment(Pos.CENTER);
 
@@ -304,46 +480,54 @@ public class QuizUI extends Scene {
 
 		Label seperator = new Label(":");
 		seperator.setTextFill(Color.ANTIQUEWHITE);
-		timeSelectHBox.getChildren().addAll(timeMinSpinner, seperator, timeSecSpinner);
+		timeSelectHBox.getChildren().addAll(timeMinSpinner, seperator,
+				timeSecSpinner);
 		dialogHbox.getChildren().add(displayLabel);
 		dialogVbox1.getChildren().addAll(timeSelectHBox, timedQuizBtn);
-		dialogVbox2.getChildren().addAll(questionSpinner, questionQuizBtn);
+		dialogVbox2.getChildren().addAll(questionSpinner,
+				questionQuizBtn);
 
-		timedQuizBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				numSeconds = timeSecSpinner.getValue();
-				numSeconds += timeMinSpinner.getValue() * 60;
-				isSetNumQuestion = false; 
-				isTimed = true;
-				dialog.close();
-			}
-		});
-		questionQuizBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				numQuestions = questionSpinner.getValue();
-				isSetNumQuestion = true; 
-				isTimed = false;
-				dialog.close();
-			}
-		});
+		timedQuizBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(final MouseEvent e) {
+						numSeconds = timeSecSpinner.getValue();
+						numSeconds += timeMinSpinner.getValue() * 60;
+						isSetNumQuestion = false;
+						isTimed = true;
+						dialog.close();
+					}
+				});
+		questionQuizBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(final MouseEvent e) {
+						numQuestions = questionSpinner.getValue();
+						isSetNumQuestion = true;
+						isTimed = false;
+						dialog.close();
+					}
+				});
 
 		dialogHbox.getChildren().addAll(dialogVbox1, dialogVbox2);
-		dialogHbox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		dialogHbox.setBackground(new Background(
+				new BackgroundFill(Color.BLACK, null, null)));
 		Scene dialogScene = new Scene(dialogHbox, 500, 40);
 		dialog.setScene(dialogScene);
 		dialog.showAndWait();
 	}
 
-	public void showDialog(String info) {
+	/**
+	 * @param info
+	 */
+	public final void showDialog(final String info) {
 		Stage dialogStage = new Stage();
 		dialogStage.setTitle("Quiz Info");
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		Button okBtn = new Button("Ok");
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			public void handle(ActionEvent e) {
+			public void handle(final ActionEvent e) {
 				dialogStage.close();
 			}
 		});
@@ -356,6 +540,7 @@ public class QuizUI extends Scene {
 	}
 
 	/**
+	 * Gets total seconds selected for quiz.
 	 * @return the seconds desired to take quiz
 	 */
 	public int getNumSeconds() {
@@ -363,6 +548,7 @@ public class QuizUI extends Scene {
 	}
 
 	/**
+	 * Gets Total questions selected for quiz.
 	 * @return the numQuestions
 	 */
 	public int getNumQuestions() {
@@ -370,6 +556,7 @@ public class QuizUI extends Scene {
 	}
 
 	/**
+	 * Gets whether timed.
 	 * @return true if quiz is timed
 	 */
 	public boolean isTimed() {
@@ -377,38 +564,46 @@ public class QuizUI extends Scene {
 	}
 
 	/**
+	 * Gets if open quiz or set  no. questions.
 	 * @return true if quiz is based on a set number of questions
 	 */
 	public boolean isSetNumQuestion() {
 		return isSetNumQuestion;
 	}
 
-	public void setQuizTypeLabel(String label) {
+	/**
+	 * Sets the label displaying type of quiz.
+	 * @param label the text to display.
+	 */
+	public final void setQuizTypeLabel(final String label) {
 		quizTypeDisplay.setText(label);
 	}
 
 	/**
-	 * @param numSeconds
-	 *            the numSeconds to set
+	 * Sets total remaining time.
+	 * @param secondsRemaining the numSeconds to set
 	 */
-	public void setTimeRemaining(int secondsRemaining) {
+	public void setTimeRemaining(final int secondsRemaining) {
 		timerDisplay.setText(
-				String.format("%02d", secondsRemaining / 60) + ":" + String.format("%02d", secondsRemaining % 60));
+				String.format("%02d", secondsRemaining / 60) + ":"
+						+ String.format("%02d", secondsRemaining % 60));
 	}
 
 	/**
-	 * @param numSeconds
-	 *            the numSeconds to set
+	 * Sets the number of questions rem.
+	 * @param questionsRemaining
+	 *            the number questions total.
 	 */
-	public void setQuestionsRemaining(int questionsRemaining) {
+	public void setQuestionsRemaining(final int questionsRemaining) {
 		timerDisplay.setText(String.format("%02d", questionsRemaining));
 	}
 
 	/**
-	 * @param numQuestions
+	 * Sets the number of questions rem.
+	 * @param amtQuestions
 	 *            the numQuestions to set
 	 */
-	public void setNumQuestions(int numQuestions) {
-		this.numQuestions = numQuestions;
+	public void setNumQuestions(final int amtQuestions) {
+		this.numQuestions = amtQuestions;
 	}
 }

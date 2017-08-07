@@ -35,7 +35,7 @@ public class MainMenuUI extends Scene {
 	/** The top level app-style layout.*/
 	private static final int WINDOWWIDTH = 800;
 	/** The top level app-style layout.*/
-	private static final int WINDOWHEIGHT = 600;
+	private static final int WINDOWHEIGHT = 550;
 	/** The top level app-style layout.*/
 	private static final int PADDINGSIZE = 25;
 	/** The top level app-style layout.*/
@@ -202,13 +202,15 @@ public class MainMenuUI extends Scene {
 		HBox box = new HBox();
 		box.setCenterShape(true);
 		box.setAlignment(Pos.CENTER_RIGHT);
-		box.setPadding(new Insets(PADDINGSIZE));
+		box.setPadding(new Insets(5));
+		box.setSpacing(100);
 
 		exitButton = new Button("Exit");
 		setUpMenuButton(exitButton);
 
 		TextField status = new TextField();
 		status.setText("Select an option from the menu.");
+		status.setMaxSize(MAXTEXTWIDTH, PADDINGSIZE);
 		status.setEditable(false);
 		status.setAlignment(Pos.TOP_CENTER);
 
