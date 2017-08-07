@@ -87,6 +87,7 @@ public final class Quiz {
 			Float result = new Float(score)/new Float(window.getNumQuestions());
 			window.showDialog("Results: " + Integer.toString(score) + "/" + 
 					Integer.toString(window.getNumQuestions()) + " -> " + String.format("%.2f",result*100) + "%");
+			window.disableNextButton();
 		}
 	}
 	
@@ -98,6 +99,7 @@ public final class Quiz {
 			window.showDialog("Time's Up!\n" + "Results: " + Integer.toString(score) + "/" + 
 					questionsAnswered + " -> " + String.format("%.2f",result*100) + "%");
 			updateTimerTimeline.stop();
+			window.disableNextButton();
 		}
 	}
 	

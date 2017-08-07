@@ -33,7 +33,7 @@ public class UiApplication extends Application {
 	}
 	
 	private void showLogin(){
-		stage.setTitle("Login");
+		stage.setTitle("The Movie Database App");
 		
 		AppLoginUI loginForm = new AppLoginUI();
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>(){ 

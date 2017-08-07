@@ -260,6 +260,10 @@ public class QuizUI extends Scene {
 	public void addExitButtonEventHandler(EventHandler<ActionEvent> menuhandler) {
 		menuBtn.setOnAction(menuhandler);
 	}
+	
+	public void disableNextButton(){
+		submitBtn.setDisable(true);
+	}
 
 	public int getAnswerButton() {
 		if (btnGroup.getSelectedToggle() != null) {
