@@ -46,7 +46,7 @@ public class HighLoGameUI extends Scene{
 	private void setUpLayout(){
 		Image image = new Image("file:lib/background.jpg");
 		ImagePattern pattern = new ImagePattern(image);
-		BackgroundFill color = new BackgroundFill(pattern, null, null);
+		BackgroundFill bg = new BackgroundFill(pattern, null, null);
 		
 		windowLayout.setAlignment(Pos.CENTER);
 		windowLayout.setPadding(new Insets(15));
@@ -56,7 +56,7 @@ public class HighLoGameUI extends Scene{
 		gameLayout.setAlignment(Pos.CENTER);
 		gameLayout.setPadding(new Insets(10));
 		
-		gameLayout.setBackground(new Background(color));
+		gameLayout.setBackground(new Background(bg));
 		gameLayout.setMaxSize(800, 800);
 		
 		windowLayout.getChildren().add(gameLayout);

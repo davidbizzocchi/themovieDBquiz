@@ -14,8 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -84,10 +88,14 @@ public class AccountInfoUI extends Scene {
 	/**
 	 * Sets up layout spacing constraints and alignment.
 	 */
-	private void setUpLayout() {
+	private void setUpLayout(){
+		Image image = new Image("file:lib/background.jpg");
+		ImagePattern pattern = new ImagePattern(image);
+		BackgroundFill bg = new BackgroundFill(pattern, null, null);
 		topLayout.setAlignment(Pos.CENTER);
-		topLayout.setPadding(new Insets(paddingSize));
-		topLayout.setSpacing(spacingSize);
+		topLayout.setPadding(new Insets(15));
+		topLayout.setSpacing(20);
+		topLayout.setBackground(new Background(bg));
 	}
 
 	/** Creates title label and adds to layout.*/
@@ -176,9 +184,12 @@ public class AccountInfoUI extends Scene {
 		menuBtn = new Button("Menu");
 		menuBtn.setPadding(new Insets(paddingSize));
 
+		BackgroundFill fill = new BackgroundFill(Color.TRANSPARENT, null, null);
+
 		ToolBar toolBar = new ToolBar(menuBtn);
 		toolBar.setPadding(new Insets(spacingSize));
 		toolBar.setPrefHeight(labelHeight);
+		toolBar.setBackground(new Background(fill));
 
 		topLayout.getChildren().add(toolBar);
 	}

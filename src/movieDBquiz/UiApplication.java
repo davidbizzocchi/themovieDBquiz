@@ -1,10 +1,8 @@
 package movieDBquiz;
 
-import info.movito.themoviedbapi.model.MovieDb;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class UiApplication extends Application {
@@ -13,7 +11,9 @@ public class UiApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		stage = primaryStage;
+		//openQuizWindow();
 		showLogin();
+		
 	    //AppLoginUI app = new AppLoginUI();
 	    //app.addToStage(primaryStage);
 //	    MainMenuUI app = new MainMenuUI();
@@ -190,7 +190,10 @@ public class UiApplication extends Application {
 	}
 	
 	private void openQuizWindow(){
+		EventHandler<ActionEvent> menuhandler = createMenuBtnHandler();
 		Quiz quiz = new Quiz(stage);
+		quiz.addExitButtonEventHandler(menuhandler);
+		quiz.runQuiz();
 	}
 	
 }

@@ -22,19 +22,22 @@ import javafx.util.Pair;
  */
 public final class Quiz {
 	
-	MatchingQuestion question;
-	MovieWatchList watchList;
-	QuestionTimer timer;
-	QuizUI window;
-	Timeline updateTimerTimeline;
-	int secondsElapsed;
-	int score;
-	int questionsAnswered;
+	private MatchingQuestion question;
+	private QuizUI window;
+	private Timeline updateTimerTimeline;
+	private int secondsElapsed;
+	private int score;
+	private int questionsAnswered;
 	
 	public Quiz(Stage primaryStage){
 		score = 0;
 		window = new QuizUI(true);
 		window.addToStage(primaryStage);
+	}
+	
+	public void runQuiz(){
+		
+		window.getQuizOptionsDialog();
 		
 		question = new MatchingQuestion();
 		populateMovieQuestion();
@@ -71,13 +74,19 @@ public final class Quiz {
 		});
 	}
 	
+	public void addExitButtonEventHandler(EventHandler<ActionEvent> menuhandler){
+		if(window != null){
+			window.addExitButtonEventHandler(menuhandler);
+		}
+	}
+	
 	private void updateQuizQuestionNumber(){
 		int questionsRemaining = window.getNumQuestions() - questionsAnswered;
 		window.setQuestionsRemaining(questionsRemaining);
 		if(questionsRemaining <= 0){
 			Float result = new Float(score)/new Float(window.getNumQuestions());
 			window.showDialog("Results: " + Integer.toString(score) + "/" + 
-					Integer.toString(window.getNumQuestions()) + " -> " + Float.toString(result*100) + "%");
+					Integer.toString(window.getNumQuestions()) + " -> " + String.format("%.2f",result*100) + "%");
 		}
 	}
 	
