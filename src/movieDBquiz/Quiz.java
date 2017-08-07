@@ -94,7 +94,9 @@ public final class Quiz {
 		int timeRemaining = window.getNumSeconds() - secondsElapsed++;
 		window.setTimeRemaining(timeRemaining);
 		if(timeRemaining <= 0){
-			window.showDialog("TIMES UP!");
+			Float result = new Float(score)/new Float(questionsAnswered);
+			window.showDialog("Time's Up!\n" + "Results: " + Integer.toString(score) + "/" + 
+					questionsAnswered + " -> " + String.format("%.2f",result*100) + "%");
 			updateTimerTimeline.stop();
 		}
 	}
