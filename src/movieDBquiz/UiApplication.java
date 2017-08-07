@@ -85,9 +85,10 @@ public class UiApplication extends Application {
 		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				//Launch Quiz
-				QuizUI quiz = new QuizUI(false);
-				stage.setScene(quiz);
+//				//Launch Quiz
+//				QuizUI quiz = new QuizUI(false);
+//				stage.setScene(quiz);
+				openQuizWindow();
 			}
 		};
 		return handler;
@@ -186,6 +187,10 @@ public class UiApplication extends Application {
 		EventHandler<ActionEvent> handler = createMenuBtnHandler();
 		trailerForm.addExitEventHandler(handler);
 		stage.setScene(trailerForm);
+	}
+	
+	private void openQuizWindow(){
+		Quiz quiz = new Quiz(stage);
 	}
 	
 }
