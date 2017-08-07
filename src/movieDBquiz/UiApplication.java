@@ -19,7 +19,7 @@ public class UiApplication extends Application {
 //	    MainMenuUI app = new MainMenuUI();
 		//WatchListUI app = new WatchListUI();
 
-//	    Quiz app = new Quiz(primaryStage);
+//	    Quiz app = new Quiz(stage);
 //		QuizUI app = new QuizUI(false);
 //		app.showDialog("Quiz Test");
 //		HighLoGame app = new HighLoGame();

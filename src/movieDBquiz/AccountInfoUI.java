@@ -1,9 +1,6 @@
 package movieDBquiz;
 
-import java.awt.Desktop.Action;
 import java.io.File;
-import java.util.List;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
@@ -11,188 +8,225 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class AccountInfoUI extends Scene{
-	static VBox topLayout;
-	AccountInfo acct;
-	ImageView profileView;
-	Button menuBtn;
-	Button newNameBtn;
-	Stage stage;
-	TextField newNameField;
-	
-	public AccountInfoUI(Stage primaryStage) {
+/**
+ * Provides fx graphic layout to display account info & image.
+ * @author David Bizzocchi, Josh Aitken, Caitlyn Heyn
+ * @version 1.1
+ */
+public class AccountInfoUI extends Scene {
+	/** Constant for button, Textfield, etc padding.*/
+	private final int paddingSize = 10;
+	/** Constant for container spacing.*/
+	private final int spacingSize = 20;
+	/** Constant for ui font size.*/
+	private final int fontSize = 16;
+	/** Constant for imageView width.*/
+	private final int imageWidth = 200;
+	/** Constant for imageView height.*/
+	private final int imageHeight = 300;
+	/** Constant for label width.*/
+	private final int labelWidth = 150;
+	/** Constant for label height.*/
+	private final int labelHeight = 35;
+
+
+	/** Field to hold layout with account details.*/
+	private static VBox topLayout;
+	/** Field used to access Account wrapper methods.*/
+	private AccountInfo acct;
+	/** A container field for profile image.*/
+	private ImageView profileView;
+	/** Toolbar button to navigate to menu.*/
+	private Button menuBtn;
+	/** Button to change user name.*/
+	private Button newNameBtn;
+	/** Field to hold reference to stage to display alerts.*/
+	private Stage stage;
+	/** Field for user name entry.*/
+	private TextField newNameField;
+
+	/**
+	 * Constructor instantiates fields and populates information.
+	 * @param primaryStage Reference to main stage.
+	 */
+	public AccountInfoUI(final Stage primaryStage) {
 		super(topLayout = new VBox());
 		stage = primaryStage;
 		acct = new AccountInfo();
 		setUpLayout();
 		addComponents();
 	}
-	
-	private void addComponents(){
+
+	/**
+	 * Adds all levels of the UI to topLayout.
+	 */
+	private void addComponents() {
 		setUpTitle();
 		setUpProfileImage();
 		setUpProfileInfo();
 		setUpToolbar();
 	}
-	
-	private void setUpLayout(){
+
+	/**
+	 * Sets up layout spacing constraints and alignment.
+	 */
+	private void setUpLayout() {
 		topLayout.setAlignment(Pos.CENTER);
-		topLayout.setPadding(new Insets(15));
-		topLayout.setSpacing(20);
+		topLayout.setPadding(new Insets(paddingSize));
+		topLayout.setSpacing(spacingSize);
 	}
-	
-	private void setUpTitle(){
+
+	/** Creates title label and adds to layout.*/
+	private void setUpTitle() {
 		Label title = new Label("Account Information");
-		title.setFont(new Font(16));
+		title.setFont(new Font(fontSize));
 		title.setTextAlignment(TextAlignment.CENTER);
 		title.setAlignment(Pos.TOP_CENTER);
-		
+
 		topLayout.getChildren().add(title);
 	}
-	
-	private void setUpProfileImage(){
+
+	/** Sets up imageView for profile and adds to layout.*/
+	private void setUpProfileImage() {
 		profileView = new ImageView();
 		profileView.setImage(new Image("file:lib/question.jpg"));
-		profileView.setFitHeight(200);
-		profileView.setFitWidth(130);
-		
+		profileView.setFitHeight(imageHeight);
+		profileView.setFitWidth(imageWidth);
+
 		Button changeProfileBtn = new Button("Change Profile");
-		changeProfileBtn.setPadding(new Insets(5));
+		changeProfileBtn.setPadding(new Insets(paddingSize));
 		addButtonListener(changeProfileBtn);
-		
+
 		topLayout.getChildren().addAll(profileView, changeProfileBtn);
 	}
-	
-	private void setUpProfileInfo(){
+
+	/** Sets up fields to display profile info.**/
+	private void setUpProfileInfo() {
 		HBox nameBox = new HBox();
 		nameBox.setAlignment(Pos.CENTER);
-		
-		Label nameLabel = new Label("User Name:");
-		nameLabel.setAlignment(Pos.CENTER);
-		nameLabel.setPrefSize(150, 30);
-		nameLabel.setFont(new Font(14));
-		
+
+		Label nameLabel = createLabel("User Name:");
+
 		TextField nameField = new TextField(acct.getUserName());
 		nameField.setEditable(false);
-		nameField.setFont(new Font(14));
-		
+		nameField.setFont(new Font(fontSize));
+
 		nameBox.getChildren().addAll(nameLabel, nameField);
-		
+
 		HBox idBox = new HBox();
 		idBox.setAlignment(Pos.CENTER);
-		
-		Label idLabel = new Label("Account ID:");
-		idLabel.setAlignment(Pos.CENTER);
-		idLabel.setPrefSize(150, 30);
-		idLabel.setFont(new Font(14));
-		
+
+		Label idLabel = createLabel("Account ID:");
+
 		TextField idField = new TextField(acct.getUserID());
 		idField.setEditable(false);
-		idField.setFont(new Font(14));
-		
+		idField.setFont(new Font(fontSize));
+
 		idBox.getChildren().addAll(idLabel, idField);
-		
+
 		HBox nameChangeBox = new HBox();
 		nameChangeBox.setAlignment(Pos.CENTER);
-		nameChangeBox.setSpacing(15);
-		
-		Label newNameLabel = new Label("Reset User Name");
-		newNameLabel.setPadding(new Insets(15));
-		newNameLabel.setFont(new Font(14));
-		
+ 		nameChangeBox.setSpacing(spacingSize);
+
+		Label newNameLabel = createLabel("Reset User Name");
+
 		newNameField = new TextField("Enter name");
-		newNameField.setFont(new Font(14));
-		
+		newNameField.setFont(new Font(fontSize));
+
 		newNameBtn = new Button("Reset");
-		newNameBtn.setPadding(new Insets(10));
+		newNameBtn.setPadding(new Insets(paddingSize));
 		addNewNameHandler();
-		
-		nameChangeBox.getChildren().addAll(newNameLabel, 
+
+		nameChangeBox.getChildren().addAll(newNameLabel,
 			newNameField, newNameBtn);
-		
+
 		topLayout.getChildren().addAll(nameBox, idBox, nameChangeBox);
 	}
-	
-	private void setUpToolbar(){
+
+	/**
+	 * Creates a label with a standard format.
+	 * @param labelTxt the text to be displayed.
+	 * @return the label created.
+	 */
+	private Label createLabel(final String labelTxt) {
+		Label label = new Label(labelTxt);
+		label.setPadding(new Insets(paddingSize));
+		label.setAlignment(Pos.CENTER);
+		label.setFont(new Font(fontSize));
+		label.setPrefSize(labelWidth, labelHeight);
+		return label;
+	}
+
+	/** Sets up toolbar menu.*/
+	private void setUpToolbar() {
 		menuBtn = new Button("Menu");
-		menuBtn.setPadding(new Insets(5));
-		
+		menuBtn.setPadding(new Insets(paddingSize));
+
 		ToolBar toolBar = new ToolBar(menuBtn);
-		toolBar.setPadding(new Insets(15));
-		toolBar.setPrefHeight(40);
-		
+		toolBar.setPadding(new Insets(spacingSize));
+		toolBar.setPrefHeight(labelHeight);
+
 		topLayout.getChildren().add(toolBar);
 	}
-	
-	private void addButtonListener(Button btn){
+
+	/** Adds a listener to a button to call fileBrowser.
+	 * @param btn The button to add click listener to.
+	 * */
+	private void addButtonListener(final Button btn) {
 		btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
             	FileChooser fileBrowser = new FileChooser();
         		fileBrowser.setTitle("Select Image File");
         		fileBrowser.getExtensionFilters().addAll(
         		         new ExtensionFilter(".jpg Files", "*.jpg"));
-        		
+
         		File file = fileBrowser.showOpenDialog(stage);
-        		if( file != null){
-        			profileView.setImage(new Image("file:" + 
-        					file.getAbsolutePath()));
+        		if (file != null) {
+        			profileView.setImage(new Image("file:"
+        			+ file.getAbsolutePath()));
         		}
             }
         });
 	}
-	
-	public void addMenuBtnHandler(EventHandler<ActionEvent> event){
-		menuBtn.setOnAction(event);
+
+	/** Adds an EventHandler to navigate back to main menu.
+	 * @param handler the Event handler for main menu functionality.
+	 * */
+	public void addMenuBtnHandler(final EventHandler<ActionEvent> handler) {
+		menuBtn.setOnAction(handler);
 	}
-	
-	private void addNewNameHandler(){
+
+	/** Adds an event handler when rename button is pressed.*/
+	private void addNewNameHandler() {
 		EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-            	try{
+            public void handle(final ActionEvent event) {
+            	try {
             		acct.changeName(newNameField.getText());
-            	}
-            	catch(Exception e){
+            	} catch (Exception e) {
             		String errMsg = "Could Not Alter Username";
             		JOptionPane.showMessageDialog(null, errMsg);
             	}
-            	
+
             }
         };
 		newNameBtn.setOnAction(event);
 	}
-	
-	
 }
 
 
