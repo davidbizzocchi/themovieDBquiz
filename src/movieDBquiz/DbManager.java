@@ -234,7 +234,7 @@ public class DbManager {
 	 * Gets the current tmdb api key class member.
 	 * @return a TmdbApi object which can be used to get an database info.
 	 */
-	private TmdbApi getKey() {
+	public TmdbApi getKey() {
 		return key;
 	}
 
